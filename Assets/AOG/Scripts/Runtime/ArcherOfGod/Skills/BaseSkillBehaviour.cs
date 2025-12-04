@@ -117,7 +117,7 @@ namespace AOT
 
         internal virtual bool OnStartSkill(CharacterBehaviour playerBehaviour)
         {
-            return true;
+            return IsReady;
         }
 
         internal virtual void OnSkillActivate(ObjectBehaviour sender, Transform pose)

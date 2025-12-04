@@ -16,6 +16,8 @@ namespace AOT
 
         //-- Serializable
         [SerializeField]
+        private int m_PlayerId;
+        [SerializeField]
         private int m_SkillIndex;
 
         [Header("Components")]
@@ -33,8 +35,28 @@ namespace AOT
         private string m_AnimVar_Ready = "ready";
 
         //-- Private
-        private BaseSkillBehaviour m_Skill;
         private Button m_Button;
+        private BaseSkillBehaviour m_Skill;
+
+        public BaseSkillBehaviour Skill
+        {
+            get
+            {
+#if !UNITY_EDITOR
+                if (m__skill == null)
+#endif
+                {
+                    CharacterBehaviour player = GameManager.main.GetCharacter(m_PlayerId);
+                    Assert.IsNotNull(player);
+                    Assert.IsNotNull(player.Skills);
+                    Assert.IsTrue(m_SkillIndex < player.Skills.Count);
+
+                    BaseSkillBehaviour skill = player.Skills[m_SkillIndex];
+                    Assert.IsNotNull(skill);
+                }
+                return m_Skill;
+            }
+        }
 
 
         //------------------------------------------------------------------------------
@@ -67,9 +89,9 @@ namespace AOT
 
         private void OnClick()
         {
-            if (!m_Skill.IsReady) return;
-
-            if (!GameManager.main.m_Player.StartSkill(m_Skill)) return;
+            CharacterBehaviour cha = GameManager.main.GetCharacter(m_PlayerId);
+            BaseSkillBehaviour skill = cha.Skills[m_SkillIndex];
+            if (!cha.StartSkill(skill)) return;
 
             m_Animator.SetTrigger(m_AnimVar_Use);
         }
@@ -78,15 +100,14 @@ namespace AOT
         {
             if (status != EGameStatus.Start) return;
 
-            CharacterBehaviour player = manager.m_Player;
+            CharacterBehaviour player = manager.GetCharacter(m_PlayerId);
             Assert.IsNotNull(player);
             Assert.IsNotNull(player.Skills);
             Assert.IsTrue(m_SkillIndex < player.Skills.Count);
 
-            BaseSkillBehaviour skill = manager.m_Player.Skills[m_SkillIndex];
+            BaseSkillBehaviour skill = player.Skills[m_SkillIndex];
             Assert.IsNotNull(skill);
 
-            m_Skill = skill;
             skill.SetForceDelay(GameSettings.main.skill_delay_onAwake);
             skill.OnChangedStatus.AddListener(OnSkillChangedStatus);
 
@@ -127,16 +148,18 @@ namespace AOT
         {
             int befRemainDelay = -1;
 
-            while (m_Skill.Status == ESkillStatus.Cooldown)
+            BaseSkillBehaviour skill = Skill;
+
+            while (skill.Status == ESkillStatus.Cooldown)
             {
-                int remainDelay = (int)m_Skill.RemainDelay;
+                int remainDelay = (int)skill.RemainDelay;
                 if (remainDelay != befRemainDelay)
                 {
                     m_DurationTxt.text = remainDelay.ToString();
                     befRemainDelay = remainDelay;
                 }
 
-                m_DurationImg.fillAmount = 1f - m_Skill.RemainPercent;
+                m_DurationImg.fillAmount = 1f - skill.RemainPercent;
 
                 await UniTask.Yield(destroyCancellationToken);
             }

@@ -43,8 +43,8 @@ namespace AOT
         public event Action<ObjectBehaviour> OnDead; // sender, before, after, max
 
         //-- Private
-        private float m_CurrentHp;
-        private float m_CurrentShield;
+        private float m_CurrentHp = 1;
+        private float m_CurrentShield = 1;
         private int m_DieHash;
         private int m_HitHash;
 
@@ -56,6 +56,9 @@ namespace AOT
         public bool IsDead => m_CurrentHp <= 0;
         public bool IsLive => m_CurrentHp > 0;
         public Vector3 CenterPosition => m_Center.position;
+
+        public bool IsLeft { get; private set; }
+        public bool IsRight => !IsLeft;
 
         //------------------------------------------------------------------------------
 
@@ -70,6 +73,7 @@ namespace AOT
 
         protected virtual void Start()
         {
+            IsLeft = transform.position.x < 0;
         }
 
         //------------------------------------------------------------------------------

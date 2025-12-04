@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: ArcherOfGod::AOT.GameSettings
   skill_delay_onAwake: 1
+  move_input_delay: 0.1
+  gameTime: 900
   damagePrefab: {fileID: 7150000956771784492, guid: 062c0a572dfb0f84fb4e1f0c595df47a, type: 3}
   criticalPrefab: {fileID: 3419443645810722120, guid: 7cb9e9b764d95b8429afc49bfb960ca8, type: 3}
   playerInputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

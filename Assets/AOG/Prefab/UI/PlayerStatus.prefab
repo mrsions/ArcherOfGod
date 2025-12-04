@@ -697,7 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 18e2fa7f97acb8a4d97e95c3ab68141f, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -868,6 +868,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_Duration: 0.5
 --- !u!1 &6629613763761859036
 GameObject:
   m_ObjectHideFlags: 0
@@ -1165,7 +1166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3671490b9d2104aaecd6bd59cb8bae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ArcherOfGod::AOT.UIPlayerStatus
-  m_IsPlayer: 1
+  m_PlayerId: -1
   m_Hp: {fileID: 7885120457080509067}
   m_Shield: {fileID: 4212587833919361266}
   m_PlayerName: {fileID: 1345064136008266262}
@@ -1373,6 +1374,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_Duration: 0.5
 --- !u!1 &8293338658194458765
 GameObject:
   m_ObjectHideFlags: 0

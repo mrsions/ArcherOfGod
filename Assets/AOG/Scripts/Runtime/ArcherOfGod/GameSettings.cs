@@ -26,6 +26,7 @@ namespace AOT
         [Header("Options")]
         public float skill_delay_onAwake = 1f;
         public float move_input_delay = 0.1f;
+        public int gameTime = 90;
 
         [Header("Prefabs")]
         public UITextDelegate damagePrefab;

@@ -96,8 +96,6 @@ namespace AOT
             float mRot = m_Rigidbody.rotation;
             float tRot = AngleUtils.Reverse(mRot);
 
-            print(mRot + " / " + tRot);
-
             FBezier bezier = new FBezier(mPos, tPos, mRot, tRot, m_BezierPower);
 
 #if UNITY_EDITOR
@@ -184,6 +182,12 @@ namespace AOT
             var obj = collision.GetComponentInParent<ObjectBehaviour>();
             if (obj != null && !m_IsCollision)
             {
+                // 주인과 접촉한경우 리턴
+                if (obj == Owner)
+                {
+                    return;
+                }
+
                 m_IsHitObject = true;
 
                 Owner.GetDamageProperty(out float damage, out bool isCritical);

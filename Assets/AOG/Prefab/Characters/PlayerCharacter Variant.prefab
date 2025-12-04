@@ -8,6 +8,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 342048574299953659, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.20582628
+      objectReference: {fileID: 0}
+    - target: {fileID: 342048574299953659, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 342048574299953659, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.54422677
+      objectReference: {fileID: 0}
+    - target: {fileID: 342048574299953659, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.8389382
+      objectReference: {fileID: 0}
+    - target: {fileID: 342048574299953659, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 1365305051656033921, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
       propertyPath: m_IsPlayer
       value: 1
@@ -23,7 +43,7 @@ PrefabInstance:
     - target: {fileID: 1365305051656033921, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
       propertyPath: 'm_Skills.Array.data[5]'
       value: 
-      objectReference: {fileID: 159906543739376374}
+      objectReference: {fileID: 0}
     - target: {fileID: 1993918840386537907, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8
@@ -64,6 +84,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2013132966591956642, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.21039963
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013132966591956642, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 4017708036878336564, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
       propertyPath: m_Name
       value: PlayerCharacter Variant
@@ -76,17 +104,6 @@ PrefabInstance:
       insertIndex: 3
       addedObject: {fileID: 8171507047067958543}
   m_SourcePrefab: {fileID: 100100000, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
---- !u!114 &159906543739376374 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2000224243047084715, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
-  m_PrefabInstance: {fileID: 1871847621164441693}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35c47d49050a90c4a963a352e6cae4ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ArcherOfGod::AOT.DashSkillBehaviour
 --- !u!114 &795073125286655708 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1365305051656033921, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}

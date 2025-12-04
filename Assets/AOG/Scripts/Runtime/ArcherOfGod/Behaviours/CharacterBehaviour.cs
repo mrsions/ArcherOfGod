@@ -47,6 +47,8 @@ namespace AOT
 
         //-- Serializable
         [Header("Player")]
+        [SerializeField] private int m_Id;
+        [SerializeField] private bool m_IsAi;
         [SerializeField] private bool m_IsPlayer;
         [SerializeField] private Transform m_Arrow;
         [SerializeField] private Rigidbody2D m_Rigidbody;
@@ -68,10 +70,13 @@ namespace AOT
         private int m_MoveSpeedHash;
         private int m_AttackSpeedHash;
         private BaseSkillBehaviour m_CurrentSkill;
+        [SerializeField]
         private List<BaseSkillBehaviour> m_Skills = new();
         private float m_LastMoveTime;
+        private EGameStatus m_GameStatus;
 
         //-- Properties
+        public bool IsAi { get => m_IsAi; set => m_IsAi = value; }
         public bool IsPlayer { get => m_IsPlayer; set => m_IsPlayer = value; }
         public List<BaseSkillBehaviour> Skills { get => m_Skills; set => m_Skills = value; }
         public FPlayerStatus PlayerStatus { get => m_PlayerStatus; set => SetPlayerStatus(value); }
@@ -79,6 +84,7 @@ namespace AOT
 
         public Vector2 InputAxis { get => m_InputAxis; set => m_InputAxis = value; }
         public Rigidbody2D Rigidbody => m_Rigidbody;
+        public bool IsGround { get; private set; }
 
         //------------------------------------------------------------------------------
 
@@ -86,10 +92,10 @@ namespace AOT
         {
             base.Start();
 
-            m_ScaleBackward = !m_IsPlayer ? PlayerScaleForward : PlayerScaleBackward;
-            m_ScaleForward = m_IsPlayer ? PlayerScaleForward : PlayerScaleBackward;
-            m_RotationBackward = !m_IsPlayer ? PlayerRotationForward : PlayerRotationBackward;
-            m_RotationForward = m_IsPlayer ? PlayerRotationForward : PlayerRotationBackward;
+            m_ScaleBackward = !IsLeft ? PlayerScaleForward : PlayerScaleBackward;
+            m_ScaleForward = IsLeft ? PlayerScaleForward : PlayerScaleBackward;
+            m_RotationBackward = !IsLeft ? PlayerRotationForward : PlayerRotationBackward;
+            m_RotationForward = IsLeft ? PlayerRotationForward : PlayerRotationBackward;
             SetForward(true);
 
             GetComponentsInChildren(true, m_Skills);
@@ -108,15 +114,18 @@ namespace AOT
             m_MoveSpeedHash = Animator.StringToHash("moveSpeed");
             m_AttackSpeedHash = Animator.StringToHash("attackSpeed");
 
-            // 임시 게임매니저
-            UniTask.Void(async () =>
-            {
-                await UniTask.Delay(1000);
-
-                m_Animator.SetBool(m_AttackHash, true);
-            });
+            GameManager.main.OnChangedStatus += OnChangedGameStatus;
 
             UpdateAnimatorProperty();
+        }
+
+        private void OnChangedGameStatus(GameManager manager, EGameStatus status)
+        {
+            m_GameStatus = status;
+            if (status == EGameStatus.Start)
+            {
+                m_Animator.SetBool(m_AttackHash, true);
+            }
         }
 
         private void OnValidate()
@@ -137,7 +146,9 @@ namespace AOT
         {
             if (IsDead || m_CurrentSkill != null) return;
 
-            switch (GameManager.main.Status)
+            IsGround = m_Rigidbody.linearVelocity.sqrMagnitude < 0.1f;
+
+            switch (m_GameStatus)
             {
                 case EGameStatus.Battle:
                 case EGameStatus.Battle_LimitOver:
@@ -164,6 +175,7 @@ namespace AOT
                             SetForward(m_InputAxis.x > 0);
                             m_LastMoveTime = Time.time;
                         }
+
                     }
                     break;
                 default:
@@ -187,11 +199,22 @@ namespace AOT
 
         private void FixedUpdate()
         {
-            if (m_InputAxis != Vector2.zero)
+            switch (m_GameStatus)
             {
-                Vector2 moveDelta = Vector2.right * (MoveSpeed * m_InputAxis.x * Time.fixedDeltaTime);
-                //m_Rigidbody.position += moveDelta;
-                m_Rigidbody.MovePosition(m_Rigidbody.position + moveDelta);
+                case EGameStatus.Battle:
+                case EGameStatus.Battle_LimitOver:
+                    {
+                        if (m_CurrentSkill != null) return;
+
+                        if (!IsGround) return;
+
+                        if (m_InputAxis != Vector2.zero)
+                        {
+                            Vector2 moveDelta = Vector2.right * (MoveSpeed * m_InputAxis.x * Time.fixedDeltaTime);
+                            m_Rigidbody.MovePosition(m_Rigidbody.position + moveDelta);
+                        }
+                    }
+                    break;
             }
         }
 
@@ -199,34 +222,47 @@ namespace AOT
         {
             if (m_CurrentSkill != null) return false;
 
+            if (!skill.OnStartSkill(this)) return false;
+
             m_CurrentSkill = skill;
-            m_Animator.SetInteger(m_SkillAnimIdHash, skill.AnimationId);
-            m_Animator.Play("SkillAnim");
-            return skill.OnStartSkill(this);
+            if (skill.AnimationId > 0)
+            {
+                m_Animator.SetInteger(m_SkillAnimIdHash, skill.AnimationId);
+                m_Animator.Play("SkillAnim");
+            }
+            else
+            {
+                OnAnimEndSkill();
+            }
+            return true;
+        }
+
+        public void OnAnimPrepareArrow()
+        {
+
         }
 
         public void OnAnimShot()
         {
             if (m_CurrentSkill != null)
             {
-                print("A");
                 m_CurrentSkill.OnSkillActivate(this, m_Arrow);
             }
             else
             {
-                print("B");
                 m_NormalAttack.OnSkillActivate(this, m_Arrow);
             }
         }
 
         public void OnAnimEndSkill()
         {
+            m_Rigidbody.Sleep();
             m_CurrentSkill = null;
         }
 
         public override Vector3 FindEnemyNormal()
         {
-            return GameManager.main.GetCharacter(!IsPlayer).CenterPosition;
+            return GameManager.main.GetTargetCharacter(m_Id).CenterPosition;
         }
 
         public override void GetDamageProperty(out float damage, out bool isCritical)

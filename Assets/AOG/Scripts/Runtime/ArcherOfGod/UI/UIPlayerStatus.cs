@@ -10,7 +10,7 @@ namespace AOT
 {
     public class UIPlayerStatus : MonoBehaviour
     {
-        [SerializeField] private bool m_IsPlayer;
+        [SerializeField] private int m_PlayerId;
         [SerializeField] private UIGageBar m_Hp;
         [SerializeField] private UIGageBar m_Shield;
         [SerializeField] private TMP_Text m_PlayerName;
@@ -25,7 +25,7 @@ namespace AOT
         {
             if (status != EGameStatus.Ready) return;
 
-            CharacterBehaviour cha = manager.GetCharacter(m_IsPlayer);
+            CharacterBehaviour cha = manager.GetCharacter(m_PlayerId);
             m_PlayerName.text = cha.PlayerStatus.name;
 
             cha.OnChangedHp += OnChangedHp;

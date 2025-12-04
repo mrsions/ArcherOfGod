@@ -1,0 +1,129 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.CompilerServices;
+using TMPro;
+using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.OnScreen;
+using UnityEngine.UI;
+
+namespace AOT
+{
+    public class GameUI : MonoBehaviour
+    {
+        //-- Serializable
+        [SerializeField] private GameObject m_HUD;
+        [SerializeField] private TMP_Text m_TimerText;
+
+        [Header("Animations")]
+        [SerializeField] private GameObject[] m_None;
+        [SerializeField] private GameObject[] m_Loading;
+        [SerializeField] private GameObject[] m_Ready;
+        [SerializeField] private GameObject[] m_Start;
+        [SerializeField] private GameObject[] m_BattleLimit;
+        [SerializeField] private GameObject[] m_Finish;
+        [SerializeField] private GameObject[] m_FinishVictory;
+        [SerializeField] private GameObject[] m_FinishFailed;
+
+        //-- Private
+        private GameObject[] m_Before;
+
+
+        //------------------------------------------------------------------------------
+        private void Awake()
+        {
+            m_HUD.SetActive(false);
+
+            SetActive(m_None, false);
+            SetActive(m_Loading, false);
+            SetActive(m_Ready, false);
+            SetActive(m_Start, false);
+            SetActive(m_BattleLimit, false);
+            SetActive(m_Finish, false);
+            SetActive(m_FinishVictory, false);
+            SetActive(m_FinishFailed, false);
+
+            Active(m_None);
+
+            GameManager.main.OnChangedStatus += (manager, status) => OnChangeStatus(manager, status).Forget();
+
+            m_TimerText.text = GameSettings.main.gameTime.ToString();
+        }
+
+        private void Active(GameObject[] gameObject)
+        {
+            if (m_Before != null)
+            {
+                SetActive(m_Before, false);
+            }
+            if (gameObject != null)
+            {
+                SetActive(gameObject, true);
+            }
+            m_Before = gameObject;
+        }
+
+        private void SetActive(GameObject[] objects, bool active)
+        {
+            for (int i = 0; i < objects.Length; i++)
+            {
+                objects[i].SetActive(active);
+            }
+        }
+
+        private async UniTask OnChangeStatus(GameManager manager, EGameStatus status)
+        {
+            switch (status)
+            {
+                case EGameStatus.Loading:
+                    Active(m_Loading);
+                    break;
+                case EGameStatus.Ready:
+                    m_HUD.SetActive(true);
+                    Active(m_Ready);
+                    break;
+                case EGameStatus.Start:
+                    Active(m_Start);
+                    UpdateTimerAsync().Forget();
+                    break;
+                case EGameStatus.Battle_LimitOver:
+                    Active(m_BattleLimit);
+                    m_TimerText.text = "VS";
+                    break;
+                case EGameStatus.Finish:
+                    // pc vs pc 대결이라면
+                    if (GameManager.main.Characters.All(p => p.IsPlayer))
+                    {
+                        Active(m_Finish);
+                    }
+                    // ai 대결이라면
+                    else if (GameManager.main.Characters[0].IsDead)
+                    {
+                        Active(m_FinishFailed);
+                    }
+                    else
+                    {
+                        Active(m_FinishVictory);
+                    }
+                    break;
+            }
+        }
+
+        private async UniTask UpdateTimerAsync()
+        {
+            int duration = GameSettings.main.gameTime;
+            float startTime = Time.time;
+            for (int i = 0; i < duration; i++)
+            {
+                int t = duration - i;
+                m_TimerText.text = t.ToString();
+
+                float nextTime = startTime + i + 1;
+                await UniTask.WaitForSeconds(nextTime - Time.time);
+            }
+        }
+    }
+}
