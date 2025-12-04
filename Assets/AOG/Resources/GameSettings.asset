@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cda352f7880be94b89a2ff38ba0a95c, type: 3}
+  m_Name: GameSettings
+  m_EditorClassIdentifier: ArcherOfGod::AOT.GameSettings
+  skill_delay_onAwake: 1
+  damagePrefab: {fileID: 7150000956771784492, guid: 062c0a572dfb0f84fb4e1f0c595df47a, type: 3}
+  criticalPrefab: {fileID: 3419443645810722120, guid: 7cb9e9b764d95b8429afc49bfb960ca8, type: 3}
+  playerInputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  playerMoveActionId:
+    actionId: Player/Move
+  playerSkillActionId:
+  - actionId: Player/Skill1
+  - actionId: Player/Skill2
+  - actionId: Player/Skill3
+  - actionId: Player/Skill4
+  - actionId: Player/Skill5

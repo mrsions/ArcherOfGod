@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1592107593344441986}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.563, y: 0, z: 0}
+  m_LocalPosition: {x: 0.563, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -87,13 +87,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4458248195931827732}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000059604638, y: 0.7071451, z: 0.000000014901159, w: 0.7070686}
-  m_LocalPosition: {x: 0.508, y: -0.01, z: 0}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.512, y: -0.01, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7593248805104998872}
-  m_LocalEulerAnglesHint: {x: 0, y: 90.006, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!198 &321261051190406637
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4923,13 +4923,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5516429748186412144}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.15, y: -0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -0.15, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7593248805104998872}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!212 &5395616423732856404
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5052,7 +5052,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: 0.007845093, w: -0.99996924}
   m_LocalPosition: {x: -0.4, y: 1.506, z: 0}
-  m_LocalScale: {x: -0.79999995, y: 0.79999995, z: 0.79999995}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7593248805104998872}
@@ -5070,13 +5070,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 987e5f5ff97099f48970191971e13afc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ArcherOfGod::AOT.ProjectileBehaviour
+  m_ArrowPrefab: {fileID: 6663219972181839554, guid: 1ebe9454f206f9543bc0583659319b1b, type: 3}
+  m_Arrow: {fileID: 2540768447278387958}
   m_Rigidbody: {fileID: 7193982844524224766}
   m_Renderer: {fileID: 5395616423732856404}
   m_Particle: {fileID: 321261051190406637}
   m_Colliders:
   - {fileID: 9171495377026534657}
   m_AutoDestroySec: 5
+  m_Damage: {x: 1, y: 1.1}
   m_ArrowSpeed: 5
   m_BezierPower: 0.5
   m_FadeDuration: 0.5
-  angleOffset: 0
+  m_HitSkipMs: {x: 50, y: 100}
+  m_HitRandomRotation: 30

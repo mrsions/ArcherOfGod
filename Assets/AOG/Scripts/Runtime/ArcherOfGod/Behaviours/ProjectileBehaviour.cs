@@ -1,16 +1,29 @@
-using System;
-using System.Threading.Tasks;
-using Codice.CM.Common.Partial;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace AOT
 {
     public class ProjectileBehaviour : MonoBehaviour
     {
+        private class Bullet : MonoBehaviour
+        {
+            public ProjectileBehaviour Parent;
+
+            private void OnCollisionEnter2D(Collision2D collision)
+            {
+                Parent?.OnCollision2D(collision.collider);
+            }
+
+            private void OnTriggerEnter2D(Collider2D collision)
+            {
+                Parent?.OnCollision2D(collision);
+            }
+        }
+
         //-- Serializable
+        [SerializeField] private GameObject m_ArrowPrefab;
+        [SerializeField] private Transform m_Arrow;
         [SerializeField] private Rigidbody2D m_Rigidbody;
         [SerializeField] private SpriteRenderer m_Renderer;
         [SerializeField] private ParticleSystem m_Particle;
@@ -18,16 +31,19 @@ namespace AOT
         [SerializeField] private float m_AutoDestroySec = 5f;
         //[SerializeField] private AnimationCurve m_DurationPerDistance = AnimationCurve.Linear(0, 0, 1, 1);
 
+        [SerializeField] private Vector2 m_Damage = new Vector2(1, 1.1f);
         [SerializeField] private float m_ArrowSpeed = 0.3f;
         [SerializeField] private float m_BezierPower = 0.3f;
         [SerializeField] private float m_FadeDuration = 0.5f;
+        [Header("HitRandom")]
         [SerializeField] private Vector2Int m_HitSkipMs = new(50, 100); // x:고정대기 + y:랜덤대기(0~y)
+        [SerializeField] private float m_HitRandomRotation = 30; // x:고정대기 + y:랜덤대기(0~y)
 
         //-- Private
+        private Bullet m_Bullet;
         private bool m_IsCollision;
         private bool m_IsHitObject;
-        public float angleOffset;
-        private Bullet m_Bullet;
+        private int m_ShootId;
 
         //-- Properties
         public ObjectBehaviour Owner { get; private set; }
@@ -36,34 +52,52 @@ namespace AOT
 
         private void Awake()
         {
+            m_Bullet = m_Rigidbody.gameObject.AddComponent<Bullet>();
         }
 
-        private void Update()
+        private void OnEnable()
         {
+            Clear();
         }
 
-        private class Bullet : MonoBehaviour
+        private void OnDisable()
         {
-            public ProjectileBehaviour Parrent;
+            Clear();
+        }
 
-            private void OnCollisionEnter2D(Collision2D collision)
+        private void Clear()
+        {
+            m_ShootId++;
+            m_IsCollision = false;
+            m_IsHitObject = false;
+
+            Color color = m_Renderer.color;
+            color.a = 1;
+            m_Renderer.color = color;
+
+            m_Rigidbody.transform.localPosition = Vector3.zero;
+            m_Rigidbody.transform.localRotation = Quaternion.identity;
+
+            m_Bullet.Parent = null;
+
+            for (int i = 0; i < m_Colliders.Length; i++)
             {
-                Parrent?.OnCollision2D(collision.collider);
-            }
-
-            private void OnTriggerEnter2D(Collider2D collision)
-            {
-                Parrent?.OnCollision2D(collision);
+                Collider2D col = m_Colliders[i];
+                col.enabled = true;
             }
         }
 
-        public async UniTaskVoid Shoot(ObjectBehaviour owner, Vector3 tPos)
+        public async UniTask Shoot(ObjectBehaviour owner, Vector3 tPos)
         {
+            int id = m_ShootId;
             this.Owner = owner;
 
             Vector3 mPos = m_Rigidbody.position;
             float mRot = m_Rigidbody.rotation;
             float tRot = AngleUtils.Reverse(mRot);
+
+            print(mRot + " / " + tRot);
+
             FBezier bezier = new FBezier(mPos, tPos, mRot, tRot, m_BezierPower);
 
 #if UNITY_EDITOR
@@ -73,8 +107,9 @@ namespace AOT
             float distance = bezier.Distance();
             float move = 0;
 
+
             Vector2 befPos = mPos;
-            m_Bullet = m_Rigidbody.gameObject.AddComponent<Bullet>();
+            bool isStartInLeft = mPos.x < 0;
 
             // 도착할때까지 혹은 이동시간이 예상의 2배를 넘을때까지 이동
             while (!m_IsCollision && move < distance)
@@ -84,20 +119,25 @@ namespace AOT
                 // 진행도
                 float ratio = Mathf.Clamp01(move / distance);
 
-                if (ratio > 0.5f)
+                // 새 위치 
+                Vector2 nPos = bezier.Evaluate(ratio);
+
+                float angle = Vector2.SignedAngle(Vector2.right, nPos - befPos);
+                m_Rigidbody.MovePositionAndRotation(nPos, angle);
+
+                befPos = nPos;
+
+                if (isStartInLeft)
                 {
-                    m_Bullet.Parrent = this;
+                    if (nPos.x > 0) m_Bullet.Parent = this;
+                }
+                else
+                {
+                    if (nPos.x < 0) m_Bullet.Parent = this;
                 }
 
-                // 새 위치 
-                Vector2 newPos = bezier.Evaluate(ratio);
-
-                float angle = Vector2.SignedAngle(Vector2.right, newPos - befPos);
-                m_Rigidbody.MovePositionAndRotation(newPos, angle + angleOffset);
-
-                befPos = newPos;
-
                 await UniTask.Yield(PlayerLoopTiming.FixedUpdate, destroyCancellationToken);
+                if (id != m_ShootId) return;
             }
 
             if (!m_IsCollision)
@@ -110,6 +150,7 @@ namespace AOT
                     m_Rigidbody.MovePosition(m_Rigidbody.position + (dir * (m_ArrowSpeed * Time.deltaTime)));
 
                     await UniTask.Yield(PlayerLoopTiming.FixedUpdate, destroyCancellationToken);
+                    if (id != m_ShootId) return;
                 }
             }
 
@@ -121,15 +162,16 @@ namespace AOT
             await m_Renderer.DOFade(0, m_FadeDuration).ToUniTask();
 
             // 삭제
-            Destroy(gameObject);
+            this.ReturnPool();
         }
 
         private void StopGeneration()
         {
             // stop generate collision
             m_Rigidbody.Sleep();
-            foreach (var col in m_Colliders)
+            for (int i = 0; i < m_Colliders.Length; i++)
             {
+                Collider2D col = m_Colliders[i];
                 col.enabled = false;
             }
 
@@ -140,13 +182,17 @@ namespace AOT
         private void OnCollision2D(Collider2D collision)
         {
             var obj = collision.GetComponentInParent<ObjectBehaviour>();
-            if (obj != null)
+            if (obj != null && !m_IsCollision)
             {
                 m_IsHitObject = true;
-                obj.OnHit(Owner, this);
 
-                HitAsync(obj);
+                Owner.GetDamageProperty(out float damage, out bool isCritical);
 
+                float dmg =  damage * Random.Range(m_Damage.x, m_Damage.y);
+                FHitEvent hitEvent = new FHitEvent(Owner, this, dmg, m_Rigidbody.position, m_Rigidbody.rotation, isCritical);
+                obj.OnHit(hitEvent);
+
+                HitAsync(obj).Forget();
             }
             else
             {
@@ -159,14 +205,12 @@ namespace AOT
         {
             StopGeneration();
 
-            await UniTask.Delay(m_HitSkipMs.x + UnityEngine.Random.Range(0, m_HitSkipMs.y));
+            await UniTask.Delay(Random.Range(m_HitSkipMs.x, m_HitSkipMs.y));
+
+            Quaternion rot = m_Arrow.rotation * Quaternion.Euler(0, 0, Random.Range(-m_HitRandomRotation, m_HitRandomRotation));
+            GameObjectPool.main.Rent(m_ArrowPrefab, m_Arrow.position, rot, obj.attachTarget);
 
             this.ReturnPool();
-
-            DestroyImmediate(gameObject);
-
-            obj.AttachTo(attachment);
-
         }
 
 #if UNITY_EDITOR

@@ -1,34 +1,58 @@
 using System;
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.OnScreen;
 using UnityEngine.UI;
 
 namespace AOT
 {
+    [RequireComponent(typeof(Button))]
     public class UISkillButton : OnScreenButton
     {
+
         //-- Serializable
         [SerializeField]
         private int m_SkillIndex;
 
+        [Header("Components")]
         [SerializeField]
         private TMP_Text m_DurationTxt;
-
         [SerializeField]
         private Image m_DurationImg;
 
+        [Header("Animation")]
+        [SerializeField]
+        private Animator m_Animator;
+        [SerializeField]
+        private string m_AnimVar_Use = "use";
+        [SerializeField]
+        private string m_AnimVar_Ready = "ready";
+
         //-- Private
         private BaseSkillBehaviour m_Skill;
+        private Button m_Button;
 
 
         //------------------------------------------------------------------------------
 
-        private void Start()
+        private void Awake()
         {
+            m_Button = GetComponent<Button>();
+            m_DurationTxt.text = "";
+            m_DurationImg.fillAmount = 1;
+
+            m_Button.onClick.AddListener(OnClick);
+
+            SetVisibleGraphic(false);
+
             GameManager.main.OnChangedStatus += OnChangedStatus;
+            OnChangedStatus(GameManager.main, GameManager.main.Status);
+
+            GameSettings.main.GetPlayerSkillAction(m_SkillIndex).performed += OnClick;
         }
 
         private void OnValidate()
@@ -36,20 +60,93 @@ namespace AOT
             Assert.IsTrue(0 <= m_SkillIndex);
         }
 
+        private void OnClick(InputAction.CallbackContext context)
+        {
+            OnClick();
+        }
+
+        private void OnClick()
+        {
+            if (!m_Skill.IsReady) return;
+
+            if (!GameManager.main.m_Player.StartSkill(m_Skill)) return;
+
+            m_Animator.SetTrigger(m_AnimVar_Use);
+        }
+
         private void OnChangedStatus(GameManager manager, EGameStatus status)
         {
             if (status != EGameStatus.Start) return;
 
-            PlayerBehaviour player = manager.player;
+            CharacterBehaviour player = manager.m_Player;
             Assert.IsNotNull(player);
             Assert.IsNotNull(player.Skills);
-            Assert.IsTrue(m_SkillIndex < player.Skills.Length);
+            Assert.IsTrue(m_SkillIndex < player.Skills.Count);
 
-            BaseSkillBehaviour skill = manager.player.Skills[m_SkillIndex];
+            BaseSkillBehaviour skill = manager.m_Player.Skills[m_SkillIndex];
             Assert.IsNotNull(skill);
 
             m_Skill = skill;
-            m_Skill.SetDelay(GameSettings.main.skill_delay_onAwake);
+            skill.SetForceDelay(GameSettings.main.skill_delay_onAwake);
+            skill.OnChangedStatus.AddListener(OnSkillChangedStatus);
+
+            SetVisibleGraphic(true);
+            OnSkillChangedStatus(skill, ESkillStatus.None, skill.Status);
+        }
+
+        private void OnSkillChangedStatus(BaseSkillBehaviour sender, ESkillStatus bef, ESkillStatus cur)
+        {
+            switch (cur)
+            {
+                case ESkillStatus.Ready:
+                    m_Animator.SetTrigger(m_AnimVar_Ready);
+                    m_Button.interactable = true;
+                    m_DurationTxt.enabled = false;
+                    m_DurationImg.enabled = false;
+                    break;
+                case ESkillStatus.Cooldown:
+                    m_Button.interactable = false;
+                    m_DurationTxt.enabled = true;
+                    m_DurationImg.enabled = true;
+                    m_DurationImg.fillAmount = 0;
+                    StartCountdownAsync().Forget();
+                    break;
+                case ESkillStatus.Lock:
+                    m_Button.interactable = false;
+                    m_DurationTxt.enabled = true;
+                    m_DurationTxt.text = "LOCK";
+                    m_DurationImg.enabled = true;
+                    m_DurationImg.fillAmount = 0;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        private async UniTask StartCountdownAsync()
+        {
+            int befRemainDelay = -1;
+
+            while (m_Skill.Status == ESkillStatus.Cooldown)
+            {
+                int remainDelay = (int)m_Skill.RemainDelay;
+                if (remainDelay != befRemainDelay)
+                {
+                    m_DurationTxt.text = remainDelay.ToString();
+                    befRemainDelay = remainDelay;
+                }
+
+                m_DurationImg.fillAmount = 1f - m_Skill.RemainPercent;
+
+                await UniTask.Yield(destroyCancellationToken);
+            }
+        }
+
+        private void SetVisibleGraphic(bool enabled)
+        {
+            m_Button.targetGraphic.enabled = enabled;
+            m_DurationTxt.enabled = enabled;
+            m_DurationImg.enabled = enabled;
         }
     }
 }

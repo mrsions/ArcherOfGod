@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using Cysharp.Threading.Tasks;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 
 using UObject = UnityEngine.Object;
@@ -22,18 +23,26 @@ namespace AOT
             ??= Resources.FindObjectsOfTypeAll<GameObjectPool>().FirstOrDefault()
             ?? new GameObject("GameObjectPool").AddComponent<GameObjectPool>();
 
-        class PoolInfo : Component
+        class PoolInfo : MonoBehaviour
         {
             public UObject Prefab;
+            public UObject Instance;
+            internal bool InPool;
 
+#if UNITY_EDITOR
             private void OnDestroy()
             {
-                throw new SystemException("Don't deestroy rented object.");
+                if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
+                {
+                    throw new SystemException("Don't deestroy rented object.");
+                }
             }
+#endif
 
-            internal void Setup(UObject prefab)
+            internal void Setup(UObject prefab, UObject item)
             {
                 Prefab = prefab;
+                Instance = item;
                 hideFlags = HideFlags.HideAndDontSave;
             }
         }
@@ -42,7 +51,7 @@ namespace AOT
         {
             public UObject Prefab;
             public bool hasInterface;
-            public Stack<UObject> stack = new();
+            public Stack<PoolInfo> stack = new();
 
             public Pool(UObject prefab)
             {
@@ -68,7 +77,6 @@ namespace AOT
         private void Awake()
         {
             s_Main = this;
-            DontDestroyOnLoad(gameObject);
 
             m_TempTransform = new GameObject("Temp").transform;
             m_TempTransform.SetParent(transform);
@@ -78,6 +86,9 @@ namespace AOT
         public GameObject Rent(GameObject prefab, Transform parent = null)
             => Rent(prefab, Vector3.zero, Quaternion.identity, parent);
 
+        public GameObject Rent(GameObject prefab, Vector3 pos, Transform parent = null)
+            => Rent(prefab, pos, Quaternion.identity, parent);
+
         public GameObject Rent(GameObject prefab, Vector3 pos, Quaternion rot, Transform parent = null)
         {
             if (!pools.TryGetValue(prefab, out var pool))
@@ -85,26 +96,43 @@ namespace AOT
                 pools.Add(prefab, pool = new(prefab));
             }
 
-            if (pool.stack.Count == 0)
+            do
             {
-                GameObject go = Instantiate(prefab, pos, rot, m_TempTransform);
-                go.AddComponent<PoolInfo>().Setup(prefab);
-                go.transform.SetParent(parent);
-                return go;
+                if (pool.stack.Count == 0)
+                {
+                    GameObject go = Instantiate(prefab, pos, rot, m_TempTransform);
+                    go.AddComponent<PoolInfo>().Setup(prefab, go);
+                    go.transform.SetParent(parent);
+                    return go;
+                }
+                else
+                {
+                    PoolInfo info = pool.stack.Pop();
+                    if (!info.InPool)
+                    {
+                        Debug.LogError("It has not in pool. but it in the pool.", info.Instance);
+                        continue;
+                    }
+
+                    GameObject go = (GameObject)info.Instance;
+                    go.transform.SetPositionAndRotation(pos, rot);
+                    go.transform.SetParent(parent);
+
+                    info.InPool = false;
+                    return go;
+                }
             }
-            else
-            {
-                GameObject go = (GameObject)pool.stack.Pop();
-                go.transform.SetPositionAndRotation(pos, rot);
-                go.transform.SetParent(parent);
-                return go;
-            }
+            while (true);
         }
 
 
         public T Rent<T>(T prefab, Transform parent = null)
             where T : Component
             => Rent(prefab, Vector3.zero, Quaternion.identity, parent);
+
+        public T Rent<T>(T prefab, Vector3 pos, Transform parent = null)
+            where T : Component
+            => Rent(prefab, pos, Quaternion.identity, parent);
 
         public T Rent<T>(T prefab, Vector3 pos, Quaternion rot, Transform parent = null)
             where T : Component
@@ -114,20 +142,33 @@ namespace AOT
                 pools.Add(prefab, pool = new(prefab));
             }
 
-            if (pool.stack.Count == 0)
+            do
             {
-                T comp = Instantiate(prefab, pos, rot, m_TempTransform);
-                comp.gameObject.AddComponent<PoolInfo>().Setup(prefab);
-                comp.transform.SetParent(parent);
-                return comp;
+                if (pool.stack.Count == 0)
+                {
+                    T comp = Instantiate(prefab, pos, rot, m_TempTransform);
+                    comp.gameObject.AddComponent<PoolInfo>().Setup(prefab, comp);
+                    comp.transform.SetParent(parent);
+                    return comp;
+                }
+                else
+                {
+                    PoolInfo info = pool.stack.Pop();
+                    if (!info.InPool)
+                    {
+                        Debug.LogError("It has not in pool. but it in the pool.", info.Instance);
+                        continue;
+                    }
+
+                    T comp = (T)info.Instance;
+                    comp.transform.SetPositionAndRotation(pos, rot);
+                    comp.transform.SetParent(parent);
+
+                    info.InPool = false;
+                    return comp;
+                }
             }
-            else
-            {
-                T comp = (T)pool.stack.Pop();
-                comp.transform.SetPositionAndRotation(pos, rot);
-                comp.transform.SetParent(parent);
-                return comp;
-            }
+            while (true);
         }
 
         private static List<IPoolable> s_StackInterfaces = new();
@@ -139,7 +180,9 @@ namespace AOT
             Assert.IsNotNull(obj);
 
             var info = obj.GetComponent<PoolInfo>();
-            if (info == null) throw new InvalidCastException("Is not rented object.");
+            if (info == null) throw new InvalidCastException("It's not rented object.");
+
+            if (info.InPool) throw new InvalidOperationException("It has already object in pool.");
 
             if (!pools.TryGetValue(info.Prefab, out var pool))
             {
@@ -157,7 +200,10 @@ namespace AOT
             }
 
             obj.transform.SetParent(m_TempTransform, false);
-            pool.stack.Push(obj);
+
+            info.InPool = true;
+
+            pool.stack.Push(info);
         }
     }
 

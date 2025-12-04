@@ -25,11 +25,5 @@ namespace AOT
         private void Update()
         {
         }
-
-        public override void Use(ObjectBehaviour sender, Transform pose)
-        {
-            throw new System.NotImplementedException();
-        }
-
     }
 }

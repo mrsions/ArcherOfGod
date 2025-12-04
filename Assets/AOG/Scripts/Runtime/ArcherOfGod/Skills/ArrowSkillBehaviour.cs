@@ -17,10 +17,14 @@ namespace AOT
 
         //------------------------------------------------------------------------------
 
-        public override void Use(ObjectBehaviour sender, Transform pose)
+        internal override bool OnStartSkill(CharacterBehaviour playerBehaviour)
         {
-            ProjectileBehaviour proj = Instantiate(m_Prefab, pose.position, pose.rotation);
-            proj.gameObject.SetActive(true);
+            return base.OnStartSkill(playerBehaviour);
+        }
+
+        internal override void OnSkillActivate(ObjectBehaviour sender, Transform pose)
+        {
+            ProjectileBehaviour proj = GameObjectPool.main.Rent(m_Prefab, pose.position, AngleUtils.NormalizeAngle2D(pose.rotation));
             proj.Shoot(sender, sender.FindEnemyNormal()).Forget();
         }
     }

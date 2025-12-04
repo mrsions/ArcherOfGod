@@ -299,16 +299,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3560961cd0feca48a7e52a816268cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ArcherOfGod::AOT.MultipleShotSkillBehaviour
-  m_SkillName: 
-  m_Duration: 0
-  m_AnimationName: 
+  m_SkillName: arrow
+  m_Duration: 2
+  m_AnimationId: 1
   m_FxCasting: {fileID: 0}
   m_FactorDamage: 1
   m_FactorArmor: 1
-  OnUsed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnReady:
+  OnChangedStatus:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1720666254642023761
@@ -369,8 +366,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2129152389863717659}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0, z: 0.4684815, w: 0.88347334}
-  m_LocalPosition: {x: 0.20582616, y: 0.6679559, z: -0.3}
+  m_LocalRotation: {x: 0.46848154, y: -0.88347334, z: -0, w: 0}
+  m_LocalPosition: {x: 0.20582628, y: 0.6679559, z: -0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -681,12 +678,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1993918840386537907}
   - component: {fileID: 4173584776721523734}
-  - component: {fileID: 8626403451464069227}
-  - component: {fileID: 480772361023088444}
-  - component: {fileID: 5457521130613583540}
   - component: {fileID: 1365305051656033921}
+  - component: {fileID: 8626403451464069227}
   m_Layer: 7
-  m_Name: Peasant
+  m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -702,7 +697,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.477, y: 1.74795, z: 0}
-  m_LocalScale: {x: -0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6774038130259082824}
@@ -722,7 +717,7 @@ Animator:
   m_GameObject: {fileID: 4017708036878336564}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d802920b5f1124a778f16c31c3373388, type: 2}
+  m_Controller: {fileID: 9100000, guid: d2217373ee86ee2488c71916364930b5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -734,6 +729,39 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1365305051656033921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4017708036878336564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a908608913b7fc64e9d71f171bf8dae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ArcherOfGod::AOT.PlayerBehaviour
+  m_Animator: {fileID: 4173584776721523734}
+  m_Center: {fileID: 6774038130259082824}
+  m_MaxHp: 2000
+  m_MaxShield: 300
+  attachTarget: {fileID: 6774038130259082824}
+  fxOnHit: {fileID: 0}
+  m_IsPlayer: 0
+  m_Arrow: {fileID: 342048574299953659}
+  m_Rigidbody: {fileID: 8626403451464069227}
+  m_MoveSpeed: 5
+  m_PlayerStatus:
+    name: Player
+    hp: 1000
+    shield: 100
+    damage: 100
+    criticalDamageFactor: 2
+    criticalPercent: 0.2
+    attackSpeed: 1
+    castingReduce: 0
+    moveSpeed: 1
+  m_NormalAttack: {fileID: 628935085988740531}
 --- !u!50 &8626403451464069227
 Rigidbody2D:
   serializedVersion: 5
@@ -761,107 +789,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &480772361023088444
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4017708036878336564}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.15}
-  m_Size: {x: 0.3, y: 0.3}
-  m_Direction: 0
---- !u!70 &5457521130613583540
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4017708036878336564}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.5}
-  m_Size: {x: 0.5, y: 1}
-  m_Direction: 0
---- !u!114 &1365305051656033921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4017708036878336564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a908608913b7fc64e9d71f171bf8dae3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ArcherOfGod::AOT.PlayerBehaviour
-  m_Animator: {fileID: 4173584776721523734}
-  m_Center: {fileID: 6774038130259082824}
-  m_MaxHp: 2000
-  m_MaxShield: 300
-  m_Arrow: {fileID: 342048574299953659}
-  m_Rigidbody: {fileID: 8626403451464069227}
-  m_MoveSpeed: 1
-  m_NormalAttack: {fileID: 628935085988740531}
-  m_Skills:
-  - {fileID: 813974571859113728}
-  - {fileID: 3275650357872522192}
-  - {fileID: 6570940551663529970}
-  - {fileID: 1528919437864898869}
-  - {fileID: 5878986587750824333}
-  m_InputMoveAction: {fileID: 0}
 --- !u!1 &4294243034564976724
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,7 +815,7 @@ Transform:
   m_GameObject: {fileID: 4294243034564976724}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0, z: -0.7071095, w: 0.70710415}
-  m_LocalPosition: {x: -0.21039963, y: 0.6396922, z: 0.40000004}
+  m_LocalPosition: {x: -0.21039963, y: 0.6396922, z: 0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -948,13 +875,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4476359036221950687}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.413, y: 0, z: 0.05}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0.413, y: 0, z: 0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 342048574299953659}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!212 &7023236009842879859
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1022,8 +949,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8369289194518190828}
+  - component: {fileID: 4325963291779743353}
+  - component: {fileID: 5980278753522528651}
   m_Layer: 7
-  m_Name: GameObject
+  m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1038,12 +967,86 @@ Transform:
   m_GameObject: {fileID: 4675513955455633151}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1993918840386537907}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &4325963291779743353
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4675513955455633151}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.15}
+  m_Size: {x: 0.3, y: 0.3}
+  m_Direction: 0
+--- !u!70 &5980278753522528651
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4675513955455633151}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.5}
+  m_Size: {x: 0.5, y: 1}
+  m_Direction: 0
 --- !u!1 &4827031686504864743
 GameObject:
   m_ObjectHideFlags: 0
@@ -1090,17 +1093,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: ArcherOfGod::AOT.ArrowSkillBehaviour
   m_SkillName: Normal
   m_Duration: 0
-  m_AnimationName: 
+  m_AnimationId: 0
   m_FxCasting: {fileID: 0}
   m_FactorDamage: 1
   m_FactorArmor: 1
-  OnUsed:
+  OnChangedStatus:
     m_PersistentCalls:
       m_Calls: []
-  OnReady:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Prefab: {fileID: 0}
+  m_Prefab: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
 --- !u!1 &4999355366788751542
 GameObject:
   m_ObjectHideFlags: 0
@@ -1110,7 +1110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4353364659653078732}
-  - component: {fileID: 813974571859113728}
+  - component: {fileID: 2000224243047084715}
   m_Layer: 7
   m_Name: Skill1
   m_TagString: Untagged
@@ -1133,7 +1133,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 653030986729890437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &813974571859113728
+--- !u!114 &2000224243047084715
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1142,21 +1142,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 4999355366788751542}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3560961cd0feca48a7e52a816268cd2, type: 3}
+  m_Script: {fileID: 11500000, guid: 35c47d49050a90c4a963a352e6cae4ee, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: ArcherOfGod::AOT.MultipleShotSkillBehaviour
-  m_SkillName: 
-  m_Duration: 0
-  m_AnimationName: 
+  m_EditorClassIdentifier: ArcherOfGod::AOT.DashSkillBehaviour
+  m_SkillName: Dash
+  m_Duration: 5
+  m_AnimationId: 4
   m_FxCasting: {fileID: 0}
   m_FactorDamage: 1
   m_FactorArmor: 1
-  OnUsed:
+  OnChangedStatus:
     m_PersistentCalls:
       m_Calls: []
-  OnReady:
-    m_PersistentCalls:
-      m_Calls: []
+  m_Prefab: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+  m_Force: 10
 --- !u!1 &5259471419650494607
 GameObject:
   m_ObjectHideFlags: 0
@@ -1457,7 +1456,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3637831896207047318}
-  - component: {fileID: 5878986587750824333}
+  - component: {fileID: 8530622050392125540}
   m_Layer: 7
   m_Name: Skill1 (4)
   m_TagString: Untagged
@@ -1480,7 +1479,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 653030986729890437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5878986587750824333
+--- !u!114 &8530622050392125540
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1489,21 +1488,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 6543094380505418009}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3560961cd0feca48a7e52a816268cd2, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d8ef968238d5cb4e8678bf4bb64a9b4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: ArcherOfGod::AOT.MultipleShotSkillBehaviour
-  m_SkillName: 
-  m_Duration: 0
-  m_AnimationName: 
+  m_EditorClassIdentifier: ArcherOfGod::AOT.ArrowSkillBehaviour
+  m_SkillName: arrow
+  m_Duration: 5
+  m_AnimationId: 3
   m_FxCasting: {fileID: 0}
   m_FactorDamage: 1
   m_FactorArmor: 1
-  OnUsed:
+  OnChangedStatus:
     m_PersistentCalls:
       m_Calls: []
-  OnReady:
-    m_PersistentCalls:
-      m_Calls: []
+  m_Prefab: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
 --- !u!1 &6722835089173427711
 GameObject:
   m_ObjectHideFlags: 0
@@ -1839,16 +1836,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3560961cd0feca48a7e52a816268cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ArcherOfGod::AOT.MultipleShotSkillBehaviour
-  m_SkillName: 
-  m_Duration: 0
-  m_AnimationName: 
+  m_SkillName: arrow
+  m_Duration: 5
+  m_AnimationId: 2
   m_FxCasting: {fileID: 0}
   m_FactorDamage: 1
   m_FactorArmor: 1
-  OnUsed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnReady:
+  OnChangedStatus:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &7545949970678880785
@@ -1985,16 +1979,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3560961cd0feca48a7e52a816268cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ArcherOfGod::AOT.MultipleShotSkillBehaviour
-  m_SkillName: 
-  m_Duration: 0
-  m_AnimationName: 
+  m_SkillName: arrow
+  m_Duration: 5
+  m_AnimationId: 2
   m_FxCasting: {fileID: 0}
   m_FactorDamage: 1
   m_FactorArmor: 1
-  OnUsed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnReady:
+  OnChangedStatus:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &7893629343886826440

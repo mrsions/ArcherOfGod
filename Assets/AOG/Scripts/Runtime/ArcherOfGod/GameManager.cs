@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AOT
 {
@@ -26,8 +27,10 @@ namespace AOT
         public static GameManager main => s_Main ??= Resources.FindObjectsOfTypeAll<GameManager>().FirstOrDefault();
 
         //-- Serializable
-        public PlayerBehaviour player;
-        public PlayerBehaviour enemy;
+        [FormerlySerializedAs("player")]
+        public CharacterBehaviour m_Player;
+        [FormerlySerializedAs("enemy")]
+        public CharacterBehaviour m_Enemy;
 
         //-- Events
         public event Action<GameManager, EGameStatus> OnChangedStatus;
@@ -37,7 +40,7 @@ namespace AOT
 
 
         //-- Properties
-        public PlayerBehaviour[] Players { get; private set; }
+        public CharacterBehaviour[] Players { get; private set; }
         public EGameStatus Status
         {
             get => m_Status;
@@ -59,12 +62,12 @@ namespace AOT
 
         private void Start()
         {
-            Players = new PlayerBehaviour[] { player, enemy };
+            Players = new CharacterBehaviour[] { m_Player, m_Enemy };
 
             StartProcessAsync().Forget();
         }
 
-        private async UniTaskVoid StartProcessAsync()
+        private async UniTask StartProcessAsync()
         {
             try
             {
@@ -77,7 +80,7 @@ namespace AOT
                 Status = EGameStatus.Ready;
 
                 //TODO : Ready Animation
-                await UniTask.Delay(1000);
+                await UniTask.WaitForSeconds(3);
 
                 Status = EGameStatus.Start;
                 //TODO : something settings.
@@ -85,13 +88,13 @@ namespace AOT
                 Status = EGameStatus.Battle;
 
                 // wait for game end
-                await UniTask.Delay(90_000);
+                await UniTask.WaitForSeconds(90);
 
                 Status = EGameStatus.Finish;
 
                 //TODO : Finish Animation
                 //TODO : Send game result to server
-                await UniTask.Delay(1000);
+                await UniTask.WaitForSeconds(1);
 
                 Status = EGameStatus.End;
             }
@@ -101,6 +104,9 @@ namespace AOT
             }
         }
 
-
+        public CharacterBehaviour GetCharacter(bool m_IsPlayer)
+        {
+            return m_IsPlayer ? m_Player : m_Enemy;
+        }
     }
 }

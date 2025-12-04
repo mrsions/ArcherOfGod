@@ -2,11 +2,46 @@ using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Cysharp.Threading.Tasks;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace AOT
 {
-    public class GameSettings : ScriptableObject
+    [Serializable]
+    public struct FInputActionReference
+    {
+        public string actionId;
+        [NonSerialized]
+        private InputAction action;
+
+        public InputAction Get(InputActionAsset asset)
+        {
+            return action ??= asset.FindAction(actionId, true);
+        }
+    }
+
+    public partial class GameSettings
+    {
+        [Header("Options")]
+        public float skill_delay_onAwake = 1f;
+        public float move_input_delay = 0.1f;
+
+        [Header("Prefabs")]
+        public UITextDelegate damagePrefab;
+        public UITextDelegate criticalPrefab;
+
+        //-- InputActions
+        [Header("InputAction")]
+        public InputActionAsset playerInputAsset;
+        [SerializeField] private FInputActionReference playerMoveActionId;
+        [SerializeField] private FInputActionReference[] playerSkillActionId;
+        public InputAction GetPlayerMoveAction() => playerMoveActionId.Get(playerInputAsset);
+        public InputAction GetPlayerSkillAction(int id) => playerSkillActionId[id].Get(playerInputAsset);
+    }
+
+
+    public partial class GameSettings : ScriptableObject
     {
         #region Editor
 #if UNITY_EDITOR
@@ -39,6 +74,5 @@ namespace AOT
         #endregion Signleton
 
 
-        public float skill_delay_onAwake = 1f;
     }
 }
