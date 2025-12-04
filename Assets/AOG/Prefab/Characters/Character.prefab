@@ -718,6 +718,7 @@ MonoBehaviour:
     castingReduce: 0
     moveSpeed: 1
   m_NormalAttack: {fileID: 628935085988740531}
+  m_Skills: []
 --- !u!50 &8626403451464069227
 Rigidbody2D:
   serializedVersion: 5
@@ -822,7 +823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &332716965148358222
 Transform:
   m_ObjectHideFlags: 0

@@ -44,7 +44,7 @@ namespace AOT
 
         //-- Private
         private float m_CurrentHp = 1;
-        private float m_CurrentShield = 1;
+        private float m_CurrentShield;
         private int m_DieHash;
         private int m_HitHash;
 
@@ -174,7 +174,7 @@ namespace AOT
             return true;
         }
 
-        public virtual Vector3 FindEnemyNormal() => Vector2.zero;
+        public virtual Vector3 FindEnemy() => Vector2.zero;
 
         public virtual void GetDamageProperty(out float damage, out bool isCritical)
         {

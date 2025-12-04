@@ -66,6 +66,7 @@ namespace AOT
         private Vector3 m_ScaleForward;
         private int m_WalkHash;
         private int m_AttackHash;
+        private int m_GroundHash;
         private int m_SkillAnimIdHash;
         private int m_MoveSpeedHash;
         private int m_AttackSpeedHash;
@@ -110,6 +111,7 @@ namespace AOT
 
             m_WalkHash = Animator.StringToHash("walk");
             m_AttackHash = Animator.StringToHash("attack");
+            m_GroundHash = Animator.StringToHash("ground");
             m_SkillAnimIdHash = Animator.StringToHash("animId");
             m_MoveSpeedHash = Animator.StringToHash("moveSpeed");
             m_AttackSpeedHash = Animator.StringToHash("attackSpeed");
@@ -144,9 +146,16 @@ namespace AOT
 
         protected virtual void Update()
         {
-            if (IsDead || m_CurrentSkill != null) return;
+            if (IsDead) return;
 
-            IsGround = m_Rigidbody.linearVelocity.sqrMagnitude < 0.1f;
+            if (m_CurrentSkill != null)
+            {
+                m_Animator.SetBool(m_GroundHash, IsGround = false);
+                return;
+            }
+
+            IsGround = m_Rigidbody.linearVelocity.sqrMagnitude < 0.1f && m_Rigidbody.position.y < 0.1f;
+            m_Animator.SetBool(m_GroundHash, IsGround);
 
             switch (m_GameStatus)
             {
@@ -156,10 +165,10 @@ namespace AOT
                         m_Animator.speed = 1f;
                         if (m_InputAxis.x == 0)
                         {
-                            // 일장 시간만큼 이동명령을 유지한다.
+                            // 일정 시간만큼 이동명령을 유지한다.
                             if (m_LastMoveTime != 0)
                             {
-                                if (m_LastMoveTime + GameSettings.main.move_input_delay < Time.time)
+                                if (m_LastMoveTime + GameSettings.main.move_input_delay > Time.time)
                                 {
                                     break;
                                 }
@@ -224,6 +233,8 @@ namespace AOT
 
             if (!skill.OnStartSkill(this)) return false;
 
+            skill.Consume(this);
+
             m_CurrentSkill = skill;
             if (skill.AnimationId > 0)
             {
@@ -239,7 +250,14 @@ namespace AOT
 
         public void OnAnimPrepareArrow()
         {
-
+            if (m_CurrentSkill != null)
+            {
+                m_CurrentSkill.OnSkillPrepare(this, m_Arrow);
+            }
+            else
+            {
+                m_NormalAttack.OnSkillPrepare(this, m_Arrow);
+            }
         }
 
         public void OnAnimShot()
@@ -256,11 +274,17 @@ namespace AOT
 
         public void OnAnimEndSkill()
         {
-            m_Rigidbody.Sleep();
+            if (m_CurrentSkill == null) return;
+
+            if (m_CurrentSkill.IsResetVelocityOnEnd)
+            {
+                m_Rigidbody.linearVelocity = default;
+                m_Rigidbody.angularVelocity = default;
+            }
             m_CurrentSkill = null;
         }
 
-        public override Vector3 FindEnemyNormal()
+        public override Vector3 FindEnemy()
         {
             return GameManager.main.GetTargetCharacter(m_Id).CenterPosition;
         }

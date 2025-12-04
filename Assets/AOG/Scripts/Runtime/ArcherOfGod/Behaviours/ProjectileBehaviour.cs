@@ -6,6 +6,13 @@ namespace AOT
 {
     public class ProjectileBehaviour : MonoBehaviour
     {
+        public enum EDeactiveType
+        {
+            Return,
+            Deactive,
+            Destroy
+        }
+
         private class Bullet : MonoBehaviour
         {
             public ProjectileBehaviour Parent;
@@ -35,15 +42,28 @@ namespace AOT
         [SerializeField] private float m_ArrowSpeed = 0.3f;
         [SerializeField] private float m_BezierPower = 0.3f;
         [SerializeField] private float m_FadeDuration = 0.5f;
+        [SerializeField] private EDeactiveType m_DeactiveType = EDeactiveType.Return;
+
+        [Tooltip("대상의 도착위치 수정. (좌측기준좌표)")]
+        [SerializeField] private Vector2 m_TargetOffset;
+        [Tooltip("true일 경우 지정된 rotation으로 도착한다. (좌측기준좌표)")]
+        [SerializeField] private bool m_TargetRotationOverride;
+        [Tooltip("m_TargetRotationOverride가 true일 경우 사용된다.")]
+        [SerializeField] private float m_TargetRotationOverrideValue;
+        [SerializeField] private ProjectileBehaviour[] children;
+
         [Header("HitRandom")]
         [SerializeField] private Vector2Int m_HitSkipMs = new(50, 100); // x:고정대기 + y:랜덤대기(0~y)
         [SerializeField] private float m_HitRandomRotation = 30; // x:고정대기 + y:랜덤대기(0~y)
+
 
         //-- Private
         private Bullet m_Bullet;
         private bool m_IsCollision;
         private bool m_IsHitObject;
         private int m_ShootId;
+        private Vector3 m_RigidbodyInitPos;
+        private Vector3 m_RigidbodyInitRot;
 
         //-- Properties
         public ObjectBehaviour Owner { get; private set; }
@@ -53,11 +73,15 @@ namespace AOT
         private void Awake()
         {
             m_Bullet = m_Rigidbody.gameObject.AddComponent<Bullet>();
+            m_Rigidbody.bodyType = RigidbodyType2D.Kinematic;
+            m_RigidbodyInitPos = m_Rigidbody.transform.localPosition;
+            m_RigidbodyInitRot = m_Rigidbody.transform.localEulerAngles;
         }
 
         private void OnEnable()
         {
             Clear();
+            m_Particle.Stop(true);
         }
 
         private void OnDisable()
@@ -75,8 +99,8 @@ namespace AOT
             color.a = 1;
             m_Renderer.color = color;
 
-            m_Rigidbody.transform.localPosition = Vector3.zero;
-            m_Rigidbody.transform.localRotation = Quaternion.identity;
+            m_Rigidbody.transform.localPosition = m_RigidbodyInitPos;
+            m_Rigidbody.transform.localEulerAngles = m_RigidbodyInitRot;
 
             m_Bullet.Parent = null;
 
@@ -87,14 +111,42 @@ namespace AOT
             }
         }
 
-        public async UniTask Shoot(ObjectBehaviour owner, Vector3 tPos)
+        public async UniTask Shoot(ObjectBehaviour owner, Vector2 tPos)
         {
+            if (children != null)
+            {
+                foreach (var child in children)
+                {
+                    child.Shoot(owner, tPos).Forget();
+                }
+            }
+
+            if (owner.IsLeft)
+            {
+                tPos += m_TargetOffset;
+            }
+            else
+            {
+                tPos += m_TargetOffset.SetX(-m_TargetOffset.x);
+            }
+
             int id = m_ShootId;
             this.Owner = owner;
 
             Vector3 mPos = m_Rigidbody.position;
             float mRot = m_Rigidbody.rotation;
             float tRot = AngleUtils.Reverse(mRot);
+            if (m_TargetRotationOverride)
+            {
+                if(owner.IsLeft)
+                {
+                    tRot = m_TargetRotationOverrideValue;
+                }
+                else
+                {
+                    tRot = AngleUtils.Reverse(m_TargetRotationOverrideValue);
+                }
+            }
 
             FBezier bezier = new FBezier(mPos, tPos, mRot, tRot, m_BezierPower);
 
@@ -108,6 +160,8 @@ namespace AOT
 
             Vector2 befPos = mPos;
             bool isStartInLeft = mPos.x < 0;
+
+            m_Particle.Play(true);
 
             // 도착할때까지 혹은 이동시간이 예상의 2배를 넘을때까지 이동
             while (!m_IsCollision && move < distance)
@@ -125,13 +179,24 @@ namespace AOT
 
                 befPos = nPos;
 
-                if (isStartInLeft)
+                if (m_Bullet.Parent == null)
                 {
-                    if (nPos.x > 0) m_Bullet.Parent = this;
-                }
-                else
-                {
-                    if (nPos.x < 0) m_Bullet.Parent = this;
+                    if (isStartInLeft)
+                    {
+                        if (nPos.x > 0)
+                        {
+                            m_Bullet.Parent = this;
+                            m_Rigidbody.bodyType = RigidbodyType2D.Dynamic;
+                        }
+                    }
+                    else
+                    {
+                        if (nPos.x < 0)
+                        {
+                            m_Bullet.Parent = this;
+                            m_Rigidbody.bodyType = RigidbodyType2D.Dynamic;
+                        }
+                    }
                 }
 
                 await UniTask.Yield(PlayerLoopTiming.FixedUpdate, destroyCancellationToken);
@@ -160,7 +225,23 @@ namespace AOT
             await m_Renderer.DOFade(0, m_FadeDuration).ToUniTask();
 
             // 삭제
-            this.ReturnPool();
+            ReturnOrDeactive();
+        }
+
+        private void ReturnOrDeactive()
+        {
+            switch (m_DeactiveType)
+            {
+                case EDeactiveType.Return:
+                    this.ReturnPool();
+                    break;
+                case EDeactiveType.Deactive:
+                    gameObject.SetActive(false);
+                    break;
+                case EDeactiveType.Destroy:
+                    Destroy(gameObject);
+                    break;
+            }
         }
 
         private void StopGeneration()
@@ -192,7 +273,7 @@ namespace AOT
 
                 Owner.GetDamageProperty(out float damage, out bool isCritical);
 
-                float dmg =  damage * Random.Range(m_Damage.x, m_Damage.y);
+                float dmg = damage * Random.Range(m_Damage.x, m_Damage.y);
                 FHitEvent hitEvent = new FHitEvent(Owner, this, dmg, m_Rigidbody.position, m_Rigidbody.rotation, isCritical);
                 obj.OnHit(hitEvent);
 
@@ -214,7 +295,7 @@ namespace AOT
             Quaternion rot = m_Arrow.rotation * Quaternion.Euler(0, 0, Random.Range(-m_HitRandomRotation, m_HitRandomRotation));
             GameObjectPool.main.Rent(m_ArrowPrefab, m_Arrow.position, rot, obj.attachTarget);
 
-            this.ReturnPool();
+            ReturnOrDeactive();
         }
 
 #if UNITY_EDITOR

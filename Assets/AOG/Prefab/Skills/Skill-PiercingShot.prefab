@@ -53,7 +53,7 @@ MonoBehaviour:
   OnChangedStatus:
     m_PersistentCalls:
       m_Calls: []
-  m_Prefab: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+  m_Prefab: {fileID: 5540436369748867282, guid: 88428393a2d86b040a5c71088a8120bc, type: 3}
   m_StraightShot: 1
   m_Force: 0
   m_ForceMode: 1

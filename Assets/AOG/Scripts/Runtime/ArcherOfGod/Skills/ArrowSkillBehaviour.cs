@@ -27,8 +27,8 @@ namespace AOT
         [SerializeField]
         private Vector2 m_DashDirection;
 
-
         //-- Private
+        private ProjectileBehaviour m_ArrowInstance;
 
         //-- Properties
 
@@ -49,8 +49,26 @@ namespace AOT
             return true;
         }
 
+        internal override void OnSkillPrepare(CharacterBehaviour sender, Transform pose)
+        {
+            base.OnSkillPrepare(sender, pose);
+
+            if (!m_ArrowInstance)
+            {
+                m_ArrowInstance = GameObjectPool.main.Rent(m_Prefab, pose.position, pose.rotation, pose);
+            }
+        }
+
         internal override void OnSkillActivate(ObjectBehaviour sender, Transform pose)
         {
+            var arrow = m_ArrowInstance;
+            m_ArrowInstance = null;
+
+            if (!arrow)
+            {
+                arrow = GameObjectPool.main.Rent(m_Prefab, pose.position, pose.rotation, pose);
+            }
+
             Quaternion rot = AngleUtils.NormalizeAngle2D(pose.rotation);
             if (m_StraightShot)
             {
@@ -64,8 +82,10 @@ namespace AOT
                 }
             }
 
-            ProjectileBehaviour proj = GameObjectPool.main.Rent(m_Prefab, pose.position, rot);
-            proj.Shoot(sender, sender.FindEnemyNormal()).Forget();
+            arrow .transform.SetParent(null, false);
+            arrow .transform.SetLocalPositionAndRotation(pose.position, rot);
+            arrow.Shoot(sender, sender.FindEnemy()).Forget();
+
         }
     }
 }

@@ -53,9 +53,9 @@ MonoBehaviour:
   OnChangedStatus:
     m_PersistentCalls:
       m_Calls: []
-  m_Prefab: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
-  m_StraightShot: 0
-  m_Force: 0
+  m_Prefab: {fileID: 5540436369748867282, guid: f1ef2d8298add4240859f5b67727fc2f, type: 3}
+  m_StraightShot: 1
+  m_Force: 10
   m_ForceMode: 1
   m_ApplyInput: 0
-  m_DashDirection: {x: 0, y: 0}
+  m_DashDirection: {x: 0, y: 1}

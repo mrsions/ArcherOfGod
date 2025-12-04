@@ -21,7 +21,14 @@ namespace AOT
 
         public static float Reverse(float angleDeg)
         {
-            return -angleDeg;
+            if(angleDeg > 0)
+            {
+                return 180 - angleDeg;
+            }
+            else
+            {
+                return -(180 + angleDeg);
+            }
         }
 
         public static Quaternion GetQuaternion(float r)

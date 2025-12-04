@@ -48,12 +48,13 @@ MonoBehaviour:
   m_Duration: 5
   m_AnimationId: 4
   m_FxCasting: {fileID: 0}
+  m_ResetVelocityOnEnd: 1
   m_FactorDamage: 1
   m_FactorArmor: 1
   OnChangedStatus:
     m_PersistentCalls:
       m_Calls: []
-  m_Prefab: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+  m_Prefab: {fileID: 5540436369748867282, guid: f1ef2d8298add4240859f5b67727fc2f, type: 3}
   m_StraightShot: 1
   m_Force: 10
   m_ForceMode: 1

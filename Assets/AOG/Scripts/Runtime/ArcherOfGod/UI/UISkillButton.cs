@@ -51,8 +51,7 @@ namespace AOT
                     Assert.IsNotNull(player.Skills);
                     Assert.IsTrue(m_SkillIndex < player.Skills.Count);
 
-                    BaseSkillBehaviour skill = player.Skills[m_SkillIndex];
-                    Assert.IsNotNull(skill);
+                    Assert.IsNotNull(m_Skill = player.Skills[m_SkillIndex]);
                 }
                 return m_Skill;
             }

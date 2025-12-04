@@ -24,6 +24,7 @@ namespace AOT
         [SerializeField] private float m_Duration;
         [SerializeField] private int m_AnimationId;
         [SerializeField] private GameObject m_FxCasting;
+        [SerializeField] private bool m_ResetVelocityOnEnd;
 
         [Header("Factors")]
         [SerializeField] private float m_FactorDamage = 1;
@@ -54,6 +55,7 @@ namespace AOT
 
         public bool IsReady => m_Status == ESkillStatus.Ready;
         public bool IsCooldown => m_Status == ESkillStatus.Cooldown;
+        public bool IsResetVelocityOnEnd => m_ResetVelocityOnEnd;
 
         //------------------------------------------------------------------------------
 
@@ -115,13 +117,22 @@ namespace AOT
 
         //------------------------------------------------------------------------------
 
-        internal virtual bool OnStartSkill(CharacterBehaviour playerBehaviour)
+        internal virtual bool OnStartSkill(CharacterBehaviour sender)
         {
             return IsReady;
         }
 
         internal virtual void OnSkillActivate(ObjectBehaviour sender, Transform pose)
         {
+        }
+
+        internal virtual void OnSkillPrepare(CharacterBehaviour sender, Transform pose)
+        {
+        }
+
+        internal virtual void Consume(CharacterBehaviour characterBehaviour)
+        {
+            Status = ESkillStatus.Cooldown;
         }
     }
 }
