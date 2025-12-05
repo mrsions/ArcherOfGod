@@ -1,7 +1,6 @@
 # Archer of GOD
 
 - 게임 `Archer of God` 모작입니다.
-
 - 작업과정 동영상 녹화완료 및 보관중. 필요시 요청. (mrsions@gmail.com)
 
 
@@ -56,11 +55,11 @@ Github에 재배포하지 못하는 어셋들입니다. 직접 설치하셔야 �
 - [(설치필요) Miniature Army 2D V.1 [Medieval Style]](https://assetstore.unity.com/packages/p/miniature-army-2d-v-1-medieval-style-72935)
 - [(설치필요) Pixel Art Woods Tileset and Background](https://assetstore.unity.com/packages/2d/environments/pixel-art-woods-tileset-and-background-280066)
 - [(설치필요) Status and Auras FREE](https://assetstore.unity.com/packages/vfx/particles/spells/status-and-auras-free-289450)
-
-## 선택사항 (재배포불가)
-
-- [(선택)FastScriptReload](https://github.com/handzlikchris/FastScriptReload)
-
+- [Free 10 Medieval Ambient Fantasy Tracks Music Pack](https://assetstore.unity.com/packages/p/free-10-medieval-ambient-fantasy-tracks-music-pack-310781)
+- [FREE Casual Game SFX Pack](https://assetstore.unity.com/packages/p/free-casual-game-sfx-pack-54116)
+- [Hints Stars Points & Rewards Sound Effects - Lite Pack](https://assetstore.unity.com/packages/p/hints-stars-points-rewards-sound-effects-lite-pack-295538)
+- [RPG Essentials Sound Effects - FREE!](https://assetstore.unity.com/packages/p/rpg-essentials-sound-effects-free-227708)
+- [Shooting Soun](https://assetstore.unity.com/packages/p/shooting-sound-177096)
 
 # License
 

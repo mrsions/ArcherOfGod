@@ -55,16 +55,15 @@ namespace AOT
         {
             get
             {
-#if !UNITY_EDITOR
                 if (m_Skill == null)
-#endif
                 {
                     CharacterBehaviour player = GameManager.main.GetCharacter(m_PlayerId);
                     Assert.IsNotNull(player);
                     Assert.IsNotNull(player.Skills);
                     Assert.IsTrue(m_SkillIndex < player.Skills.Count);
 
-                    Assert.IsNotNull(m_Skill = player.Skills[m_SkillIndex]);
+                    m_Skill = player.Skills[m_SkillIndex];
+                    Assert.IsNotNull(m_Skill);
                 }
                 return m_Skill;
             }
@@ -88,7 +87,7 @@ namespace AOT
             GameSettings.main.GetPlayerSkillAction(m_SkillIndex).performed += OnClick;
         }
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR|| NOPT
         private void OnValidate()
         {
             Assert.IsTrue(0 <= m_SkillIndex);
@@ -124,7 +123,6 @@ namespace AOT
             }
             catch (Exception ex)
             {
-                Debug.LogError("path: " + UnityUtils.GetPath(transform));
                 Debug.LogException(ex);
             }
         }

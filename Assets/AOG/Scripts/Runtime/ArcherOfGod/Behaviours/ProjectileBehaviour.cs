@@ -43,6 +43,7 @@ namespace AOT
         [SerializeField] private Collider2D[] m_Colliders;
         [SerializeField] private float m_AutoDestroySec = 5f;
         [SerializeField] private GameObject m_HitFx;
+        [SerializeField] private AudioSource m_Shot;
         //[SerializeField] private AnimationCurve m_DurationPerDistance = AnimationCurve.Linear(0, 0, 1, 1);
 
         [SerializeField] private Vector2 m_Damage = new Vector2(1, 1.1f);
@@ -182,8 +183,6 @@ namespace AOT
             int id = ++m_AsyncId;
             this.Owner = owner;
 
-            await UniTask.Yield(PlayerLoopTiming.FixedUpdate, cancellationToken: destroyCancellationToken);
-
             Vector3 mPos = m_Rigidbody.position;
             float mRot = AngleUtils.GetAngleByDir(m_Rigidbody.transform.right);
             float tRot = AngleUtils.Inverse(mRot);
@@ -202,7 +201,7 @@ namespace AOT
 
             FBezier bezier = new FBezier(mPos, tPos, mRot, tRot, m_BezierPower);
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR|| NOPT
             m_Editor_Bezier = bezier;
 #endif
 
@@ -219,6 +218,8 @@ namespace AOT
             bool isStartInLeft = mPos.x < 0;
 
             m_Particle.Play(true);
+
+            if (m_Shot) m_Shot.Play();
 
             // 도착할때까지 혹은 이동시간이 예상의 2배를 넘을때까지 이동
             while (!m_IsCollision && move < distance)
@@ -405,7 +406,7 @@ namespace AOT
             ReturnOrDeactive();
         }
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR|| NOPT
         private FBezier m_Editor_Bezier;
 
         private void OnDrawGizmos()

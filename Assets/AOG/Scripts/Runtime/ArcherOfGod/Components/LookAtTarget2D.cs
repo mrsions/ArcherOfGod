@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -28,7 +28,7 @@ namespace AOT
             Vector2 mPos = (Vector2)transform.position;
             Vector2 tPos = (Vector2)target.position;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || NOPT
             transform.rotation = Quaternion.LookRotation(tPos - mPos) * Quaternion.Euler(offset);
 #else
             transform.rotation = Quaternion.LookRotation(tPos - mPos) * m_CalcOffset;

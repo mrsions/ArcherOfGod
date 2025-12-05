@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Cysharp.Threading.Tasks;
@@ -66,7 +66,7 @@ namespace AOT
         }
 
         // speed hack for runtime
-#if UNITY_EDITOR
+#if UNITY_EDITOR || NOPT
         public static GameSettings main => s_Main ??= Resources.Load<GameSettings>("GameSettings") ?? CreateInstance<GameSettings>();
 #else
         public static GameSettings main

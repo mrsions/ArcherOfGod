@@ -25,7 +25,7 @@ namespace AOT
             public UObject Instance;
             internal bool InPool;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR|| NOPT
             private void OnDestroy()
             {
                 if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode && !InPool)

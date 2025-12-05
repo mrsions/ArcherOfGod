@@ -159,7 +159,7 @@ namespace AOT
             }
         }
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR|| NOPT
         private void OnValidate()
         {
             if (Application.isPlaying)
