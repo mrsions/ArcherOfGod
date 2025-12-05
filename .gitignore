@@ -98,10 +98,19 @@ InitTestScene*.unity*
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 
-/Assets/*/
-
 /References
 /Resources
 .vsconfig
 /WorkVideo
 .NotUsed
+
+/Assets/FastScriptReload
+/Assets/500FreeSkillIcons
+/Assets/Blink
+/Assets/Card_Shirts_Lite
+/Assets/FXIFIED
+/Assets/karsiori
+/Assets/Matthew Guz
+/Assets/Miniature Army 2D V.1
+/Assets/NamuFX
+/Assets/Plugins/Demigiant
