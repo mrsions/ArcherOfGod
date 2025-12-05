@@ -285,7 +285,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0.81354207, b: 0.1273585, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -985,7 +985,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 5
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -5082,14 +5082,14 @@ MonoBehaviour:
   m_HitFx: {fileID: 9034722004974765109, guid: eae55d2dd0f021949bff448b8cd20a66, type: 3}
   m_Damage: {x: 1, y: 1.1}
   m_ArrowSpeed: 8
-  m_BezierPower: 0.5
+  m_BezierPower: 0
   m_FadeDuration: 0.5
   m_DeactiveType: 0
   m_TargetOffset: {x: 0, y: 0}
   m_TargetRotationOverride: 1
   m_TargetRotationOverrideValue: 40
   m_UseFixedDuration: 0
-  m_UseStright: 0
+  m_UseStright: 1
   m_IsPiercing: 0
   m_GuideArrowStart: 1e+9
   m_GuideArrowSpeedPerDistance: 0.2

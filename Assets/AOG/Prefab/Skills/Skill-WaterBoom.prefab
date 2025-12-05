@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5510424239963769074
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4582620737804998734}
+  - component: {fileID: 750561872544790572}
+  m_Layer: 7
+  m_Name: Skill-WaterBoom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4582620737804998734
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5510424239963769074}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.36267, y: 0, z: -18.91783}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &750561872544790572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5510424239963769074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d8ef968238d5cb4e8678bf4bb64a9b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ArcherOfGod::AOT.ArrowSkillBehaviour
+  m_Icon: {fileID: 21300000, guid: 6e7a7d4509d113c44be8358ecbbca0fc, type: 3}
+  m_SkillName: Many Shot
+  m_Duration: 5
+  m_AnimationId: 1
+  m_FxCasting: {fileID: 0}
+  m_ResetVelocityOnEnd: 0
+  m_FactorDamage: 1
+  m_FactorArmor: 1
+  OnChangedStatus:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Prefab: {fileID: 5540436369748867282, guid: 928657bd23bb16544a81f416f2f157c8, type: 3}
+  m_StraightShot: 0
+  m_Force: 0
+  m_ForceMode: 1
+  m_ApplyInput: 0
+  m_DashDirection: {x: 0, y: 0}

@@ -93,7 +93,7 @@ namespace AOT
                 }
             }
 
-            arrow.transform.SetParent(null, false);
+            arrow.transform.SetParent(GameManager.main.effectContainer, false);
             arrow.transform.SetLocalPositionAndRotation(pose.position, rot);
 
             var target = GameManager.main.GetTargetCharacter(((CharacterBehaviour)sender).Id);

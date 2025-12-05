@@ -59,7 +59,6 @@ namespace AOT
         public bool IsCooldown => m_Status == ESkillStatus.Cooldown;
         public bool IsResetVelocityOnEnd => m_ResetVelocityOnEnd;
 
-
         //------------------------------------------------------------------------------
 
         private void Awake()

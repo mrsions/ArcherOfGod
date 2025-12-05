@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEditor.PlayerSettings;
 
 namespace AOT
 {
@@ -137,16 +132,22 @@ namespace AOT
                 m_Skills = m_Skills.Concat(newSkills).Except(new[] { m_NormalAttack }).Distinct().Take(5).ToList();
             }
 
+            HashAnimKeys();
+
+            print($"[Character] RegistOnChangedStatus");
+            GameManager.main.OnChangedStatus += OnChangedGameStatus;
+
+            UpdateAnimatorProperty();
+        }
+
+        private void HashAnimKeys()
+        {
             m_WalkHash = Animator.StringToHash("walk");
             m_AttackHash = Animator.StringToHash("attack");
             m_GroundHash = Animator.StringToHash("ground");
             m_SkillAnimIdHash = Animator.StringToHash("animId");
             m_MoveSpeedHash = Animator.StringToHash("moveSpeed");
             m_AttackSpeedHash = Animator.StringToHash("attackSpeed");
-
-            GameManager.main.OnChangedStatus += OnChangedGameStatus;
-
-            UpdateAnimatorProperty();
         }
 
         private void OnChangedGameStatus(GameManager manager, EGameStatus status)
@@ -158,16 +159,20 @@ namespace AOT
             }
         }
 
+#if UNITY_EDITOR
         private void OnValidate()
         {
             if (Application.isPlaying)
             {
+                HashAnimKeys();
                 UpdateAnimatorProperty();
             }
         }
+#endif
 
         private void UpdateAnimatorProperty()
         {
+
             m_Animator.SetFloat(m_MoveSpeedHash, m_PlayerStatus.moveSpeed);
             m_Animator.SetFloat(m_AttackSpeedHash, m_PlayerStatus.attackSpeed);
         }

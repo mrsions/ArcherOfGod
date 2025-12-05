@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Serialization;
-using Cysharp.Threading.Tasks;
-using NUnit.Framework;
-using UnityEditor;
 using UnityEngine;
-
+using UnityEngine.Assertions;
 using UObject = UnityEngine.Object;
 
 namespace AOT
@@ -148,7 +144,7 @@ namespace AOT
         public T Rent<T>(T prefab, Vector3 pos, Quaternion rot, Transform parent = null)
             where T : Component
         {
-            if(parent == null)
+            if (parent == null)
             {
                 parent = GameManager.main.effectContainer;
             }
@@ -192,10 +188,14 @@ namespace AOT
         private static List<IPoolable> s_StackInterfaces = new();
         private Transform m_TempTransform;
 
-        public void Return<T>(T obj) where T : Component => Return(obj.gameObject);
+        public void Return<T>(T obj) where T : Component
+        {
+            if (!obj) return;
+            Return(obj.gameObject);
+        }
         public void Return(GameObject obj)
         {
-            Assert.IsNotNull(obj);
+            if (!obj) return;
 
             var info = obj.GetComponent<PoolLink>();
             if (info == null) throw new InvalidCastException("It's not rented object.");

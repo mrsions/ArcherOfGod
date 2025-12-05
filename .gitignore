@@ -104,13 +104,19 @@ InitTestScene*.unity*
 /WorkVideo
 .NotUsed
 
-/Assets/FastScriptReload
-/Assets/500FreeSkillIcons
-/Assets/Blink
-/Assets/Card_Shirts_Lite
-/Assets/FXIFIED
-/Assets/karsiori
-/Assets/Matthew Guz
-/Assets/Miniature Army 2D V.1
-/Assets/NamuFX
+/Assets/Thirdparty/FastScriptReload
+/Assets/Thirdparty/500FreeSkillIcons
+/Assets/Thirdparty/Blink
+/Assets/Thirdparty/Card_Shirts_Lite
+/Assets/Thirdparty/FXIFIED
+/Assets/Thirdparty/karsiori
+/Assets/Thirdparty/Matthew Guz
+/Assets/Thirdparty/Miniature Army 2D V.1
+/Assets/Thirdparty/NamuFX
 /Assets/Plugins/Demigiant
+
+
+/Assets/**/*.md
+/Assets/**/*.md.meta
+
+/Build*

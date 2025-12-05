@@ -39,6 +39,7 @@ namespace AOT
         [SerializeField] private FInputActionReference[] playerSkillActionId;
         public InputAction GetPlayerMoveAction() => playerMoveActionId.Get(playerInputAsset);
         public InputAction GetPlayerSkillAction(int id) => playerSkillActionId[id].Get(playerInputAsset);
+
     }
 
 
@@ -68,10 +69,17 @@ namespace AOT
 #if UNITY_EDITOR
         public static GameSettings main => s_Main ??= Resources.Load<GameSettings>("GameSettings") ?? CreateInstance<GameSettings>();
 #else
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]]
-        public static GameSettings main => s_Main;
+        public static GameSettings main
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => s_Main;
+        }
 #endif
 
+        public void SetMain()
+        {
+            s_Main = this;
+        }
         #endregion Signleton
 
 

@@ -35,6 +35,7 @@ namespace AOT
         //------------------------------------------------------------------------------
         private void Awake()
         {
+            print($"[GameUI] Awake");
             m_HUD.SetActive(false);
 
             SetActive(m_None, false);
@@ -48,7 +49,8 @@ namespace AOT
 
             Active(m_None);
 
-            GameManager.main.OnChangedStatus += (manager, status) => OnChangeStatus(manager, status).Forget();
+            print($"[GameUI] RegistOnChangedStatus");
+            GameManager.main.OnChangedStatus += OnChangeStatus;
 
             m_TimerText.text = GameSettings.main.gameTime.ToString();
         }
@@ -74,7 +76,7 @@ namespace AOT
             }
         }
 
-        private async UniTask OnChangeStatus(GameManager manager, EGameStatus status)
+        private void OnChangeStatus(GameManager manager, EGameStatus status)
         {
             switch (status)
             {

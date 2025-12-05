@@ -56,7 +56,7 @@ namespace AOT
             get
             {
 #if !UNITY_EDITOR
-                if (m__skill == null)
+                if (m_Skill == null)
 #endif
                 {
                     CharacterBehaviour player = GameManager.main.GetCharacter(m_PlayerId);
@@ -81,16 +81,19 @@ namespace AOT
 
             m_Button.onClick.AddListener(OnClick);
 
+            print($"[OnChangedStatus] RegistOnChangedStatus");
             GameManager.main.OnChangedStatus += OnChangedStatus;
             OnChangedStatus(GameManager.main, GameManager.main.Status);
 
             GameSettings.main.GetPlayerSkillAction(m_SkillIndex).performed += OnClick;
         }
 
+#if UNITY_EDITOR
         private void OnValidate()
         {
             Assert.IsTrue(0 <= m_SkillIndex);
         }
+#endif
 
         private void OnClick(InputAction.CallbackContext context)
         {
@@ -108,14 +111,22 @@ namespace AOT
 
         private void OnChangedStatus(GameManager manager, EGameStatus status)
         {
-            if (status != EGameStatus.Ready) return;
+            try
+            {
+                if (status != EGameStatus.Ready) return;
 
-            BaseSkillBehaviour skill = Skill;
-            m_Icon.sprite = skill.Icon;
-            skill.SetForceDelay(GameSettings.main.skill_delay_onAwake);
-            skill.OnChangedStatus.AddListener(OnSkillChangedStatus);
+                BaseSkillBehaviour skill = Skill;
+                m_Icon.sprite = skill.Icon;
+                skill.SetForceDelay(GameSettings.main.skill_delay_onAwake);
+                skill.OnChangedStatus.AddListener(OnSkillChangedStatus);
 
-            OnSkillChangedStatus(skill, ESkillStatus.None, skill.Status);
+                OnSkillChangedStatus(skill, ESkillStatus.None, skill.Status);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("path: " + UnityUtils.GetPath(transform));
+                Debug.LogException(ex);
+            }
         }
 
         private void OnSkillChangedStatus(BaseSkillBehaviour sender, ESkillStatus bef, ESkillStatus cur)

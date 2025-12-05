@@ -26,6 +26,7 @@ namespace AOT
 
         private void Awake()
         {
+            print($"[GameStatusEvent] RegistOnChangedStatus");
             GameManager.main.OnChangedStatus += OnChangedStatus;
             OnChangedStatus(GameManager.main, GameManager.main.Status);
         }

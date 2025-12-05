@@ -984,7 +984,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 5
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -5078,6 +5078,7 @@ MonoBehaviour:
   m_Colliders:
   - {fileID: 9171495377026534657}
   m_AutoDestroySec: 5
+  m_HitFx: {fileID: 0}
   m_Damage: {x: 1, y: 1.1}
   m_ArrowSpeed: 10
   m_BezierPower: 0

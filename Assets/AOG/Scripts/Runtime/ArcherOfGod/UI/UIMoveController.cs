@@ -26,9 +26,6 @@ namespace AOT
         [SerializeField]
         private Image m_ImgRight;
 
-        [SerializeField]
-        private InputActionReference m_PlayerMove;
-
         private RectTransform m_Rect;
         private int m_ActivateId = -1;
         private EType m_State = EType.None;
@@ -42,7 +39,7 @@ namespace AOT
 
         private void LateUpdate()
         {
-            Vector2 val = m_PlayerMove.action.ReadValue<Vector2>();
+            Vector2 val = GameSettings.main.GetPlayerMoveAction().ReadValue<Vector2>();
             if (val != default)
             {
                 UpdateUI(val);

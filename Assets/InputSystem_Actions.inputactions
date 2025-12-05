@@ -208,7 +208,18 @@
                 {
                     "name": "",
                     "id": "9f33d93d-ba54-4529-a81c-2705bee27300",
-                    "path": "",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2276b062-44c4-440d-9aac-b24433862b44",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -219,7 +230,18 @@
                 {
                     "name": "",
                     "id": "ce714a67-5310-4914-9bed-358b151520e7",
-                    "path": "",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8f0125d6-4753-4b3b-a036-d6be23d2d1c9",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -230,7 +252,18 @@
                 {
                     "name": "",
                     "id": "043dd808-e8f0-4142-b9f4-41f03346406d",
-                    "path": "",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Skill3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3d8320af-abc6-4000-9132-0c8fe3837075",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -241,7 +274,18 @@
                 {
                     "name": "",
                     "id": "0abd4115-1b73-4c96-b902-8515047d5bcd",
-                    "path": "",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "85bff543-d764-493f-84d5-8e3d72313852",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -252,7 +296,18 @@
                 {
                     "name": "",
                     "id": "e0b807e2-bfa9-46b6-8c6c-e3440d423f20",
-                    "path": "",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6204e1d3-0289-4293-8502-094e71b98de7",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -23,6 +23,7 @@ namespace AOT
 
         private void Awake()
         {
+            print($"[UIPlayerStatus] RegistOnChangedStatus");
             GameManager.main.OnChangedStatus += OnChangedStatus;
             OnChangedStatus(GameManager.main, GameManager.main.Status);
         }

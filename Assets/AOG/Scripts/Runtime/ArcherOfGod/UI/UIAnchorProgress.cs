@@ -1,11 +1,6 @@
 using System;
-using Cysharp.Threading.Tasks;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.OnScreen;
-using UnityEngine.UI;
 
 namespace AOT
 {
@@ -17,6 +12,7 @@ namespace AOT
         private float m_Progress;
 
         private RectTransform m_RectTransform;
+        private RectTransform RectTransform => m_RectTransform ??= (RectTransform)transform;
 
         public float progress
         {
@@ -34,15 +30,16 @@ namespace AOT
         protected override void Awake()
         {
             base.Awake();
-            m_RectTransform = (RectTransform)transform;
             UpdateProgress();
         }
 
+#if UNITY_EDITOR
         protected override void OnValidate()
         {
             base.OnValidate();
             Awake();
         }
+#endif
 
         protected override void OnDidApplyAnimationProperties()
         {
@@ -52,7 +49,7 @@ namespace AOT
 
         private void UpdateProgress()
         {
-            m_RectTransform.anchorMax = m_RectTransform.anchorMax.SetX(m_Progress);
+            RectTransform.anchorMax = RectTransform.anchorMax.SetX(m_Progress);
         }
     }
 }
