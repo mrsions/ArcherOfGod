@@ -3863,7 +3863,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5819821772724988637, guid: 5f828940675fb7e4496c2bc629aab6f1, type: 3}
       propertyPath: m_Actions.skillUse
-      value: 2
+      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
