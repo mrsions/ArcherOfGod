@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5902625410986562478, guid: ffb426b73f1a7f5459ca8ac35dadced0, type: 3}
       propertyPath: m_Name
-      value: Skill_4 Variant
+      value: Skill_4
       objectReference: {fileID: 0}
     - target: {fileID: 7637920883062245638, guid: ffb426b73f1a7f5459ca8ac35dadced0, type: 3}
       propertyPath: m_Pivot.x

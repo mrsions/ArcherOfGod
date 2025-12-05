@@ -5322,6 +5322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ArcherOfGod::AOT.UISkillButton
   m_ControlPath: <Gamepad>/buttonWest
+  m_PlayerId: 0
   m_SkillIndex: 0
   m_DurationTxt: {fileID: 8458885980650069684}
   m_DurationImg: {fileID: 8848625417823440678}
