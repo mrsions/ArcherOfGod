@@ -7,6 +7,11 @@ using UnityEngine.InputSystem;
 
 namespace AOT
 {
+    /// <summary>
+    /// 화살 쏘는 스킬. 풀에서 투사체 가져와서 적한테 발사함.
+    /// 대시 힘 줄 수도 있고 직선/곡선 선택 가능. 입력 방향 따라가는 옵션도 있음.
+    /// 화살 준비 단계에서 타겟 추적함. 투사체 하나만 쏘고 자식은 ProjectileBehaviour가 처리.
+    /// </summary>
     public class ArrowSkillBehaviour : BaseSkillBehaviour
     {
         //-- Serializable

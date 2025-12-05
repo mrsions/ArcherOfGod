@@ -7,6 +7,10 @@ using UnityEngine;
 
 namespace AOT
 {
+    /// <summary>
+    /// 애니메이터 스테이트 동안 레이어 웨이트를 커브 따라 트윈함.
+    /// 스테이트 끝나면 0으로 리셋됨. normalizedTime 씀.
+    /// </summary>
     public class LayerWeightTweenStateMachineBehaviour : StateMachineBehaviour
     {
         public int targetLayer = 0;

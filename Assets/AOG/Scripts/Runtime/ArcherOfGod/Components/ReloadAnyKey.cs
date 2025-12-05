@@ -10,6 +10,10 @@ using UnityEngine.SceneManagement;
 
 namespace AOT
 {
+    /// <summary>
+    /// 아무 키나 누르면 현재 씬 리로드. 키보드/마우스/게임패드/터치 다 됨.
+    /// 게임오버 화면에서 재시작할 때 씀. 딜레이나 확인창 없음.
+    /// </summary>
     public class ReloadAnyKey : MonoBehaviour
     {
         private void Update()

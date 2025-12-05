@@ -16,6 +16,11 @@ namespace AOT
         Lock
     }
 
+    /// <summary>
+    /// 스킬 기반 클래스. Ready/Cooldown/Lock 상태 있고 쿨타임 관리함.
+    /// 캐스팅감소 스탯 적용되고 데미지/방어 계수 있음. AnimationId로 애니메이션 연동.
+    /// 상태 변경 이벤트로 UI 바인딩 가능. 마나 없고 차지 시스템 없음. 시작하면 취소 안됨.
+    /// </summary>
     public abstract class BaseSkillBehaviour : MonoBehaviour
     {
         //-- Serializable
@@ -40,7 +45,7 @@ namespace AOT
         private ESkillStatus m_Status;
         private CharacterBehaviour m_Owner;
 
-        public ESkillStatus Status { get => m_Status; private set => SetStatus(value, Duration); }
+        public ESkillStatus Status { get => m_Status; set => SetStatus(value, Duration); }
 
         //-- Properties
         public Sprite Icon { get => m_Icon; set => m_Icon = value; }

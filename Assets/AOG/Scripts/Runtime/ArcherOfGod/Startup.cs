@@ -9,6 +9,10 @@ using UnityEngine.Serialization;
 
 namespace AOT
 {
+    /// <summary>
+    /// 게임 시작점. GameSettings 초기화하고 로딩 화면 띄우면서 게임 씬(인덱스 1)으로 넘어감.
+    /// Scene 0에서만 동작하고 씬 전환되면 같이 날아감. 에러 처리 따로 없음.
+    /// </summary>
     public class Startup : MonoBehaviour
     {
         public GameSettings gameSettings;

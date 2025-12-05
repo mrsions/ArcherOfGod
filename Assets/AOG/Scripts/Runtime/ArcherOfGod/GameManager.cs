@@ -21,6 +21,11 @@ namespace AOT
     }
 
 
+    /// <summary>
+    /// 게임 전체 흐름 관리하는 싱글톤. 상태머신으로 Loading→Ready→Start→Battle→Finish 순서로 진행됨.
+    /// 캐릭터 등록하고 누가 이겼는지 판정함. 시간 끝나면 Battle_LimitOver로 연장전 돌입.
+    /// 1v1만 지원하고 네트워크 없음. 씬 로딩이나 데이터 저장은 안함.
+    /// </summary>
     public class GameManager : MonoBehaviour
     {
         private static GameManager s_Main;

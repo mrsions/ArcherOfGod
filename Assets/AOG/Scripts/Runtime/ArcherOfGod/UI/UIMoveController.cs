@@ -7,6 +7,11 @@ using UnityEngine.UI;
 
 namespace AOT
 {
+    /// <summary>
+    /// 터치 이동 컨트롤러. 터치 위치가 왼쪽이면 왼쪽, 오른쪽이면 오른쪽으로 이동.
+    /// 좌우 인디케이터 이미지로 피드백 줌. 드래그하면 계속 이동함.
+    /// 아날로그 아니고 좌/우 이진값만 나옴. 터치 한 점만 추적.
+    /// </summary>
     public class UIMoveController : OnScreenControl, IPointerDownHandler, IPointerUpHandler, IPointerMoveHandler, IDragHandler, IEndDragHandler
     {
         enum EType

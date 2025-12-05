@@ -7,6 +7,11 @@ using UnityEngine;
 
 namespace AOT
 {
+    /// <summary>
+    /// 2D 각도 유틸. 각도→방향벡터, 방향벡터→각도 변환해줌.
+    /// Inverse로 좌우반전, GetQuaternion으로 Z축 회전 쿼터니언 만듦.
+    /// 0도가 오른쪽이고 반시계가 양수.
+    /// </summary>
     public static class AngleUtils
     {
         public static Vector2 ToDirection(float angleDeg)

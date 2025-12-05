@@ -9,6 +9,11 @@ using UnityEngine.UI;
 
 namespace AOT
 {
+    /// <summary>
+    /// 게이지 바. 앞바는 바로 바뀌고 뒷바는 애니메이션으로 따라감.
+    /// 데미지 받으면 앞바 먼저 줄고 뒷바가 스르륵 따라오는 연출.
+    /// 숫자 텍스트도 표시됨. HP/실드 등에 쓰임. 급하게 바뀌면 애니 끊김.
+    /// </summary>
     public class UIGageBar : MonoBehaviour
     {
         [SerializeField] private UIAnchorProgress m_ForwardBar;

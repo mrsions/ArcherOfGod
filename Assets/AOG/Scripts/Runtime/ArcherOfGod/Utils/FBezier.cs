@@ -7,6 +7,11 @@ using UnityEngine;
 
 namespace AOT
 {
+    /// <summary>
+    /// 3차 베지어 곡선. 시작점/끝점이랑 각도 넣으면 곡선 만들어줌.
+    /// Evaluate(t)로 0~1 사이 위치 구하고 Distance()로 대략적인 길이 계산.
+    /// strength가 0이면 직선임. 투사체 궤적에 쓰임.
+    /// </summary>
     public struct FBezier
     {
         // A, B: 시작/끝 점

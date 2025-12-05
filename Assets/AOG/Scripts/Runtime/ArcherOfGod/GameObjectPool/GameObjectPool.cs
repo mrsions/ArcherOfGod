@@ -12,6 +12,11 @@ namespace AOT
         void OnReleased();
     }
 
+    /// <summary>
+    /// 오브젝트 풀링 싱글톤. Rent로 빌리고 Return으로 반납. GameObject랑 Component 둘 다 됨.
+    /// IPoolable 인터페이스 있으면 반납할때 콜백 호출됨. 에디터에서 잘못 Destroy하면 경고 뜸.
+    /// usePooling 끄면 풀링 안하고 매번 생성/파괴함. 프리웜 없고 사이즈 제한 없음.
+    /// </summary>
     public class GameObjectPool : MonoBehaviour
     {
         private static GameObjectPool s_Main;

@@ -5,6 +5,10 @@ using UnityEngine;
 
 namespace AOT
 {
+    /// <summary>
+    /// 랜덤 유틸. Value로 0~1, Range로 범위 랜덤, FromMinus로 -b~b 랜덤.
+    /// Shuffle로 스킬 리스트 섞음. Unity Random 래핑한거라 스레드세이프 아님.
+    /// </summary>
     public static class TRandom
     {
         public static float Value => Random.value;

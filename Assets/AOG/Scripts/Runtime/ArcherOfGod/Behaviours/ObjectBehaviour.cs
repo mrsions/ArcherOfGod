@@ -26,6 +26,11 @@ namespace AOT
         }
     }
 
+    /// <summary>
+    /// HP랑 실드 있는 오브젝트 기반 클래스. 맞으면 실드 먼저 깎이고 그다음 HP 깎임.
+    /// HP 변경/실드 변경/사망 이벤트 있음. 초기 위치로 왼쪽인지 오른쪽인지 판단함.
+    /// 이동이나 스킬은 여기서 안하고 자식 클래스에서 함. 실드 자동회복 없음.
+    /// </summary>
     public class ObjectBehaviour : MonoBehaviour
     {
         //-- Serializable

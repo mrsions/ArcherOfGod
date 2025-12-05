@@ -43,6 +43,11 @@ namespace AOT
     }
 
 
+    /// <summary>
+    /// 게임 설정 담는 ScriptableObject. Resources/GameSettings에서 로드됨.
+    /// 스킬 딜레이, 이동 딜레이, 게임시간 같은 옵션이랑 데미지 텍스트 프리팹 참조 들어있음.
+    /// Input System 액션 매핑도 여기서 관리함. 플레이어별 설정은 안되고 전역 하나만 씀.
+    /// </summary>
     public partial class GameSettings : ScriptableObject
     {
         #region Editor

@@ -10,6 +10,11 @@ using UnityEngine.UI;
 
 namespace AOT
 {
+    /// <summary>
+    /// 스킬 버튼. 누르면 스킬 발동하고 쿨타임 보여줌. 아이콘이랑 남은시간 표시됨.
+    /// 키보드 단축키도 됨. Ready/Use 애니메이션 있고 쿨타임이면 버튼 비활성화.
+    /// 드래그 조준이나 차지 없음. 스킬 인덱스 하드코딩되어있음.
+    /// </summary>
     [RequireComponent(typeof(Button))]
     public class UISkillButton : OnScreenButton
     {

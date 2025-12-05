@@ -8,6 +8,10 @@ using UnityEngine.UI;
 
 namespace AOT
 {
+    /// <summary>
+    /// 타겟 바라보게 회전시킴. LateUpdate에서 갱신해서 애니메이션 후에 적용됨.
+    /// offset으로 회전 보정 가능. 에디터에서도 됨. 스무딩 없이 바로 돌아감.
+    /// </summary>
     [ExecuteInEditMode]
     public class LookAtTarget2D : MonoBehaviour
     {

@@ -5,6 +5,11 @@ using UnityEngine;
 
 namespace AOT
 {
+    /// <summary>
+    /// AI 컨트롤러. 랜덤 시간동안 공격하다가 랜덤 시간동안 이동하는 패턴.
+    /// skillUse 확률로 스킬 랜덤하게 씀. 위치 가중치로 중앙 쪽으로 가려고 함.
+    /// Battle 상태 되면 활성화됨. 예측이나 회피 로직 없음.
+    /// </summary>
     public class AiController : MonoBehaviour
     {
         [Serializable]
@@ -59,6 +64,11 @@ namespace AOT
         private async UniTask RunSkillAsync()
         {
             List<BaseSkillBehaviour> skills = new(m_Cha.Skills);
+
+            foreach(var skill in m_Cha.Skills)
+            {
+                skill.Status = ESkillStatus.Ready;
+            }
 
             EGameStatus status;
             while (m_Cha.IsLive

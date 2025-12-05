@@ -33,6 +33,12 @@ namespace AOT
         }
     }
 
+    /// <summary>
+    /// 플레이어나 AI가 조종하는 캐릭터. Rigidbody2D로 좌우 이동하고 스킬 5개까지 장착 가능.
+    /// 데미지 주면 파워 게이지 참. walk/attack/ground/skill 애니메이션 상태 있음.
+    /// FPlayerStatus로 데미지/크리티컬/속도 스탯 관리함. 스킬 쓰는 중엔 조작 안됨.
+    /// 점프 없고 수평 이동만 됨. 입력은 PlayerController나 AiController가 해줌.
+    /// </summary>
     public class CharacterBehaviour : ObjectBehaviour
     {
         public static readonly Vector3 RealScaleForward = new Vector3(1, 1, -1);

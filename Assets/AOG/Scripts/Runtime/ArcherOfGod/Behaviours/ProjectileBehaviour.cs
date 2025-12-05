@@ -10,6 +10,12 @@ namespace AOT
         void Setup(ProjectileBehaviour sender);
     }
 
+    /// <summary>
+    /// 화살 투사체. 베지어 곡선으로 날아가거나 직선으로 쏠 수도 있음. 유도 기능도 있음.
+    /// 맞으면 FHitEvent로 데미지 넣고 화살이 타겟에 박힘. 피어싱이면 관통함.
+    /// 자식 투사체 있으면 같이 쏨. 풀링 쓰고 충돌 안하면 일정시간 후 사라짐.
+    /// 2D 물리만 됨. 내가 쏜건 안맞는데 아군 오사격은 가능함.
+    /// </summary>
     public class ProjectileBehaviour : MonoBehaviour
     {
         public enum EDeactiveType

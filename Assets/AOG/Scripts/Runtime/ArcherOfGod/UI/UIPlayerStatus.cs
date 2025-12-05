@@ -9,6 +9,11 @@ using UnityEngine.UI;
 
 namespace AOT
 {
+    /// <summary>
+    /// 플레이어 상태 표시. HP/실드 게이지랑 원형 파워 게이지, 이름 보여줌.
+    /// 캐릭터 이벤트 구독해서 자동 갱신됨. 실드 0되면 실드바 숨김.
+    /// m_PlayerId로 어떤 캐릭터인지 지정. 버프/디버프 아이콘 없음.
+    /// </summary>
     public class UIPlayerStatus : MonoBehaviour
     {
         [SerializeField] private int m_PlayerId;

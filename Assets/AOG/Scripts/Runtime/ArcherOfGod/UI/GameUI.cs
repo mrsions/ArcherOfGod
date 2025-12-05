@@ -12,6 +12,11 @@ using UnityEngine.UI;
 
 namespace AOT
 {
+    /// <summary>
+    /// 게임 UI 컨트롤러. 게임 상태 바뀌면 해당 UI 보여줌. Loading/Ready/Start/Finish 등.
+    /// 타이머 카운트다운 표시하고 승리/패배 화면 구분함.
+    /// 플레이어 인덱스 0이 플레이어라고 가정함. 일시정지 메뉴 없음.
+    /// </summary>
     public class GameUI : MonoBehaviour
     {
         //-- Serializable
