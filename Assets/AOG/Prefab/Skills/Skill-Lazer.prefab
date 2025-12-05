@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d8ef968238d5cb4e8678bf4bb64a9b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ArcherOfGod::AOT.ArrowSkillBehaviour
+  m_Icon: {fileID: 0}
   m_SkillName: Railgun
   m_Duration: 12
   m_AnimationId: 7

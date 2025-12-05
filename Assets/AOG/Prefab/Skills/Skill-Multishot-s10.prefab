@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d8ef968238d5cb4e8678bf4bb64a9b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ArcherOfGod::AOT.ArrowSkillBehaviour
+  m_Icon: {fileID: 21300000, guid: 9cf3ac0b624168545975e8923bfe94e3, type: 3}
   m_SkillName: 'Multi-shot '
   m_Duration: 10
   m_AnimationId: 2

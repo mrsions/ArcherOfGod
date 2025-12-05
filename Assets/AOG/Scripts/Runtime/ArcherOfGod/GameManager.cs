@@ -29,6 +29,7 @@ namespace AOT
 
         //-- Serializable
         [SerializeField] private List<CharacterBehaviour> m_Characters;
+        public Transform effectContainer;
 
         //-- Events
         public event Action<GameManager, EGameStatus> OnChangedStatus;

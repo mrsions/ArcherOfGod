@@ -22,6 +22,8 @@ namespace AOT
 
         [Header("Components")]
         [SerializeField]
+        private Image m_Icon;
+        [SerializeField]
         private TMP_Text m_DurationTxt;
         [SerializeField]
         private Image m_DurationImg;
@@ -38,6 +40,17 @@ namespace AOT
         private Button m_Button;
         private BaseSkillBehaviour m_Skill;
 
+        public CharacterBehaviour Player
+        {
+            get
+            {
+                CharacterBehaviour player = GameManager.main.GetCharacter(m_PlayerId);
+                Assert.IsNotNull(player);
+                Assert.IsNotNull(player.Skills);
+                Assert.IsTrue(m_SkillIndex < player.Skills.Count);
+                return player;
+            }
+        }
         public BaseSkillBehaviour Skill
         {
             get
@@ -68,8 +81,6 @@ namespace AOT
 
             m_Button.onClick.AddListener(OnClick);
 
-            SetVisibleGraphic(false);
-
             GameManager.main.OnChangedStatus += OnChangedStatus;
             OnChangedStatus(GameManager.main, GameManager.main.Status);
 
@@ -97,20 +108,13 @@ namespace AOT
 
         private void OnChangedStatus(GameManager manager, EGameStatus status)
         {
-            if (status != EGameStatus.Start) return;
+            if (status != EGameStatus.Ready) return;
 
-            CharacterBehaviour player = manager.GetCharacter(m_PlayerId);
-            Assert.IsNotNull(player);
-            Assert.IsNotNull(player.Skills);
-            Assert.IsTrue(m_SkillIndex < player.Skills.Count);
-
-            BaseSkillBehaviour skill = player.Skills[m_SkillIndex];
-            Assert.IsNotNull(skill);
-
+            BaseSkillBehaviour skill = Skill;
+            m_Icon.sprite = skill.Icon;
             skill.SetForceDelay(GameSettings.main.skill_delay_onAwake);
             skill.OnChangedStatus.AddListener(OnSkillChangedStatus);
 
-            SetVisibleGraphic(true);
             OnSkillChangedStatus(skill, ESkillStatus.None, skill.Status);
         }
 
@@ -162,13 +166,6 @@ namespace AOT
 
                 await UniTask.Yield(destroyCancellationToken);
             }
-        }
-
-        private void SetVisibleGraphic(bool enabled)
-        {
-            m_Button.targetGraphic.enabled = enabled;
-            m_DurationTxt.enabled = enabled;
-            m_DurationImg.enabled = enabled;
         }
     }
 }

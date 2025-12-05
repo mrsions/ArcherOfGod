@@ -1,6 +1,7 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Xml.Linq;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -39,6 +40,11 @@ namespace AOT
         {
             if (!base.OnStartSkill(cha)) return false;
 
+            if(!m_ApplyInput)
+            {
+                cha.SetForward(true, true);
+            }
+
             if (m_Force > 0)
             {
                 Vector2 dir = m_DashDirection;
@@ -46,6 +52,7 @@ namespace AOT
                 if (m_ApplyInput && cha.InputAxis.x < 0) dir.x = -dir.x;
                 cha.Rigidbody.AddForce(dir * m_Force, m_ForceMode);
             }
+
             return true;
         }
 

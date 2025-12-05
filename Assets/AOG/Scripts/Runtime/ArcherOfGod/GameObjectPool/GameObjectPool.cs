@@ -148,6 +148,11 @@ namespace AOT
         public T Rent<T>(T prefab, Vector3 pos, Quaternion rot, Transform parent = null)
             where T : Component
         {
+            if(parent == null)
+            {
+                parent = GameManager.main.effectContainer;
+            }
+
             if (!pools.TryGetValue(prefab, out var pool))
             {
                 pools.Add(prefab, pool = new(prefab));

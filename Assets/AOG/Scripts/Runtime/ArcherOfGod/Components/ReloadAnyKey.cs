@@ -46,7 +46,7 @@ namespace AOT
             }
         }
 
-        private void Reload()
+        public void Reload()
         {
             SceneManager.LoadScene(gameObject.scene.buildIndex, LoadSceneMode.Single);
         }

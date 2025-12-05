@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
@@ -20,6 +20,7 @@ namespace AOT
     {
         //-- Serializable
         [Header("Common")]
+        [SerializeField] private Sprite m_Icon;
         [SerializeField] private string m_SkillName;
         [SerializeField] private float m_Duration;
         [SerializeField] private int m_AnimationId;
@@ -42,6 +43,7 @@ namespace AOT
         public ESkillStatus Status { get => m_Status; private set => SetStatus(value, Duration); }
 
         //-- Properties
+        public Sprite Icon { get => m_Icon; set => m_Icon = value; }
         public virtual string SkillName => m_SkillName;
         public virtual float Duration => m_Duration * (1 - (m_Owner?.PlayerStatus.castingReduce ?? 0));
         public virtual int AnimationId => m_AnimationId;
@@ -56,6 +58,7 @@ namespace AOT
         public bool IsReady => m_Status == ESkillStatus.Ready;
         public bool IsCooldown => m_Status == ESkillStatus.Cooldown;
         public bool IsResetVelocityOnEnd => m_ResetVelocityOnEnd;
+
 
         //------------------------------------------------------------------------------
 

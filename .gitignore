@@ -100,14 +100,8 @@ InitTestScene*.unity*
 
 /Assets/*/
 
-!/Assets/AOG/
-!/Assets/Plugins/
-!/Assets/ProjectSettings/
-!/Assets/Resources/
-!/Assets/Settings/
-!/Assets/TextMesh Pro/
-/Assets/Plugins/*/
 /References
 /Resources
 .vsconfig
-WorkVideo/Work.aep
+/WorkVideo
+.NotUsed

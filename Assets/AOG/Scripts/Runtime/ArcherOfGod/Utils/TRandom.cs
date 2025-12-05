@@ -1,4 +1,4 @@
-#nullable enable
+﻿#nullable enable
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,12 +15,12 @@ namespace AOT
         public static float From0(float b) => Random.Range(0, b);
         public static float FromMinus(float b) => Random.Range(-b, b);
 
-        public static void Shuffle(List<BaseSkillBehaviour> skills)
+        public static void Shuffle(IList<BaseSkillBehaviour> skills)
         {
             int len = skills.Count - 1;
             for (int i = 0; i < len; i++)
             {
-                int j = Random.Range(i, skills.Count - i);
+                int j = Random.Range(i, skills.Count);
 
                 (skills[i], skills[j]) = (skills[j], skills[i]);
             }

@@ -5,6 +5,11 @@ using UnityEngine;
 
 namespace AOT
 {
+    public interface IProjectileSetup
+    {
+        void Setup(ProjectileBehaviour sender);
+    }
+
     public class ProjectileBehaviour : MonoBehaviour
     {
         public enum EDeactiveType
@@ -37,6 +42,7 @@ namespace AOT
         [SerializeField] private ParticleSystem m_Particle;
         [SerializeField] private Collider2D[] m_Colliders;
         [SerializeField] private float m_AutoDestroySec = 5f;
+        [SerializeField] private GameObject m_HitFx;
         //[SerializeField] private AnimationCurve m_DurationPerDistance = AnimationCurve.Linear(0, 0, 1, 1);
 
         [SerializeField] private Vector2 m_Damage = new Vector2(1, 1.1f);
@@ -354,11 +360,32 @@ namespace AOT
                     m_IsHitObject = true;
 
                     HitAsync(obj).Forget();
+
+                    if (m_HitFx)
+                    {
+                        GameObject fx = GameObjectPool.main.Rent(m_HitFx, m_Rigidbody.position, m_Rigidbody.transform.rotation);
+                        IProjectileSetup[] array = fx.GetComponentsInChildren<IProjectileSetup>();
+                        for (int i = 0; i < array.Length; i++)
+                        {
+                            IProjectileSetup setup = array[i];
+                            setup.Setup(this);
+                        }
+                    }
                 }
             }
             else
             {
                 m_IsCollision = true;
+                if (m_HitFx)
+                {
+                    GameObject fx = GameObjectPool.main.Rent(m_HitFx, m_Rigidbody.position, m_Rigidbody.transform.rotation);
+                    IProjectileSetup[] array = fx.GetComponentsInChildren<IProjectileSetup>();
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        IProjectileSetup setup = array[i];
+                        setup.Setup(this);
+                    }
+                }
             }
 
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEditor;
@@ -128,21 +129,12 @@ namespace AOT
             m_RotationForward = IsLeft ? RealRotationForward : RealRotationBackward;
             SetForward(true, true);
 
-            GetComponentsInChildren(m_Skills);
-            for (int i = 0; i < m_Skills.Count; i++)
-            {
-                if (m_Skills[i] == m_NormalAttack)
-                {
-                    m_Skills.RemoveAt(i--);
-                    break;
-                }
-            }
-
             const int SKILL_COUNT = 5;
-            if (m_Skills.Count > SKILL_COUNT)
+            if (m_Skills.Count < SKILL_COUNT)
             {
-                TRandom.Shuffle(m_Skills);
-                m_Skills.RemoveRange(SKILL_COUNT, m_Skills.Count - SKILL_COUNT);
+                var newSkills = GetComponentsInChildren<BaseSkillBehaviour>();
+                TRandom.Shuffle(newSkills);
+                m_Skills = m_Skills.Concat(newSkills).Except(new[] { m_NormalAttack }).Distinct().Take(5).ToList();
             }
 
             m_WalkHash = Animator.StringToHash("walk");
@@ -228,7 +220,7 @@ namespace AOT
             }
         }
 
-        private void SetForward(bool forward, bool relative)
+        public void SetForward(bool forward, bool relative)
         {
             if (relative)
             {
