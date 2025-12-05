@@ -38,7 +38,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body
+    path: Pivot/Body
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -63,7 +63,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body/Back arm
+    path: Pivot/Body/Back arm
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -88,7 +88,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body/Back leg
+    path: Pivot/Body/Back leg
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -113,7 +113,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body/Front arm
+    path: Pivot/Body/Front arm
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -138,7 +138,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body/Front leg
+    path: Pivot/Body/Front leg
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -181,7 +181,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body/Head
+    path: Pivot/Body/Head
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -215,7 +215,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body/Back arm/bow
+    path: Pivot/Body/Back arm/bow
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -240,7 +240,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body/Front arm/arrow
+    path: Pivot/Body/Front arm/arrow
   m_PositionCurves:
   - curve:
       serializedVersion: 2
@@ -293,7 +293,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body
+    path: Pivot/Body
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -318,7 +318,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body/Back arm
+    path: Pivot/Body/Back arm
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -343,7 +343,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body/Back leg
+    path: Pivot/Body/Back leg
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -368,7 +368,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body/Front arm
+    path: Pivot/Body/Front arm
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -393,7 +393,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body/Front leg
+    path: Pivot/Body/Front leg
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -436,7 +436,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body/Head
+    path: Pivot/Body/Head
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -461,7 +461,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body/Back arm/bow
+    path: Pivot/Body/Back arm/bow
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -486,7 +486,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body/Front arm/arrow
+    path: Pivot/Body/Front arm/arrow
   m_ScaleCurves:
   - curve:
       serializedVersion: 2
@@ -539,7 +539,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Body
+    path: Pivot/Body
   m_FloatCurves: []
   m_PPtrCurves:
   - serializedVersion: 2
@@ -549,7 +549,7 @@ AnimationClip:
     - time: 0.6666667
       value: {fileID: 21300012, guid: 15b2d2faaecad4bfb9edc6585d94f509, type: 3}
     attribute: m_Sprite
-    path: Body/Back arm
+    path: Pivot/Body/Back arm
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -560,7 +560,7 @@ AnimationClip:
     - time: 0.6666667
       value: {fileID: 21300050, guid: 15b2d2faaecad4bfb9edc6585d94f509, type: 3}
     attribute: m_Sprite
-    path: Body/Back leg
+    path: Pivot/Body/Back leg
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -571,7 +571,7 @@ AnimationClip:
     - time: 0.6666667
       value: {fileID: 21300012, guid: 15b2d2faaecad4bfb9edc6585d94f509, type: 3}
     attribute: m_Sprite
-    path: Body/Front arm
+    path: Pivot/Body/Front arm
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -582,7 +582,7 @@ AnimationClip:
     - time: 0.6666667
       value: {fileID: 21300050, guid: 15b2d2faaecad4bfb9edc6585d94f509, type: 3}
     attribute: m_Sprite
-    path: Body/Front leg
+    path: Pivot/Body/Front leg
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -865,7 +865,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Body
+    path: Pivot/Body
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -922,7 +922,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Body
+    path: Pivot/Body
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -979,7 +979,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Body
+    path: Pivot/Body
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1009,7 +1009,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Body
+    path: Pivot/Body
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1039,7 +1039,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Body
+    path: Pivot/Body
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1069,7 +1069,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Body
+    path: Pivot/Body
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1126,7 +1126,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.x
-    path: Body
+    path: Pivot/Body
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1183,7 +1183,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.y
-    path: Body
+    path: Pivot/Body
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1240,7 +1240,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.z
-    path: Body
+    path: Pivot/Body
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1270,7 +1270,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Body/Back arm
+    path: Pivot/Body/Back arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1300,7 +1300,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Body/Back arm
+    path: Pivot/Body/Back arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1330,7 +1330,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Body/Back arm
+    path: Pivot/Body/Back arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1360,7 +1360,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Body/Back arm
+    path: Pivot/Body/Back arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1390,7 +1390,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Body/Back arm
+    path: Pivot/Body/Back arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1420,7 +1420,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Body/Back arm
+    path: Pivot/Body/Back arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1450,7 +1450,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Body/Back leg
+    path: Pivot/Body/Back leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1480,7 +1480,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Body/Back leg
+    path: Pivot/Body/Back leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1510,7 +1510,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Body/Back leg
+    path: Pivot/Body/Back leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1540,7 +1540,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Body/Back leg
+    path: Pivot/Body/Back leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1570,7 +1570,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Body/Back leg
+    path: Pivot/Body/Back leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1600,7 +1600,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Body/Back leg
+    path: Pivot/Body/Back leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1630,7 +1630,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Body/Front arm
+    path: Pivot/Body/Front arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1660,7 +1660,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Body/Front arm
+    path: Pivot/Body/Front arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1690,7 +1690,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Body/Front arm
+    path: Pivot/Body/Front arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1720,7 +1720,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Body/Front arm
+    path: Pivot/Body/Front arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1750,7 +1750,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Body/Front arm
+    path: Pivot/Body/Front arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1780,7 +1780,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Body/Front arm
+    path: Pivot/Body/Front arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1810,7 +1810,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Body/Front leg
+    path: Pivot/Body/Front leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1840,7 +1840,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Body/Front leg
+    path: Pivot/Body/Front leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1870,7 +1870,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Body/Front leg
+    path: Pivot/Body/Front leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1900,7 +1900,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Body/Front leg
+    path: Pivot/Body/Front leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1930,7 +1930,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Body/Front leg
+    path: Pivot/Body/Front leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -1960,7 +1960,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Body/Front leg
+    path: Pivot/Body/Front leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2008,7 +2008,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Body/Head
+    path: Pivot/Body/Head
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2056,7 +2056,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Body/Head
+    path: Pivot/Body/Head
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2104,7 +2104,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Body/Head
+    path: Pivot/Body/Head
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2152,7 +2152,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Body/Head
+    path: Pivot/Body/Head
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2200,7 +2200,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Body/Head
+    path: Pivot/Body/Head
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2248,7 +2248,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Body/Head
+    path: Pivot/Body/Head
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2278,7 +2278,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Body/Back arm/bow
+    path: Pivot/Body/Back arm/bow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2308,7 +2308,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Body/Back arm/bow
+    path: Pivot/Body/Back arm/bow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2338,7 +2338,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Body/Back arm/bow
+    path: Pivot/Body/Back arm/bow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2368,7 +2368,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Body/Back arm/bow
+    path: Pivot/Body/Back arm/bow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2398,7 +2398,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Body/Back arm/bow
+    path: Pivot/Body/Back arm/bow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2437,7 +2437,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Body/Back arm/bow
+    path: Pivot/Body/Back arm/bow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2467,7 +2467,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Body/Front arm/arrow
+    path: Pivot/Body/Front arm/arrow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2497,7 +2497,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Body/Front arm/arrow
+    path: Pivot/Body/Front arm/arrow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2527,7 +2527,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Body/Front arm/arrow
+    path: Pivot/Body/Front arm/arrow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2557,7 +2557,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Body/Front arm/arrow
+    path: Pivot/Body/Front arm/arrow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2587,7 +2587,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Body/Front arm/arrow
+    path: Pivot/Body/Front arm/arrow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2617,7 +2617,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Body/Front arm/arrow
+    path: Pivot/Body/Front arm/arrow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2630,7 +2630,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Body
+    path: Pivot/Body
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2642,7 +2642,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Body
+    path: Pivot/Body
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2654,7 +2654,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Body
+    path: Pivot/Body
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2666,7 +2666,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Body/Back arm
+    path: Pivot/Body/Back arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2678,7 +2678,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Body/Back arm
+    path: Pivot/Body/Back arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2690,7 +2690,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Body/Back arm
+    path: Pivot/Body/Back arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2702,7 +2702,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Body/Front arm
+    path: Pivot/Body/Front arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2714,7 +2714,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Body/Front arm
+    path: Pivot/Body/Front arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2726,7 +2726,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Body/Front arm
+    path: Pivot/Body/Front arm
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2738,7 +2738,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Body/Back leg
+    path: Pivot/Body/Back leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2750,7 +2750,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Body/Back leg
+    path: Pivot/Body/Back leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2762,7 +2762,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Body/Back leg
+    path: Pivot/Body/Back leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2774,7 +2774,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Body/Front arm/arrow
+    path: Pivot/Body/Front arm/arrow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2786,7 +2786,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Body/Front arm/arrow
+    path: Pivot/Body/Front arm/arrow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2798,7 +2798,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Body/Front arm/arrow
+    path: Pivot/Body/Front arm/arrow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2810,7 +2810,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Body/Front leg
+    path: Pivot/Body/Front leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2822,7 +2822,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Body/Front leg
+    path: Pivot/Body/Front leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2834,7 +2834,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Body/Front leg
+    path: Pivot/Body/Front leg
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2846,7 +2846,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Body/Back arm/bow
+    path: Pivot/Body/Back arm/bow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2858,7 +2858,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Body/Back arm/bow
+    path: Pivot/Body/Back arm/bow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2870,7 +2870,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Body/Back arm/bow
+    path: Pivot/Body/Back arm/bow
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2882,7 +2882,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Body/Head
+    path: Pivot/Body/Head
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2894,7 +2894,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Body/Head
+    path: Pivot/Body/Head
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -2906,7 +2906,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Body/Head
+    path: Pivot/Body/Head
     classID: 4
     script: {fileID: 0}
     flags: 16

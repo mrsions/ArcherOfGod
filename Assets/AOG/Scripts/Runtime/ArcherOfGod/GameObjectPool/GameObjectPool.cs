@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
@@ -23,7 +23,7 @@ namespace AOT
             ??= Resources.FindObjectsOfTypeAll<GameObjectPool>().FirstOrDefault()
             ?? new GameObject("GameObjectPool").AddComponent<GameObjectPool>();
 
-        class PoolInfo : MonoBehaviour
+        class PoolLink : MonoBehaviour
         {
             public UObject Prefab;
             public UObject Instance;
@@ -51,7 +51,7 @@ namespace AOT
         {
             public UObject Prefab;
             public bool hasInterface;
-            public Stack<PoolInfo> stack = new();
+            public Stack<PoolLink> stack = new();
 
             public Pool(UObject prefab)
             {
@@ -77,11 +77,19 @@ namespace AOT
 
         private void Awake()
         {
-            s_Main = this;
-
             m_TempTransform = new GameObject("Temp").transform;
             m_TempTransform.SetParent(transform);
             m_TempTransform.gameObject.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            s_Main = this;
+        }
+
+        private void OnDisable()
+        {
+            if (s_Main == this) s_Main = null;
         }
 
         public GameObject Rent(GameObject prefab, Transform parent = null)
@@ -102,24 +110,26 @@ namespace AOT
                 if (pool.stack.Count == 0)
                 {
                     GameObject go = Instantiate(prefab, pos, rot, m_TempTransform);
-                    go.AddComponent<PoolInfo>().Setup(prefab, go);
+                    PoolLink link = go.AddComponent<PoolLink>();
+                    link.Setup(prefab, go);
                     go.transform.SetParent(parent);
+                    if (!usePooling) link.InPool = true;
                     return go;
                 }
                 else
                 {
-                    PoolInfo info = pool.stack.Pop();
-                    if (!info.InPool)
+                    PoolLink link = pool.stack.Pop();
+                    if (!link.InPool)
                     {
-                        Debug.LogError("It has not in pool. but it in the pool.", info.Instance);
+                        Debug.LogError("It has not in pool. but it in the pool.", link.Instance);
                         continue;
                     }
 
-                    GameObject go = (GameObject)info.Instance;
+                    GameObject go = (GameObject)link.Instance;
                     go.transform.SetPositionAndRotation(pos, rot);
                     go.transform.SetParent(parent);
 
-                    info.InPool = false;
+                    link.InPool = false;
                     return go;
                 }
             }
@@ -148,13 +158,15 @@ namespace AOT
                 if (pool.stack.Count == 0)
                 {
                     T comp = Instantiate(prefab, pos, rot, m_TempTransform);
-                    comp.gameObject.AddComponent<PoolInfo>().Setup(prefab, comp);
+                    PoolLink link = comp.gameObject.AddComponent<PoolLink>();
+                    link.Setup(prefab, comp);
                     comp.transform.SetParent(parent);
+                    if (!usePooling) link.InPool = true;
                     return comp;
                 }
                 else
                 {
-                    PoolInfo info = pool.stack.Pop();
+                    PoolLink info = pool.stack.Pop();
                     if (!info.InPool)
                     {
                         Debug.LogError("It has not in pool. but it in the pool.", info.Instance);
@@ -180,10 +192,10 @@ namespace AOT
         {
             Assert.IsNotNull(obj);
 
-            var info = obj.GetComponent<PoolInfo>();
+            var info = obj.GetComponent<PoolLink>();
             if (info == null) throw new InvalidCastException("It's not rented object.");
 
-            if (info.InPool) throw new InvalidOperationException("It has already object in pool.");
+            if (usePooling && info.InPool) throw new InvalidOperationException("It has already object in pool.");
 
             if (!pools.TryGetValue(info.Prefab, out var pool))
             {
@@ -202,10 +214,9 @@ namespace AOT
 
             obj.transform.SetParent(m_TempTransform, false);
 
-            info.InPool = true;
-
-            if(usePooling)
+            if (usePooling)
             {
+                info.InPool = true;
                 pool.stack.Push(info);
             }
             else

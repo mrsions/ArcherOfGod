@@ -28,6 +28,30 @@ PrefabInstance:
       propertyPath: m_LocalRotation.y
       value: -0.83893836
       objectReference: {fileID: 0}
+    - target: {fileID: 342048574299953659, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365305051656033921, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
+      propertyPath: m_IsAi
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365305051656033921, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
+      propertyPath: m_PlayerStatus.hp
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365305051656033921, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
+      propertyPath: m_PlayerStatus.name
+      value: Awesome Bot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365305051656033921, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
+      propertyPath: m_PlayerStatus.damage
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365305051656033921, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
+      propertyPath: m_PlayerStatus.shield
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 1993918840386537907, guid: a5e4288303fd4e547830d2da9ff53553, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8
@@ -126,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ArcherOfGod::AOT.AiController
   m_Cha: {fileID: 1990882535324046433}
   m_Actions:
-    attack: {x: 0.2, y: 1}
-    move: {x: 0.2, y: 1, z: 2}
-    skillUse: {x: 0.2, y: 0.1, z: 0.1}
+    attack: {x: 2, y: 4}
+    move: {x: 1, y: 2}
+    skillUse: 0.1
+  m_Area: {x: 2.23, y: 10.245}

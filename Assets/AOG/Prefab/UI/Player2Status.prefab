@@ -28,30 +28,6 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 2468757579315342572, guid: c4abaaa9937da614ba6bb35f410b6e99, type: 3}
-      propertyPath: m_Pivot.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2468757579315342572, guid: c4abaaa9937da614ba6bb35f410b6e99, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2468757579315342572, guid: c4abaaa9937da614ba6bb35f410b6e99, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2468757579315342572, guid: c4abaaa9937da614ba6bb35f410b6e99, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2468757579315342572, guid: c4abaaa9937da614ba6bb35f410b6e99, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2468757579315342572, guid: c4abaaa9937da614ba6bb35f410b6e99, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
     - target: {fileID: 3846942435781964310, guid: c4abaaa9937da614ba6bb35f410b6e99, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -174,7 +150,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7618421467656925367, guid: c4abaaa9937da614ba6bb35f410b6e99, type: 3}
       propertyPath: m_Name
-      value: EnemyStatus Variant
+      value: Player2Status
       objectReference: {fileID: 0}
     - target: {fileID: 7618421467656925367, guid: c4abaaa9937da614ba6bb35f410b6e99, type: 3}
       propertyPath: m_IsActive

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
@@ -30,10 +30,6 @@ namespace AOT
             while(m_Cha.IsLive)
             {
                 m_Cha.InputAxis = GameSettings.main.GetPlayerMoveAction().ReadValue<Vector2>();
-                if(m_Cha.IsPlayer)
-                {
-                    await UniTask.Delay(2);
-                }
 
                 await UniTask.Yield(PlayerLoopTiming.PreUpdate, destroyCancellationToken);
             }

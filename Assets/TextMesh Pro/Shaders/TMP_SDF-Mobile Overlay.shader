@@ -1,4 +1,4 @@
-// Simplified SDF shader:
+﻿// Simplified SDF shader:
 // - No Shading Option (bevel / bump / env map)
 // - No Glow Option
 // - Softness is applied on both side of the outline
@@ -51,6 +51,8 @@ Properties {
 
 	_CullMode			("Cull Mode", Float) = 0
 	_ColorMask			("Color Mask", Float) = 15
+
+	_AddRenderQueue		("Add RenderQueue", float) = 0
 }
 
 SubShader {

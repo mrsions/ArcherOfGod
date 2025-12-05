@@ -1,4 +1,4 @@
-#nullable enable
+﻿#nullable enable
 
 using System.Collections;
 using Cysharp.Threading.Tasks;
@@ -17,7 +17,7 @@ namespace AOT
 
         private async UniTask ReturnAsync()
         {
-            await UniTask.WaitForSeconds(m_Duration);
+            await UniTask.WaitForSeconds(m_Duration, cancellationToken: destroyCancellationToken);
 
             GameObjectPool.main.Return(gameObject);
         }

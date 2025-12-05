@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3098066690424148549
 Transform:
   m_ObjectHideFlags: 0
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Duration: 5
   m_AnimationId: 8
   m_FxCasting: {fileID: 0}
+  m_ResetVelocityOnEnd: 0
   m_FactorDamage: 1
   m_FactorArmor: 1
   OnChangedStatus:

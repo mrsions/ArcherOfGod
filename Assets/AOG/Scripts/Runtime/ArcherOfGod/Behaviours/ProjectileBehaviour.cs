@@ -1,3 +1,4 @@
+ï»¿using System.Collections.Specialized;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -44,30 +45,38 @@ namespace AOT
         [SerializeField] private float m_FadeDuration = 0.5f;
         [SerializeField] private EDeactiveType m_DeactiveType = EDeactiveType.Return;
 
-        [Tooltip("´ë»óÀÇ µµÂøÀ§Ä¡ ¼öÁ¤. (ÁÂÃø±âÁØÁÂÇ¥)")]
+        [Tooltip("ëŒ€ìƒì˜ ë„ì°©ìœ„ì¹˜ ìˆ˜ì •. (ì¢Œì¸¡ê¸°ì¤€ì¢Œí‘œ)")]
         [SerializeField] private Vector2 m_TargetOffset;
-        [Tooltip("trueÀÏ °æ¿ì ÁöÁ¤µÈ rotationÀ¸·Î µµÂøÇÑ´Ù. (ÁÂÃø±âÁØÁÂÇ¥)")]
+        [Tooltip("trueì¼ ê²½ìš° ì§€ì •ëœ rotationìœ¼ë¡œ ë„ì°©í•œë‹¤. (ì¢Œì¸¡ê¸°ì¤€ì¢Œí‘œ)")]
         [SerializeField] private bool m_TargetRotationOverride;
-        [Tooltip("m_TargetRotationOverride°¡ trueÀÏ °æ¿ì »ç¿ëµÈ´Ù.")]
+        [Tooltip("m_TargetRotationOverrideê°€ trueì¼ ê²½ìš° ì‚¬ìš©ëœë‹¤.")]
         [SerializeField] private float m_TargetRotationOverrideValue;
 
-        [Tooltip("trueÀÏ °æ¿ì Á¤ÇØÁø m_ArrowSpeed½Ã°£¿¡ ¸ÂÃç ¼Óµµ°¡ Á¶ÀıµË´Ï´Ù.")]
+        [Tooltip("trueì¼ ê²½ìš° ì •í•´ì§„ m_ArrowSpeedì‹œê°„ì— ë§ì¶° ì†ë„ê°€ ì¡°ì ˆë©ë‹ˆë‹¤.")]
         [SerializeField] private bool m_UseFixedDuration;
 
-        [Tooltip("trueÀÏ ´ë»óÀ» ÇâÇØ Á÷¼±À¸·Î ³¯¾Æ°¡¸ç Á¶ÁØÇÒ¶§ºÎÅÍ ´ë»óÀ» ¹Ù¶óº¸µµ·ÏÇÑ´Ù.")]
+        [Tooltip("trueì¼ ëŒ€ìƒì„ í–¥í•´ ì§ì„ ìœ¼ë¡œ ë‚ ì•„ê°€ë©° ì¡°ì¤€í• ë•Œë¶€í„° ëŒ€ìƒì„ ë°”ë¼ë³´ë„ë¡í•œë‹¤.")]
         [SerializeField] private bool m_UseStright;
+
+        [Tooltip("trueì¼ ê²½ìš° ëŒ€ìƒì„ ê´€í†µí•´ë„ ê³„ì† ë‚˜ì•„ê°„ë‹¤")]
+        [SerializeField] private bool m_IsPiercing;
+
+        [Tooltip("ëŒ€ìƒ ì¶”ì ì´ í™œì„±í™”ë˜ëŠ” ì‹œì  (ê±°ë¦¬)")]
+        [SerializeField] private float m_GuideArrowStart = 1e9f;
+        [Tooltip("ì¶”ì ì´ ì‹œì‘ëœ ë’¤ë¡œ ê±°ë¦¬ë§ˆë‹¤ ë¶™ëŠ” ì¶”ê°€ ì†ë„")]
+        [SerializeField] private float m_GuideArrowSpeedPerDistance = 0.2f;
 
         [SerializeField] private ProjectileBehaviour[] children;
 
         [Header("HitRandom")]
-        [SerializeField] private Vector2Int m_HitSkipMs = new(50, 100); // x:°íÁ¤´ë±â + y:·£´ı´ë±â(0~y)
-        [SerializeField] private float m_HitRandomRotation = 30; // x:°íÁ¤´ë±â + y:·£´ı´ë±â(0~y)
-
+        [SerializeField] private Vector2Int m_HitSkipMs = new(50, 100); // x:ê³ ì •ëŒ€ê¸° + y:ëœë¤ëŒ€ê¸°(0~y)
+        [SerializeField] private float m_HitRandomRotation = 30; // x:ê³ ì •ëŒ€ê¸° + y:ëœë¤ëŒ€ê¸°(0~y)
 
         //-- Private
         private Bullet m_Bullet;
         private bool m_IsCollision;
         private bool m_IsHitObject;
+        private bool m_IsDestroying;
         private int m_AsyncId;
         private Vector3 m_RigidbodyInitPos;
         private Vector3 m_RigidbodyInitRot;
@@ -136,40 +145,41 @@ namespace AOT
             int id = ++m_AsyncId;
             while (id == m_AsyncId)
             {
-                // Á¶ÁØ »óÅÂ¿¡¼­ ³ë¸®´Â°ÍÀÌ±â¶§¹®¿¡ projectile ÀÚÃ¼°¡ ¿òÁ÷ÀÎ´Ù.
+                // ì¡°ì¤€ ìƒíƒœì—ì„œ ë…¸ë¦¬ëŠ”ê²ƒì´ê¸°ë•Œë¬¸ì— projectile ìì²´ê°€ ì›€ì§ì¸ë‹¤.
                 Vector2 dir = target.position - transform.position;
                 transform.rotation = Quaternion.LookRotation(dir);
 
-                await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
+                await UniTask.Yield(PlayerLoopTiming.PostLateUpdate, cancellationToken: destroyCancellationToken);
             }
         }
 
-        public async UniTask ShootAsync(ObjectBehaviour owner, Vector2 tPos)
+        public async UniTask ShootAsync(ObjectBehaviour owner, Transform target)
         {
+            Vector2 tPos = target.position;
+
             if (children != null)
             {
                 foreach (var child in children)
                 {
-                    child.ShootAsync(owner, tPos).Forget();
+                    child.ShootAsync(owner, target).Forget();
                 }
             }
 
-            if (owner.IsLeft)
+            Vector2 targetOffset = m_TargetOffset;
+            if (owner.IsRight)
             {
-                tPos += m_TargetOffset;
+                targetOffset *= new Vector2(-1, 1);
             }
-            else
-            {
-                tPos += m_TargetOffset.SetX(-m_TargetOffset.x);
-            }
+            tPos += targetOffset;
+
 
             int id = ++m_AsyncId;
             this.Owner = owner;
 
-            await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
+            await UniTask.Yield(PlayerLoopTiming.FixedUpdate, cancellationToken: destroyCancellationToken);
 
             Vector3 mPos = m_Rigidbody.position;
-            float mRot = m_Rigidbody.rotation;
+            float mRot = AngleUtils.GetAngleByDir(m_Rigidbody.transform.right);
             float tRot = AngleUtils.Inverse(mRot);
 
             if (m_TargetRotationOverride)
@@ -204,27 +214,47 @@ namespace AOT
 
             m_Particle.Play(true);
 
-            // µµÂøÇÒ¶§±îÁö È¤Àº ÀÌµ¿½Ã°£ÀÌ ¿¹»óÀÇ 2¹è¸¦ ³ÑÀ»¶§±îÁö ÀÌµ¿
+            // ë„ì°©í• ë•Œê¹Œì§€ í˜¹ì€ ì´ë™ì‹œê°„ì´ ì˜ˆìƒì˜ 2ë°°ë¥¼ ë„˜ì„ë•Œê¹Œì§€ ì´ë™
             while (!m_IsCollision && move < distance)
             {
                 move += arrowSpeed * Time.deltaTime;
 
-                // ÁøÇàµµ
-                float ratio = Mathf.Clamp01(move / distance);
+                if (move > m_GuideArrowStart)
+                {
+                    // ê±°ë¦¬ë³„ ì†ë„ ê³„ì‚°
+                    float speed = arrowSpeed + (m_GuideArrowStart * (move - m_GuideArrowStart));
 
-                // »õ À§Ä¡ 
-                Vector2 nPos = bezier.Evaluate(ratio);
+                    // Calculate direction to target
+                    Vector2 direction = ((Vector2)target.position + targetOffset) - befPos;
 
-                float angle = Vector2.SignedAngle(Vector2.right, nPos - befPos);
-                m_Rigidbody.MovePositionAndRotation(nPos, angle);
+                    // Calculate pos
+                    Vector2 nPos = befPos + direction * (speed * Time.deltaTime);
 
-                befPos = nPos;
+                    // íšŒì „ ë°˜ì˜
+                    Vector2 rDir = Vector2.Lerp(transform.right, direction.normalized, speed * Time.deltaTime);
+                    m_Rigidbody.MovePositionAndRotation(nPos, AngleUtils.GetAngleByDir(rDir));
+
+                    befPos = nPos;
+                }
+                else
+                {
+                    // ì§„í–‰ë„
+                    float ratio = Mathf.Clamp01(move / distance);
+
+                    // ìƒˆ ìœ„ì¹˜ 
+                    Vector2 nPos = bezier.Evaluate(ratio);
+
+                    float angle = Vector2.SignedAngle(Vector2.right, nPos - befPos);
+                    m_Rigidbody.MovePositionAndRotation(nPos, angle);
+
+                    befPos = nPos;
+                }
 
                 if (m_Bullet.Parent == null)
                 {
                     if (isStartInLeft)
                     {
-                        if (nPos.x > 0)
+                        if (befPos.x > 0)
                         {
                             m_Bullet.Parent = this;
                             m_Rigidbody.bodyType = RigidbodyType2D.Dynamic;
@@ -232,7 +262,7 @@ namespace AOT
                     }
                     else
                     {
-                        if (nPos.x < 0)
+                        if (befPos.x < 0)
                         {
                             m_Bullet.Parent = this;
                             m_Rigidbody.bodyType = RigidbodyType2D.Dynamic;
@@ -251,22 +281,27 @@ namespace AOT
                 Vector2 dir = AngleUtils.ToDirection(m_Rigidbody.rotation);
                 while (!m_IsCollision && Time.time < destroyLimit)
                 {
-                    m_Rigidbody.MovePosition(m_Rigidbody.position + (dir * (arrowSpeed * Time.deltaTime)));
+                    float delta = (arrowSpeed * Time.deltaTime);
+                    move += delta;
+
+                    m_Rigidbody.MovePosition(m_Rigidbody.position + (dir * delta));
 
                     await UniTask.Yield(PlayerLoopTiming.FixedUpdate, destroyCancellationToken);
                     if (id != m_AsyncId) return;
                 }
             }
 
-            if (m_IsHitObject) return;
+            if (!m_IsDestroying)
+            {
+                m_IsDestroying = true;
+                StopGeneration();
 
-            StopGeneration();
+                // ëœë”ë§ ì‚¬ë¼ì§€ê¸°
+                await m_Renderer.DOFade(0, m_FadeDuration).ToUniTask();
 
-            // ·£´õ¸µ »ç¶óÁö±â
-            await m_Renderer.DOFade(0, m_FadeDuration).ToUniTask();
-
-            // »èÁ¦
-            ReturnOrDeactive();
+                // ì‚­ì œ
+                ReturnOrDeactive();
+            }
         }
 
         private void ReturnOrDeactive()
@@ -304,21 +339,22 @@ namespace AOT
             var obj = collision.GetComponentInParent<ObjectBehaviour>();
             if (obj != null && !m_IsCollision)
             {
-                // ÁÖÀÎ°ú Á¢ÃËÇÑ°æ¿ì ¸®ÅÏ
+                // ì£¼ì¸ê³¼ ì ‘ì´‰í•œê²½ìš° ë¦¬í„´
                 if (obj == Owner)
                 {
                     return;
                 }
 
-                m_IsHitObject = true;
-
-                Owner.GetDamageProperty(out float damage, out bool isCritical);
-
-                float dmg = damage * Random.Range(m_Damage.x, m_Damage.y);
-                FHitEvent hitEvent = new FHitEvent(Owner, this, dmg, m_Rigidbody.position, m_Rigidbody.rotation, isCritical);
+                float dmg = Random.Range(m_Damage.x, m_Damage.y);
+                FHitEvent hitEvent = new FHitEvent(Owner, this, dmg, m_Rigidbody.position, m_Rigidbody.rotation);
                 obj.OnHit(hitEvent);
 
-                HitAsync(obj).Forget();
+                if (!m_IsPiercing)
+                {
+                    m_IsHitObject = true;
+
+                    HitAsync(obj).Forget();
+                }
             }
             else
             {
@@ -329,9 +365,12 @@ namespace AOT
 
         private async UniTask HitAsync(ObjectBehaviour obj)
         {
+            if (m_IsDestroying) return;
+            m_IsDestroying = true;
+
             StopGeneration();
 
-            await UniTask.Delay(Random.Range(m_HitSkipMs.x, m_HitSkipMs.y));
+            await UniTask.Delay(Random.Range(m_HitSkipMs.x, m_HitSkipMs.y), cancellationToken: destroyCancellationToken);
 
             Quaternion rot = m_Arrow.rotation * Quaternion.Euler(0, 0, Random.Range(-m_HitRandomRotation, m_HitRandomRotation));
             GameObjectPool.main.Rent(m_ArrowPrefab, m_Arrow.position, rot, obj.attachTarget);

@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -14,6 +15,11 @@ namespace AOT
         [SerializeField] private UIGageBar m_Hp;
         [SerializeField] private UIGageBar m_Shield;
         [SerializeField] private TMP_Text m_PlayerName;
+
+        [SerializeField] private Image m_PowerGage;
+        [SerializeField] private Image m_PowerGage2;
+        [SerializeField] private Transform m_PowerEnd;
+        [SerializeField] private Transform m_PowerStart;
 
         private void Awake()
         {
@@ -30,6 +36,7 @@ namespace AOT
 
             cha.OnChangedHp += OnChangedHp;
             cha.OnChangedShield += OnChangedShield;
+            cha.OnChangedPower += OnChangedPower;
 
             OnChangedHp(cha, cha.CurrentHp, cha.CurrentHp, cha.MaxHp);
             OnChangedShield(cha, cha.CurrentShield, cha.CurrentShield, cha.MaxShield);
@@ -53,6 +60,24 @@ namespace AOT
         private void OnChangedHp(ObjectBehaviour behaviour, float bef, float cur, float max)
         {
             m_Hp.SetValue((int)cur, cur / max);
+        }
+
+        private void OnChangedPower(CharacterBehaviour behaviour, float bef, float cur, float max)
+        {
+            float ratio = Mathf.Clamp01(cur / max);
+            m_PowerGage.fillAmount = ratio;
+            m_PowerGage2.fillAmount = ratio;
+
+            DOTween.To(() => m_PowerGage.fillAmount, v => 
+            {
+                m_PowerGage.fillAmount = v;
+                m_PowerGage2.fillAmount = v;
+                m_PowerEnd.localEulerAngles = new Vector3(0, 0, -90 - (v * 360));
+            }, 
+            ratio, 0.2f);
+
+            m_PowerStart.gameObject.SetActive(ratio > 0);
+            m_PowerEnd.gameObject.SetActive(ratio > 0);
         }
     }
 }

@@ -301,6 +301,51 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-4653587235158526037
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9040d59392fed5f47a514c6dce629a6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ArcherOfGod::AOT.SetTimeScaleStateMachineBehaviour
+  timeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -2.5376072
+      outSlope: -2.5376072
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.32602343
+      value: 0.17268063
+      inSlope: -0.000036988935
+      outSlope: -0.000036988935
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.9275362
+      outWeight: 1
+    - serializedVersion: 3
+      time: 3
+      value: 1
+      inSlope: 0.6087044
+      outSlope: 0.6087044
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09809307
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1102 &-4243347709631504357
 AnimatorState:
   serializedVersion: 6
@@ -547,6 +592,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: hit
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: die
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 616359584773898012}
   m_Solo: 0
@@ -735,7 +783,8 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -4653587235158526037}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

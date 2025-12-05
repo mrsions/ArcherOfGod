@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -6,16 +6,16 @@ using UnityEngine.InputSystem;
 
 namespace AOT
 {
-    public readonly struct FHitEvent
+    public struct FHitEvent
     {
-        public readonly ObjectBehaviour Owner;
-        public readonly ProjectileBehaviour Sender;
-        public readonly float Damage;
-        public readonly Vector2 ContactPosition;
-        public readonly float ContactRotation;
-        public readonly bool IsCritical;
+        public ObjectBehaviour Owner;
+        public ProjectileBehaviour Sender;
+        public float Damage;
+        public Vector2 ContactPosition;
+        public float ContactRotation;
+        public bool IsCritical;
 
-        public FHitEvent(ObjectBehaviour owner, ProjectileBehaviour sender, float damage, Vector2 contactPosition, float contactRotation, bool isCritical)
+        public FHitEvent(ObjectBehaviour owner, ProjectileBehaviour sender, float damage, Vector2 contactPosition, float contactRotation, bool isCritical = false)
         {
             Owner = owner;
             Sender = sender;
@@ -55,7 +55,7 @@ namespace AOT
         public int MaxShield { get => m_MaxShield; set => SetMaxShield(value); }
         public bool IsDead => m_CurrentHp <= 0;
         public bool IsLive => m_CurrentHp > 0;
-        public Vector3 CenterPosition => m_Center.position;
+        public Transform Center => m_Center;
 
         public bool IsLeft { get; private set; }
         public bool IsRight => !IsLeft;
@@ -84,7 +84,7 @@ namespace AOT
 
             float before = m_CurrentHp;
             m_CurrentHp = Mathf.Clamp(value, 0, m_MaxHp);
-            OnChangedHp?.Invoke(this, before, value, m_MaxHp);
+            OnChangedHp?.Invoke(this, before, m_CurrentHp, m_MaxHp);
 
             if (before > 0 && value <= 0)
             {
@@ -114,7 +114,7 @@ namespace AOT
 
             float before = m_CurrentShield;
             m_CurrentShield = value;
-            OnChangedShield?.Invoke(this, before, value, m_MaxShield);
+            OnChangedShield?.Invoke(this, before, m_CurrentShield, m_MaxShield);
         }
 
         private void SetMaxShield(int value)
@@ -135,6 +135,8 @@ namespace AOT
         public bool OnHit(FHitEvent eventData)
         {
             if (IsDead) return false;
+
+            eventData = eventData.Owner.OnAttack(this, eventData);
 
             if(eventData.IsCritical)
             {
@@ -172,6 +174,11 @@ namespace AOT
             }
 
             return true;
+        }
+
+        protected virtual FHitEvent OnAttack(ObjectBehaviour objectBehaviour, FHitEvent eventData)
+        {
+            return eventData;
         }
 
         public virtual Vector3 FindEnemy() => Vector2.zero;

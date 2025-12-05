@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -27,17 +28,16 @@ namespace AOT
         public static GameManager main => s_Main ??= Resources.FindObjectsOfTypeAll<GameManager>().FirstOrDefault();
 
         //-- Serializable
-        [SerializeField] private CharacterBehaviour[] m_Characters;
+        [SerializeField] private List<CharacterBehaviour> m_Characters;
 
         //-- Events
         public event Action<GameManager, EGameStatus> OnChangedStatus;
 
         //-- Private 
         private EGameStatus m_Status;
-        public float timeScale = 1;
 
         //-- Properties
-        public CharacterBehaviour[] Characters { get => m_Characters; private set => m_Characters = value; }
+        public List<CharacterBehaviour> Characters { get => m_Characters; private set => m_Characters = value; }
         public CharacterBehaviour Winner { get; private set; }
         public EGameStatus Status
         {
@@ -54,9 +54,14 @@ namespace AOT
 
         //------------------------------------------------------------------------------
 
-        private void Awake()
+        private void OnEnable()
         {
             s_Main = this;
+        }
+
+        private void OnDisable()
+        {
+            if (s_Main == this) s_Main = null;
         }
 
         private void Start()
@@ -64,43 +69,56 @@ namespace AOT
             StartProcessAsync().Forget();
         }
 
-        private void Update()
-        {
-            Time.timeScale = timeScale;
-        }
-
         private async UniTask StartProcessAsync()
         {
             Debug.Log("[GameManager] StartProcessAsync()");
-            try
+
+            Status = EGameStatus.Loading;
+
+            //TODO : Sync Data
+            await UniTask.WaitForSeconds(0.5f, cancellationToken: destroyCancellationToken);
+
+            //TODO : Sync Ping
+            await UniTask.WaitForSeconds(0.5f, cancellationToken: destroyCancellationToken);
+
+            Status = EGameStatus.Ready;
+
+            //TODO : Ready Animation
+            await UniTask.WaitForSeconds(3, cancellationToken: destroyCancellationToken);
+
+            Status = EGameStatus.Start;
+
+            //TODO : something settings.
+
+            Status = EGameStatus.Battle;
+
+            // wait for game end
+            float endTime = Time.time + GameSettings.main.gameTime;
+            while (Time.time < endTime && Winner == null)
             {
-
-                Status = EGameStatus.Loading;
-
-                //TODO : Sync Data
-                await UniTask.WaitForSeconds(0.5f);
-
-                //TODO : Sync Ping
-                await UniTask.WaitForSeconds(0.5f);
-
-                Status = EGameStatus.Ready;
-
-                //TODO : Ready Animation
-                await UniTask.WaitForSeconds(3);
-
-                Status = EGameStatus.Start;
-
-                //TODO : something settings.
-
-                Status = EGameStatus.Battle;
-
-                // wait for game end
-                float endTime = Time.time + GameSettings.main.gameTime;
-                while (Time.time < endTime && Winner == null)
+                for (int i = 0; i < Characters.Count; i++)
                 {
-                    for (int i = 0; i < Characters.Length; i++)
+                    CharacterBehaviour cha = Characters[i];
+                    if (cha.IsDead)
+                    {
+                        Debug.Log($"[GameManager] Character[{i}] is dead.");
+                        Winner = GetTargetCharacter(i);
+                        Debug.Log($"[GameManager] Character[{Winner.name}] has win.");
+                        break;
+                    }
+                }
+                await UniTask.Yield(destroyCancellationToken);
+            }
+
+            if (Winner == null)
+            {
+                Status = EGameStatus.Battle_LimitOver;
+                while (Winner == null)
+                {
+                    for (int i = 0; i < Characters.Count; i++)
                     {
                         CharacterBehaviour cha = Characters[i];
+                        cha.CurrentHp--;
                         if (cha.IsDead)
                         {
                             Debug.Log($"[GameManager] Character[{i}] is dead.");
@@ -109,42 +127,16 @@ namespace AOT
                             break;
                         }
                     }
-                    await UniTask.Yield(destroyCancellationToken);
+                    await UniTask.WaitForSeconds(0.1f, cancellationToken: destroyCancellationToken);
                 }
-
-                if (Winner == null)
-                {
-                    Status = EGameStatus.Battle_LimitOver;
-                    while (Winner == null)
-                    {
-                        for (int i = 0; i < Characters.Length; i++)
-                        {
-                            CharacterBehaviour cha = Characters[i];
-                            cha.CurrentHp--;
-                            if (cha.IsDead)
-                            {
-                                Debug.Log($"[GameManager] Character[{i}] is dead.");
-                                Winner = GetTargetCharacter(i);
-                                Debug.Log($"[GameManager] Character[{Winner.name}] has win.");
-                                break;
-                            }
-                        }
-                        await UniTask.WaitForSeconds(0.1f, cancellationToken: destroyCancellationToken);
-                    }
-                }
-
-                Status = EGameStatus.Finish;
-
-                //TODO : Finish Animation
-                //TODO : Send game result to server
-                //await UniTask.WaitForSeconds(1);
-
-                //Status = EGameStatus.End;
             }
-            catch (Exception ex)
-            {
-                Debug.LogException(ex);
-            }
+
+            Status = EGameStatus.Finish;
+
+            //TODO : Finish Animation
+            //TODO : Send game result to server
+
+            //Status = EGameStatus.End;
         }
 
         public CharacterBehaviour GetCharacter(int id)
@@ -155,6 +147,20 @@ namespace AOT
         public CharacterBehaviour GetTargetCharacter(int id)
         {
             return id == 0 ? Characters[1] : Characters[0];
+        }
+
+        internal void AttachCharacter(CharacterBehaviour cha)
+        {
+            int idx = m_Characters.IndexOf(cha);
+            if (idx == null)
+            {
+                cha.Id = m_Characters.Count;
+                m_Characters.Add(cha);
+            }
+            else
+            {
+                cha.Id = idx;
+            }
         }
     }
 }

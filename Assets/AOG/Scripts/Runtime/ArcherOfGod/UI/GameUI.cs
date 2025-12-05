@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
@@ -94,12 +94,12 @@ namespace AOT
                     m_TimerText.text = "VS";
                     break;
                 case EGameStatus.Finish:
-                    // pc vs pc ¥Î∞·¿Ã∂Û∏È
+                    // pc vs pc ÎåÄÍ≤∞Ïù¥ÎùºÎ©¥
                     if (GameManager.main.Characters.All(p => p.IsPlayer))
                     {
                         Active(m_Finish);
                     }
-                    // ai ¥Î∞·¿Ã∂Û∏È
+                    // ai ÎåÄÍ≤∞Ïù¥ÎùºÎ©¥
                     else if (GameManager.main.Characters[0].IsDead)
                     {
                         Active(m_FinishFailed);
@@ -122,7 +122,7 @@ namespace AOT
                 m_TimerText.text = t.ToString();
 
                 float nextTime = startTime + i + 1;
-                await UniTask.WaitForSeconds(nextTime - Time.time);
+                await UniTask.WaitForSeconds(nextTime - Time.time, cancellationToken: destroyCancellationToken);
             }
         }
     }

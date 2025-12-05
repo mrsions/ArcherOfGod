@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Duration: 5
   m_AnimationId: 6
   m_FxCasting: {fileID: 0}
+  m_ResetVelocityOnEnd: 0
   m_FactorDamage: 1
   m_FactorArmor: 1
   OnChangedStatus:
