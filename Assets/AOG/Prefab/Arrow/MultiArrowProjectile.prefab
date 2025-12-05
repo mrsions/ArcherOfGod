@@ -5094,7 +5094,9 @@ MonoBehaviour:
   m_DeactiveType: 0
   m_TargetOffset: {x: 0, y: 0}
   m_TargetRotationOverride: 1
-  m_TargetRotationOverrideValue: -60
+  m_TargetRotationOverrideValue: -40
+  m_UseFixedDuration: 0
+  m_UseStright: 0
   children:
   - {fileID: 2262817648108879537}
   - {fileID: 2921643779996353937}
@@ -5116,8 +5118,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 7885134099076563443}
     m_Modifications:
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_ArrowSpeed
+      value: 4.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_DeactiveType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetOffset.x
-      value: -1.5
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_UseFixedDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverride
@@ -5125,7 +5139,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverrideValue
-      value: -60
+      value: -43
       objectReference: {fileID: 0}
     - target: {fileID: 5594187577987661149, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_Name
@@ -5201,8 +5215,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 7885134099076563443}
     m_Modifications:
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_ArrowSpeed
+      value: 6.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_DeactiveType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetOffset.x
-      value: 2.5
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_UseFixedDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverride
@@ -5210,7 +5236,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverrideValue
-      value: -60
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 5594187577987661149, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_Name
@@ -5286,8 +5312,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 7885134099076563443}
     m_Modifications:
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_ArrowSpeed
+      value: 4.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_DeactiveType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetOffset.x
-      value: -1
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_UseFixedDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverride
@@ -5295,7 +5333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverrideValue
-      value: -60
+      value: -42
       objectReference: {fileID: 0}
     - target: {fileID: 5594187577987661149, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_Name
@@ -5371,8 +5409,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 7885134099076563443}
     m_Modifications:
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_ArrowSpeed
+      value: 4.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_DeactiveType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetOffset.x
-      value: -0.5
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_UseFixedDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverride
@@ -5380,7 +5430,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverrideValue
-      value: -60
+      value: -41
       objectReference: {fileID: 0}
     - target: {fileID: 5594187577987661149, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_Name
@@ -5456,8 +5506,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 7885134099076563443}
     m_Modifications:
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_ArrowSpeed
+      value: 3.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_DeactiveType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetOffset.x
-      value: -2
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_UseFixedDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverride
@@ -5465,7 +5527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverrideValue
-      value: -60
+      value: -44
       objectReference: {fileID: 0}
     - target: {fileID: 5594187577987661149, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_Name
@@ -5541,8 +5603,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 7885134099076563443}
     m_Modifications:
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_ArrowSpeed
+      value: 5.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_DeactiveType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetOffset.x
-      value: 0.5
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_UseFixedDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverride
@@ -5550,7 +5624,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverrideValue
-      value: -60
+      value: -39
       objectReference: {fileID: 0}
     - target: {fileID: 5594187577987661149, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_Name
@@ -5626,8 +5700,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 7885134099076563443}
     m_Modifications:
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
-      propertyPath: m_TargetOffset.x
+      propertyPath: m_ArrowSpeed
+      value: 5.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_DeactiveType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_TargetOffset.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_UseFixedDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverride
@@ -5635,7 +5721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverrideValue
-      value: -60
+      value: -38
       objectReference: {fileID: 0}
     - target: {fileID: 5594187577987661149, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_Name
@@ -5711,8 +5797,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 7885134099076563443}
     m_Modifications:
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_ArrowSpeed
+      value: 5.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_DeactiveType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetOffset.x
-      value: 1.5
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_UseFixedDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverride
@@ -5720,7 +5818,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverrideValue
-      value: -60
+      value: -37
       objectReference: {fileID: 0}
     - target: {fileID: 5594187577987661149, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_Name
@@ -5796,8 +5894,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 7885134099076563443}
     m_Modifications:
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_ArrowSpeed
+      value: 6.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_DeactiveType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetOffset.x
-      value: 2
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
+      propertyPath: m_UseFixedDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverride
@@ -5805,7 +5915,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5540436369748867282, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_TargetRotationOverrideValue
-      value: -60
+      value: -36
       objectReference: {fileID: 0}
     - target: {fileID: 5594187577987661149, guid: b68763d26ddd31c46945e4ceecdec1a5, type: 3}
       propertyPath: m_Name

@@ -5079,8 +5079,13 @@ MonoBehaviour:
   - {fileID: 9171495377026534657}
   m_AutoDestroySec: 5
   m_Damage: {x: 1, y: 1.1}
-  m_ArrowSpeed: 8
+  m_ArrowSpeed: 10
   m_BezierPower: 0
   m_FadeDuration: 0.5
+  m_DeactiveType: 0
+  m_TargetOffset: {x: 0, y: 0}
+  m_TargetRotationOverride: 0
+  m_TargetRotationOverrideValue: 0
+  children: []
   m_HitSkipMs: {x: 50, y: 100}
   m_HitRandomRotation: 30

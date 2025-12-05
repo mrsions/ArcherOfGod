@@ -5082,7 +5082,12 @@ MonoBehaviour:
   m_ArrowSpeed: 5
   m_BezierPower: 0.5
   m_FadeDuration: 0.5
+  m_DeactiveType: 0
+  m_TargetOffset: {x: 0, y: 0}
+  m_TargetRotationOverride: 1
+  m_TargetRotationOverrideValue: -30
+  m_UseFixedDuration: 0
+  m_UseStright: 0
+  children: []
   m_HitSkipMs: {x: 50, y: 100}
   m_HitRandomRotation: 30
-  m_TargetOffset: {x: 0, y: 0}
-  children: []

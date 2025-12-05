@@ -19,7 +19,7 @@ namespace AOT
             return Vector2.SignedAngle(Vector2.right, dir);
         }
 
-        public static float Reverse(float angleDeg)
+        public static float Inverse(float angleDeg)
         {
             if(angleDeg > 0)
             {

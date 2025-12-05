@@ -56,6 +56,10 @@ namespace AOT
             if (!m_ArrowInstance)
             {
                 m_ArrowInstance = GameObjectPool.main.Rent(m_Prefab, pose.position, pose.rotation, pose);
+                if(m_ArrowInstance.UseStraight)
+                {
+                    m_ArrowInstance.LookAtEnemyAsync(pose).Forget();
+                }
             }
         }
 
@@ -84,7 +88,7 @@ namespace AOT
 
             arrow .transform.SetParent(null, false);
             arrow .transform.SetLocalPositionAndRotation(pose.position, rot);
-            arrow.Shoot(sender, sender.FindEnemy()).Forget();
+            arrow.ShootAsync(sender, sender.FindEnemy()).Forget();
 
         }
     }

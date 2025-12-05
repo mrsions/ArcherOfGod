@@ -32,7 +32,7 @@ namespace AOT
 #if UNITY_EDITOR
             private void OnDestroy()
             {
-                if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
+                if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode && !InPool)
                 {
                     throw new SystemException("Don't deestroy rented object.");
                 }
@@ -63,6 +63,7 @@ namespace AOT
 
 
         //-- Serializable
+        public bool usePooling = true;
 
         //-- Events
 
@@ -203,7 +204,14 @@ namespace AOT
 
             info.InPool = true;
 
-            pool.stack.Push(info);
+            if(usePooling)
+            {
+                pool.stack.Push(info);
+            }
+            else
+            {
+                Destroy(obj);
+            }
         }
     }
 

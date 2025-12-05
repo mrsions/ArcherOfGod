@@ -50,6 +50,13 @@ namespace AOT
         [SerializeField] private bool m_TargetRotationOverride;
         [Tooltip("m_TargetRotationOverride가 true일 경우 사용된다.")]
         [SerializeField] private float m_TargetRotationOverrideValue;
+
+        [Tooltip("true일 경우 정해진 m_ArrowSpeed시간에 맞춰 속도가 조절됩니다.")]
+        [SerializeField] private bool m_UseFixedDuration;
+
+        [Tooltip("true일 대상을 향해 직선으로 날아가며 조준할때부터 대상을 바라보도록한다.")]
+        [SerializeField] private bool m_UseStright;
+
         [SerializeField] private ProjectileBehaviour[] children;
 
         [Header("HitRandom")]
@@ -61,12 +68,13 @@ namespace AOT
         private Bullet m_Bullet;
         private bool m_IsCollision;
         private bool m_IsHitObject;
-        private int m_ShootId;
+        private int m_AsyncId;
         private Vector3 m_RigidbodyInitPos;
         private Vector3 m_RigidbodyInitRot;
 
         //-- Properties
         public ObjectBehaviour Owner { get; private set; }
+        public bool UseStraight { get => m_UseStright; set => m_UseStright = value; }
 
         //------------------------------------------------------------------------------
 
@@ -76,6 +84,12 @@ namespace AOT
             m_Rigidbody.bodyType = RigidbodyType2D.Kinematic;
             m_RigidbodyInitPos = m_Rigidbody.transform.localPosition;
             m_RigidbodyInitRot = m_Rigidbody.transform.localEulerAngles;
+
+            for (int i = 0; i < children.Length; i++)
+            {
+                ProjectileBehaviour child = children[i];
+                child.m_DeactiveType = EDeactiveType.Deactive;
+            }
         }
 
         private void OnEnable()
@@ -91,7 +105,7 @@ namespace AOT
 
         private void Clear()
         {
-            m_ShootId++;
+            m_AsyncId++;
             m_IsCollision = false;
             m_IsHitObject = false;
 
@@ -109,15 +123,34 @@ namespace AOT
                 Collider2D col = m_Colliders[i];
                 col.enabled = true;
             }
+
+            for (int i = 0; i < children.Length; i++)
+            {
+                ProjectileBehaviour child = children[i];
+                child.gameObject.SetActive(true);
+            }
         }
 
-        public async UniTask Shoot(ObjectBehaviour owner, Vector2 tPos)
+        public async UniTask LookAtEnemyAsync(Transform target)
+        {
+            int id = ++m_AsyncId;
+            while (id == m_AsyncId)
+            {
+                // 조준 상태에서 노리는것이기때문에 projectile 자체가 움직인다.
+                Vector2 dir = target.position - transform.position;
+                transform.rotation = Quaternion.LookRotation(dir);
+
+                await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
+            }
+        }
+
+        public async UniTask ShootAsync(ObjectBehaviour owner, Vector2 tPos)
         {
             if (children != null)
             {
                 foreach (var child in children)
                 {
-                    child.Shoot(owner, tPos).Forget();
+                    child.ShootAsync(owner, tPos).Forget();
                 }
             }
 
@@ -130,21 +163,24 @@ namespace AOT
                 tPos += m_TargetOffset.SetX(-m_TargetOffset.x);
             }
 
-            int id = m_ShootId;
+            int id = ++m_AsyncId;
             this.Owner = owner;
+
+            await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
 
             Vector3 mPos = m_Rigidbody.position;
             float mRot = m_Rigidbody.rotation;
-            float tRot = AngleUtils.Reverse(mRot);
+            float tRot = AngleUtils.Inverse(mRot);
+
             if (m_TargetRotationOverride)
             {
-                if(owner.IsLeft)
+                if (owner.IsLeft)
                 {
                     tRot = m_TargetRotationOverrideValue;
                 }
                 else
                 {
-                    tRot = AngleUtils.Reverse(m_TargetRotationOverrideValue);
+                    tRot = AngleUtils.Inverse(m_TargetRotationOverrideValue);
                 }
             }
 
@@ -157,6 +193,11 @@ namespace AOT
             float distance = bezier.Distance();
             float move = 0;
 
+            var arrowSpeed = m_ArrowSpeed;
+            if (m_UseFixedDuration)
+            {
+                arrowSpeed = distance / arrowSpeed;
+            }
 
             Vector2 befPos = mPos;
             bool isStartInLeft = mPos.x < 0;
@@ -166,7 +207,7 @@ namespace AOT
             // 도착할때까지 혹은 이동시간이 예상의 2배를 넘을때까지 이동
             while (!m_IsCollision && move < distance)
             {
-                move += m_ArrowSpeed * Time.deltaTime;
+                move += arrowSpeed * Time.deltaTime;
 
                 // 진행도
                 float ratio = Mathf.Clamp01(move / distance);
@@ -200,7 +241,7 @@ namespace AOT
                 }
 
                 await UniTask.Yield(PlayerLoopTiming.FixedUpdate, destroyCancellationToken);
-                if (id != m_ShootId) return;
+                if (id != m_AsyncId) return;
             }
 
             if (!m_IsCollision)
@@ -210,10 +251,10 @@ namespace AOT
                 Vector2 dir = AngleUtils.ToDirection(m_Rigidbody.rotation);
                 while (!m_IsCollision && Time.time < destroyLimit)
                 {
-                    m_Rigidbody.MovePosition(m_Rigidbody.position + (dir * (m_ArrowSpeed * Time.deltaTime)));
+                    m_Rigidbody.MovePosition(m_Rigidbody.position + (dir * (arrowSpeed * Time.deltaTime)));
 
                     await UniTask.Yield(PlayerLoopTiming.FixedUpdate, destroyCancellationToken);
-                    if (id != m_ShootId) return;
+                    if (id != m_AsyncId) return;
                 }
             }
 

@@ -34,6 +34,7 @@ namespace AOT
 
         //-- Private 
         private EGameStatus m_Status;
+        public float timeScale = 1;
 
         //-- Properties
         public CharacterBehaviour[] Characters { get => m_Characters; private set => m_Characters = value; }
@@ -61,6 +62,11 @@ namespace AOT
         private void Start()
         {
             StartProcessAsync().Forget();
+        }
+
+        private void Update()
+        {
+            Time.timeScale = timeScale;
         }
 
         private async UniTask StartProcessAsync()
