@@ -14,7 +14,7 @@ namespace AOT
             while(p != null)
             {
                 path = p.name + "/" + path;
-                p = t.parent;
+                p = p.parent;
             }
 
             return t.gameObject.scene.path + "@" + path;
