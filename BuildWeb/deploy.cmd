@@ -1,0 +1,1 @@
+@wrangler pages deploy . --project-name=archer-of-god --commit-dirty=true --branch=master
