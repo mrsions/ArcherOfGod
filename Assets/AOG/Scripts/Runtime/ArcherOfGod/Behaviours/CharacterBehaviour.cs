@@ -135,7 +135,7 @@ namespace AOT
             {
                 var newSkills = GetComponentsInChildren<BaseSkillBehaviour>();
                 TRandom.Shuffle(newSkills);
-                m_Skills = m_Skills.Concat(newSkills).Except(new[] { m_NormalAttack }).Distinct().Take(5).ToList();
+                m_Skills = newSkills.Except(new[] { m_NormalAttack }).Take(5).ToList();
             }
 
             HashAnimKeys();

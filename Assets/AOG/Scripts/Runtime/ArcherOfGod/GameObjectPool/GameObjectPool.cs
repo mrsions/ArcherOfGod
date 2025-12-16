@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -28,12 +29,12 @@ namespace AOT
         {
             public UObject Prefab;
             public UObject Instance;
-            internal bool InPool;
+            internal int Reference;
 
 #if UNITY_EDITOR|| NOPT
             private void OnDestroy()
             {
-                if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode && !InPool)
+                if (gameObject.scene.isLoaded && Reference != 0)
                 {
                     throw new SystemException("Don't deestroy rented object.");
                 }
@@ -45,6 +46,39 @@ namespace AOT
                 Prefab = prefab;
                 Instance = item;
                 hideFlags = HideFlags.HideAndDontSave;
+
+                AddHistory("Create");
+            }
+
+#if USE_GAMEOBJECTPOOL_HISTORY
+            [SerializeField]
+            private List<string> History = new();
+            internal void AddHistory(string v)
+            {
+                History.Add(v + "\r\n" + Environment.StackTrace);
+            }
+#else
+            [System.Diagnostics.Conditional("USE_GAMEOBJECTPOOL_HISTORY")]
+            internal void AddHistory(string v) { }
+#endif
+
+
+            internal void ValidateRent()
+            {
+                if (Reference != 0)
+                {
+                    Debug.LogError("Use already rented object.", gameObject);
+                    throw new InvalidOperationException("Use already rented object. " + name);
+                }
+            }
+
+            internal void ValidateReturn()
+            {
+                if (Reference != 1)
+                {
+                    Debug.LogError("Return already returned object.", gameObject);
+                    throw new InvalidOperationException("Return already returned object : " + name);
+                }
             }
         }
 
@@ -111,26 +145,25 @@ namespace AOT
                 if (pool.stack.Count == 0)
                 {
                     GameObject go = Instantiate(prefab, pos, rot, m_TempTransform);
-                    PoolLink link = go.AddComponent<PoolLink>();
-                    link.Setup(prefab, go);
+                    if (usePooling)
+                    {
+                        PoolLink link = go.AddComponent<PoolLink>();
+                        link.Setup(prefab, go);
+                        link.Reference++;
+                    }
                     go.transform.SetParent(parent);
-                    if (!usePooling) link.InPool = true;
                     return go;
                 }
                 else
                 {
                     PoolLink link = pool.stack.Pop();
-                    if (!link.InPool)
-                    {
-                        Debug.LogError("It has not in pool. but it in the pool.", link.Instance);
-                        continue;
-                    }
+                    link.ValidateRent();
 
                     GameObject go = (GameObject)link.Instance;
                     go.transform.SetPositionAndRotation(pos, rot);
+                    link.AddHistory("Rent");
+                    link.Reference++;
                     go.transform.SetParent(parent);
-
-                    link.InPool = false;
                     return go;
                 }
             }
@@ -164,26 +197,25 @@ namespace AOT
                 if (pool.stack.Count == 0)
                 {
                     T comp = Instantiate(prefab, pos, rot, m_TempTransform);
-                    PoolLink link = comp.gameObject.AddComponent<PoolLink>();
-                    link.Setup(prefab, comp);
+                    if (usePooling)
+                    {
+                        PoolLink link = comp.gameObject.AddComponent<PoolLink>();
+                        link.Setup(prefab, comp);
+                        link.Reference++;
+                    }
                     comp.transform.SetParent(parent);
-                    if (!usePooling) link.InPool = true;
                     return comp;
                 }
                 else
                 {
-                    PoolLink info = pool.stack.Pop();
-                    if (!info.InPool)
-                    {
-                        Debug.LogError("It has not in pool. but it in the pool.", info.Instance);
-                        continue;
-                    }
+                    PoolLink link = pool.stack.Pop();
+                    link.ValidateRent();
 
-                    T comp = (T)info.Instance;
+                    T comp = (T)link.Instance;
                     comp.transform.SetPositionAndRotation(pos, rot);
+                    link.AddHistory("Rent");
+                    link.Reference++;
                     comp.transform.SetParent(parent);
-
-                    info.InPool = false;
                     return comp;
                 }
             }
@@ -196,25 +228,32 @@ namespace AOT
         public void Return<T>(T obj) where T : Component
         {
             if (!obj) return;
+
             Return(obj.gameObject);
         }
-        public void Return(GameObject obj)
+        public void Return(GameObject go)
         {
-            if (!obj) return;
+            if (!go) return;
 
-            var info = obj.GetComponent<PoolLink>();
-            if (info == null) throw new InvalidCastException("It's not rented object.");
+            if (!usePooling)
+            {
+                Destroy(go);
+                return;
+            }
 
-            if (usePooling && info.InPool) throw new InvalidOperationException("It has already object in pool.");
+            var link = go.GetComponent<PoolLink>()
+                ?? throw new InvalidCastException("It's not rented object.");
 
-            if (!pools.TryGetValue(info.Prefab, out var pool))
+            link.ValidateReturn();
+
+            if (!pools.TryGetValue(link.Prefab, out var pool))
             {
                 throw new InvalidOperationException("It is abnormal rented object.");
             }
 
             if (pool.hasInterface)
             {
-                obj.GetComponentsInChildren<IPoolable>(true, s_StackInterfaces);
+                go.GetComponentsInChildren<IPoolable>(true, s_StackInterfaces);
                 for (int i = 0; i < s_StackInterfaces.Count; i++)
                 {
                     IPoolable o = s_StackInterfaces[i];
@@ -222,17 +261,11 @@ namespace AOT
                 }
             }
 
-            obj.transform.SetParent(m_TempTransform, false);
+            go.transform.SetParent(m_TempTransform, false);
 
-            if (usePooling)
-            {
-                info.InPool = true;
-                pool.stack.Push(info);
-            }
-            else
-            {
-                Destroy(obj);
-            }
+            link.Reference--;
+            link.AddHistory("Return");
+            pool.stack.Push(link);
         }
     }
 

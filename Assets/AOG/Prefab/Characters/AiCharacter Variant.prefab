@@ -184,5 +184,5 @@ MonoBehaviour:
   m_Actions:
     attack: {x: 2, y: 4}
     move: {x: 1, y: 2}
-    skillUse: 0.01
+    skillUse: 0.05
   m_Area: {x: 2.23, y: 10.245}

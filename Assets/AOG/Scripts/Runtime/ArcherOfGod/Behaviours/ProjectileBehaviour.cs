@@ -1,5 +1,4 @@
-﻿using System.Collections.Specialized;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -25,6 +24,9 @@ namespace AOT
             Destroy
         }
 
+        /// <summary>
+        /// 타격 판정 전달자
+        /// </summary>
         private class Bullet : MonoBehaviour
         {
             public ProjectileBehaviour Parent;
@@ -50,7 +52,6 @@ namespace AOT
         [SerializeField] private float m_AutoDestroySec = 5f;
         [SerializeField] private GameObject m_HitFx;
         [SerializeField] private AudioSource m_Shot;
-        //[SerializeField] private AnimationCurve m_DurationPerDistance = AnimationCurve.Linear(0, 0, 1, 1);
 
         [SerializeField] private Vector2 m_Damage = new Vector2(1, 1.1f);
         [SerializeField] private float m_ArrowSpeed = 0.3f;
@@ -78,6 +79,10 @@ namespace AOT
         [SerializeField] private float m_GuideArrowStart = 1e9f;
         [Tooltip("추적이 시작된 뒤로 거리마다 붙는 추가 속도")]
         [SerializeField] private float m_GuideArrowSpeedPerDistance = 0.2f;
+        [Tooltip("화살이 캐릭터와 닿았을때 박히는 정도")]
+        [SerializeField] private float m_EmbeddingDepth = 0.4f;
+        [Tooltip("화살 효과음의 시작 시간을 정할 수 있다. 0=애니메이션 발사시에 소리가 시작됨.  그외=생성된 이후 해당 초에 소리가 시작됨.")]
+        [SerializeField] private float m_ShotSfxOnEnable = 0;
 
         [SerializeField] private ProjectileBehaviour[] children;
 
@@ -93,6 +98,7 @@ namespace AOT
         private int m_AsyncId;
         private Vector3 m_RigidbodyInitPos;
         private Vector3 m_RigidbodyInitRot;
+        private float m_LastArrowSpeed;
 
         //-- Properties
         public ObjectBehaviour Owner { get; private set; }
@@ -103,7 +109,6 @@ namespace AOT
         private void Awake()
         {
             m_Bullet = m_Rigidbody.gameObject.AddComponent<Bullet>();
-            m_Rigidbody.bodyType = RigidbodyType2D.Kinematic;
             m_RigidbodyInitPos = m_Rigidbody.transform.localPosition;
             m_RigidbodyInitRot = m_Rigidbody.transform.localEulerAngles;
 
@@ -118,6 +123,18 @@ namespace AOT
         {
             Clear();
             m_Particle.Stop(true);
+
+            if(m_ShotSfxOnEnable > 0)
+            {
+                PlayShotAsync().Forget();
+            }
+        }
+
+        private async UniTask PlayShotAsync()
+        {
+            await UniTask.WaitForSeconds(m_ShotSfxOnEnable);
+
+            m_Shot.Play();
         }
 
         private void OnDisable()
@@ -130,6 +147,7 @@ namespace AOT
             m_AsyncId++;
             m_IsCollision = false;
             m_IsHitObject = false;
+            m_IsDestroying = false;
 
             Color color = m_Renderer.color;
             color.a = 1;
@@ -140,16 +158,32 @@ namespace AOT
 
             m_Bullet.Parent = null;
 
-            for (int i = 0; i < m_Colliders.Length; i++)
-            {
-                Collider2D col = m_Colliders[i];
-                col.enabled = true;
-            }
+            SetKinematic();
 
             for (int i = 0; i < children.Length; i++)
             {
                 ProjectileBehaviour child = children[i];
                 child.gameObject.SetActive(true);
+            }
+        }
+
+        private void SetKinematic()
+        {
+            m_Rigidbody.bodyType = RigidbodyType2D.Kinematic;
+            for (int i = 0; i < m_Colliders.Length; i++)
+            {
+                Collider2D col = m_Colliders[i];
+                col.enabled = false;
+            }
+        }
+
+        private void SetDynamic()
+        {
+            m_Rigidbody.bodyType = RigidbodyType2D.Dynamic;
+            for (int i = 0; i < m_Colliders.Length; i++)
+            {
+                Collider2D col = m_Colliders[i];
+                col.enabled = true;
             }
         }
 
@@ -225,7 +259,7 @@ namespace AOT
 
             m_Particle.Play(true);
 
-            if (m_Shot) m_Shot.Play();
+            if (m_ShotSfxOnEnable <=0 && m_Shot) m_Shot.Play();
 
             // 도착할때까지 혹은 이동시간이 예상의 2배를 넘을때까지 이동
             while (!m_IsCollision && move < distance)
@@ -236,6 +270,7 @@ namespace AOT
                 {
                     // 거리별 속도 계산
                     float speed = arrowSpeed + (m_GuideArrowStart * (move - m_GuideArrowStart));
+                    m_LastArrowSpeed = speed;
 
                     // Calculate direction to target
                     Vector2 direction = ((Vector2)target.position + targetOffset) - befPos;
@@ -261,6 +296,8 @@ namespace AOT
                     m_Rigidbody.MovePositionAndRotation(nPos, angle);
 
                     befPos = nPos;
+
+                    m_LastArrowSpeed = arrowSpeed;
                 }
 
                 if (m_Bullet.Parent == null)
@@ -270,7 +307,7 @@ namespace AOT
                         if (befPos.x > 0)
                         {
                             m_Bullet.Parent = this;
-                            m_Rigidbody.bodyType = RigidbodyType2D.Dynamic;
+                            SetDynamic();
                         }
                     }
                     else
@@ -278,7 +315,7 @@ namespace AOT
                         if (befPos.x < 0)
                         {
                             m_Bullet.Parent = this;
-                            m_Rigidbody.bodyType = RigidbodyType2D.Dynamic;
+                            SetDynamic();
                         }
                     }
                 }
@@ -291,6 +328,7 @@ namespace AOT
             {
                 float destroyLimit = Time.time + m_AutoDestroySec;
 
+                arrowSpeed = m_LastArrowSpeed;
                 Vector2 dir = AngleUtils.ToDirection(m_Rigidbody.rotation);
                 while (!m_IsCollision && Time.time < destroyLimit)
                 {
@@ -335,13 +373,10 @@ namespace AOT
 
         private void StopGeneration()
         {
+            SetKinematic();
+
             // stop generate collision
             m_Rigidbody.Sleep();
-            for (int i = 0; i < m_Colliders.Length; i++)
-            {
-                Collider2D col = m_Colliders[i];
-                col.enabled = false;
-            }
 
             // stop generate particle
             m_Particle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
@@ -366,8 +401,6 @@ namespace AOT
                 {
                     m_IsHitObject = true;
 
-                    HitAsync(obj).Forget();
-
                     if (m_HitFx)
                     {
                         GameObject fx = GameObjectPool.main.Rent(m_HitFx, m_Rigidbody.position, m_Rigidbody.transform.rotation);
@@ -378,6 +411,8 @@ namespace AOT
                             setup.Setup(this);
                         }
                     }
+
+                    HitAsync(obj);
                 }
             }
             else
@@ -397,17 +432,19 @@ namespace AOT
 
         }
 
-        private async UniTask HitAsync(ObjectBehaviour obj)
+        private void HitAsync(ObjectBehaviour obj)
         {
             if (m_IsDestroying) return;
             m_IsDestroying = true;
 
             StopGeneration();
 
-            await UniTask.Delay(Random.Range(m_HitSkipMs.x, m_HitSkipMs.y), cancellationToken: destroyCancellationToken);
-
             Quaternion rot = m_Arrow.rotation * Quaternion.Euler(0, 0, Random.Range(-m_HitRandomRotation, m_HitRandomRotation));
-            GameObjectPool.main.Rent(m_ArrowPrefab, m_Arrow.position, rot, obj.attachTarget);
+            GameObject arrow = GameObjectPool.main.Rent(m_ArrowPrefab, m_Arrow.position, rot, obj.attachTarget);
+
+            float spd = m_EmbeddingDepth / m_LastArrowSpeed;
+            Vector3 end = arrow.transform.localPosition + (arrow.transform.localRotation * Vector3.up) * m_EmbeddingDepth;
+            arrow.transform.DOLocalMove(end, spd).SetEase(Ease.Linear);
 
             ReturnOrDeactive();
         }

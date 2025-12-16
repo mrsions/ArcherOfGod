@@ -258,6 +258,8 @@ MonoBehaviour:
   m_IsPiercing: 0
   m_GuideArrowStart: 1e+9
   m_GuideArrowSpeedPerDistance: 0.2
+  m_EmbeddingDepth: 0.4
+  m_ShotSfxOnEnable: 0.001
   children: []
   m_HitSkipMs: {x: 50, y: 100}
   m_HitRandomRotation: 30

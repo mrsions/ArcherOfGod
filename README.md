@@ -2,6 +2,9 @@
 
 - 게임 `Archer of God` 모작입니다.
 - 작업과정 동영상 녹화완료 및 보관중. 필요시 요청. (mrsions@gmail.com)
+- [여기를 눌러 데모](https://archer-of-god.pages.dev)를 할 수 있습니다.
+
+![게임 이미지](Landscape.png)
 
 
 # 조작방법

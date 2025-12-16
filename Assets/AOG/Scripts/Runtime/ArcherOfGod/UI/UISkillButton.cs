@@ -44,6 +44,7 @@ namespace AOT
         //-- Private
         private Button m_Button;
         private BaseSkillBehaviour m_Skill;
+        private InputAction m_InputAction;
 
         public CharacterBehaviour Player
         {
@@ -89,7 +90,13 @@ namespace AOT
             GameManager.main.OnChangedStatus += OnChangedStatus;
             OnChangedStatus(GameManager.main, GameManager.main.Status);
 
-            GameSettings.main.GetPlayerSkillAction(m_SkillIndex).performed += OnClick;
+            m_InputAction = GameSettings.main.GetPlayerSkillAction(m_SkillIndex);
+            m_InputAction.performed += OnClick;
+        }
+
+        private void OnDestroy()
+        {
+            m_InputAction.performed -= OnClick;
         }
 
 #if UNITY_EDITOR|| NOPT
@@ -106,6 +113,12 @@ namespace AOT
 
         private void OnClick()
         {
+            if (GameManager.main.Status != EGameStatus.Battle 
+                && GameManager.main.Status != EGameStatus.Battle_LimitOver)
+            {
+                return;
+            }
+
             CharacterBehaviour cha = GameManager.main.GetCharacter(m_PlayerId);
             BaseSkillBehaviour skill = cha.Skills[m_SkillIndex];
             if (!cha.StartSkill(skill)) return;

@@ -116,8 +116,10 @@ InitTestScene*.unity*
 /Assets/Thirdparty2/*/
 /Assets/Plugins/Demigiant
 
-
 /Assets/**/*.md
 /Assets/**/*.md.meta
 
-/Build*
+/BuildWeb/.*
+/BuildWin/*_BackUpThisFolder_ButDontShipItWithYourGame/
+/BuildWin/*_BurstDebugInformation_DoNotShip/
+/BuildWin/*.pdb

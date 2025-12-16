@@ -57,7 +57,7 @@ MonoBehaviour:
       m_Calls: []
   m_Prefab: {fileID: 5540436369748867282, guid: f1ef2d8298add4240859f5b67727fc2f, type: 3}
   m_StraightShot: 1
-  m_Force: 10
+  m_Force: 20
   m_ForceMode: 1
   m_ApplyInput: 1
   m_DashDirection: {x: -1, y: 0}

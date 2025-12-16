@@ -45,7 +45,7 @@ namespace AOT
         {
             if (!base.OnStartSkill(cha)) return false;
 
-            if(!m_ApplyInput)
+            if (!m_ApplyInput)
             {
                 cha.SetForward(true, true);
             }
@@ -58,6 +58,11 @@ namespace AOT
                 cha.Rigidbody.AddForce(dir * m_Force, m_ForceMode);
             }
 
+            if (!m_ArrowInstance)
+            {
+                m_ArrowInstance.ReturnPool();
+            }
+
             return true;
         }
 
@@ -67,19 +72,19 @@ namespace AOT
 
             if (!m_ArrowInstance)
             {
-                m_ArrowInstance = GameObjectPool.main.Rent(m_Prefab, pose.position, pose.rotation, pose);
-                if (m_ArrowInstance.UseStraight)
-                {
-                    m_ArrowInstance.LookAtEnemyAsync(pose).Forget();
-                }
+                m_ArrowInstance.ReturnPool();
+            }
+
+            m_ArrowInstance = GameObjectPool.main.Rent(m_Prefab, pose.position, pose.rotation, pose);
+            if (m_ArrowInstance.UseStraight)
+            {
+                m_ArrowInstance.LookAtEnemyAsync(pose).Forget();
             }
         }
 
         internal override void OnSkillActivate(ObjectBehaviour sender, Transform pose)
         {
             var arrow = m_ArrowInstance;
-            m_ArrowInstance = null;
-
             if (!arrow)
             {
                 arrow = GameObjectPool.main.Rent(m_Prefab, pose.position, pose.rotation, pose);
