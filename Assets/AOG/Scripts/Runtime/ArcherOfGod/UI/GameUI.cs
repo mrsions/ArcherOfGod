@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.CompilerServices;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.OnScreen;
-using UnityEngine.UI;
 
 namespace AOT
 {

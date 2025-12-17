@@ -1,14 +1,12 @@
-#nullable enable
+ï»¿#nullable enable
 
-using System.Linq;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace AOT
 {
     /// <summary>
-    /// OnEnableµÉ ¶§ posRange/rotRange ¹üÀ§ ³»¿¡¼­ ·£´ıÇÏ°Ô À§Ä¡/È¸Àü ´õÇÔ.
-    /// ÀÌÆåÆ® °°Àº°Å ¶È°°ÀÌ ¾Èº¸ÀÌ°Ô ÇÒ ¶§ ¾¸. ¸Å¹ø enableµÉ ¶§¸¶´Ù ´©ÀûµÊ.
+    /// OnEnableë  ë•Œ posRange/rotRange ë²”ìœ„ ë‚´ì—ì„œ ëœë¤í•˜ê²Œ ìœ„ì¹˜/íšŒì „ ë”í•¨.
+    /// ì´í™íŠ¸ ê°™ì€ê±° ë˜‘ê°™ì´ ì•ˆë³´ì´ê²Œ í•  ë•Œ ì”€. ë§¤ë²ˆ enableë  ë•Œë§ˆë‹¤ ëˆ„ì ë¨.
     /// </summary>
     public class RandomPositionOnEnable : MonoBehaviour
     {

@@ -1,22 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.CompilerServices;
-using TMPro;
-using UnityEngine;
-using UnityEngine.Assertions;
+ï»¿using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.OnScreen;
 using UnityEngine.UI;
 
 namespace AOT
 {
     /// <summary>
-    /// °ÔÀÓ »óÅÂ°¡ eventStatus¶û °°¾ÆÁö¸é onEvent ¹ßµ¿½ÃÅ´.
-    /// ÀÎ½ºÆåÅÍ¿¡¼­ UnityEvent ¿¬°áÇØµÎ¸é µÊ. ÁøÀÔÇÒ ¶§¸¸ ¹ßµ¿ÇÏ°í ³ª°¥¶§´Â ¾ÈÇÔ.
-    /// RequireComponent(Button) ºÙ¾îÀÖ´Âµ¥ ¾È ¾²´Âµí?
+    /// ê²Œì„ ìƒíƒœê°€ eventStatusë‘ ê°™ì•„ì§€ë©´ onEvent ë°œë™ì‹œí‚´.
+    /// ì¸ìŠ¤í™í„°ì—ì„œ UnityEvent ì—°ê²°í•´ë‘ë©´ ë¨. ì§„ì…í•  ë•Œë§Œ ë°œë™í•˜ê³  ë‚˜ê°ˆë•ŒëŠ” ì•ˆí•¨.
+    /// RequireComponent(Button) ë¶™ì–´ìˆëŠ”ë° ì•ˆ ì“°ëŠ”ë“¯?
     /// </summary>
     [RequireComponent(typeof(Button))]
     public class GameStatusEvent : MonoBehaviour

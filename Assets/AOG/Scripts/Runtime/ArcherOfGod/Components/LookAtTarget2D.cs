@@ -1,10 +1,4 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
-using TMPro;
-using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.InputSystem.OnScreen;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 namespace AOT
 {

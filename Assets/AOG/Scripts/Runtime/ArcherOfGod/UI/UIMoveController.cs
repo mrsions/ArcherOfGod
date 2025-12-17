@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
@@ -8,9 +8,9 @@ using UnityEngine.UI;
 namespace AOT
 {
     /// <summary>
-    /// ÅÍÄ¡ ÀÌµ¿ ÄÁÆ®·Ñ·¯. ÅÍÄ¡ À§Ä¡°¡ ¿ŞÂÊÀÌ¸é ¿ŞÂÊ, ¿À¸¥ÂÊÀÌ¸é ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿.
-    /// ÁÂ¿ì ÀÎµğÄÉÀÌÅÍ ÀÌ¹ÌÁö·Î ÇÇµå¹é ÁÜ. µå·¡±×ÇÏ¸é °è¼Ó ÀÌµ¿ÇÔ.
-    /// ¾Æ³¯·Î±× ¾Æ´Ï°í ÁÂ/¿ì ÀÌÁø°ª¸¸ ³ª¿È. ÅÍÄ¡ ÇÑ Á¡¸¸ ÃßÀû.
+    /// í„°ì¹˜ ì´ë™ ì»¨íŠ¸ë¡¤ëŸ¬. í„°ì¹˜ ìœ„ì¹˜ê°€ ì™¼ìª½ì´ë©´ ì™¼ìª½, ì˜¤ë¥¸ìª½ì´ë©´ ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™.
+    /// ì¢Œìš° ì¸ë””ì¼€ì´í„° ì´ë¯¸ì§€ë¡œ í”¼ë“œë°± ì¤Œ. ë“œë˜ê·¸í•˜ë©´ ê³„ì† ì´ë™í•¨.
+    /// ì•„ë‚ ë¡œê·¸ ì•„ë‹ˆê³  ì¢Œ/ìš° ì´ì§„ê°’ë§Œ ë‚˜ì˜´. í„°ì¹˜ í•œ ì ë§Œ ì¶”ì .
     /// </summary>
     public class UIMoveController : OnScreenControl, IPointerDownHandler, IPointerUpHandler, IPointerMoveHandler, IDragHandler, IEndDragHandler
     {

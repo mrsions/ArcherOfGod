@@ -1,14 +1,11 @@
-#nullable enable
+ï»¿#nullable enable
 
-using System;
-using System.Linq;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace AOT
 {
     /// <summary>
-    /// ½ºÅ×ÀÌÆ® ³¡³ª¸é ¾Ö´Ï¸ŞÀÌÅÍ ²¨¹ö¸². Á×´Â ¾Ö´Ï¸ŞÀÌ¼Ç °°Àºµ¥ ºÙ¿©¼­ ¾²¸é µÊ.
+    /// ìŠ¤í…Œì´íŠ¸ ëë‚˜ë©´ ì• ë‹ˆë©”ì´í„° êº¼ë²„ë¦¼. ì£½ëŠ” ì• ë‹ˆë©”ì´ì…˜ ê°™ì€ë° ë¶™ì—¬ì„œ ì“°ë©´ ë¨.
     /// </summary>
     public class DeactiveStateMachineBehaviour : StateMachineBehaviour
     {

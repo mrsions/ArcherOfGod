@@ -1,10 +1,6 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
-using DG.Tweening;
+﻿using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.InputSystem.OnScreen;
 using UnityEngine.UI;
 
 namespace AOT

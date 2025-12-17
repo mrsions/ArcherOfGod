@@ -1,15 +1,12 @@
-#nullable enable
+ï»¿#nullable enable
 
-using System;
-using System.Linq;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace AOT
 {
     /// <summary>
-    /// ½ºÅ×ÀÌÆ® µ¿¾È Time.timeScaleÀ» Ä¿ºê µû¶ó ¹Ù²Ş. ½½·Î¸ğ¼Ç ¿¬ÃâÇÒ ¶§ ¾¸.
-    /// realtimeSinceStartup ½á¼­ timeScale ¿µÇâ ¾È¹ŞÀ½. ³¡³ªµµ ÀÚµ¿À¸·Î 1·Î ¾Èµ¹¾Æ°¨.
+    /// ìŠ¤í…Œì´íŠ¸ ë™ì•ˆ Time.timeScaleì„ ì»¤ë¸Œ ë”°ë¼ ë°”ê¿ˆ. ìŠ¬ë¡œëª¨ì…˜ ì—°ì¶œí•  ë•Œ ì”€.
+    /// realtimeSinceStartup ì¨ì„œ timeScale ì˜í–¥ ì•ˆë°›ìŒ. ëë‚˜ë„ ìë™ìœ¼ë¡œ 1ë¡œ ì•ˆëŒì•„ê°.
     /// </summary>
     public class SetTimeScaleStateMachineBehaviour : StateMachineBehaviour
     {

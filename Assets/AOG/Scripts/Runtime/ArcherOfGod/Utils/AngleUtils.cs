@@ -1,16 +1,13 @@
-#nullable enable
+ï»¿#nullable enable
 
-using System;
-using System.Linq;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace AOT
 {
     /// <summary>
-    /// 2D °¢µµ À¯Æ¿. °¢µµ¡æ¹æÇâº¤ÅÍ, ¹æÇâº¤ÅÍ¡æ°¢µµ º¯È¯ÇØÁÜ.
-    /// Inverse·Î ÁÂ¿ì¹İÀü, GetQuaternionÀ¸·Î ZÃà È¸Àü ÄõÅÍ´Ï¾ğ ¸¸µê.
-    /// 0µµ°¡ ¿À¸¥ÂÊÀÌ°í ¹İ½Ã°è°¡ ¾ç¼ö.
+    /// 2D ê°ë„ ìœ í‹¸. ê°ë„â†’ë°©í–¥ë²¡í„°, ë°©í–¥ë²¡í„°â†’ê°ë„ ë³€í™˜í•´ì¤Œ.
+    /// Inverseë¡œ ì¢Œìš°ë°˜ì „, GetQuaternionìœ¼ë¡œ Zì¶• íšŒì „ ì¿¼í„°ë‹ˆì–¸ ë§Œë“¦.
+    /// 0ë„ê°€ ì˜¤ë¥¸ìª½ì´ê³  ë°˜ì‹œê³„ê°€ ì–‘ìˆ˜.
     /// </summary>
     public static class AngleUtils
     {

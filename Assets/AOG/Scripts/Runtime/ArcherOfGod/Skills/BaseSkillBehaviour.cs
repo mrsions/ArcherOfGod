@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 namespace AOT
 {

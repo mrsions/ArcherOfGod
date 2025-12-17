@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using Cysharp.Threading.Tasks;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

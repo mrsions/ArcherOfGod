@@ -1,15 +1,13 @@
-#nullable enable
+ï»¿#nullable enable
 
-using System.Linq;
-using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
 namespace AOT
 {
     /// <summary>
-    /// TMP_Text ·¡ÆÛ. SetText·Î ¿ÜºÎ¿¡¼­ ÅØ½ºÆ® ¼³Á¤ °¡´É.
-    /// µ¥¹ÌÁö ¼ıÀÚ °°Àº°Å Ç®¿¡¼­ ²¨³»¼­ ÅØ½ºÆ® ³ÖÀ» ¶§ ¾¸.
+    /// TMP_Text ë˜í¼. SetTextë¡œ ì™¸ë¶€ì—ì„œ í…ìŠ¤íŠ¸ ì„¤ì • ê°€ëŠ¥.
+    /// ë°ë¯¸ì§€ ìˆ«ì ê°™ì€ê±° í’€ì—ì„œ êº¼ë‚´ì„œ í…ìŠ¤íŠ¸ ë„£ì„ ë•Œ ì”€.
     /// </summary>
     public class UITextDelegate : MonoBehaviour
     {

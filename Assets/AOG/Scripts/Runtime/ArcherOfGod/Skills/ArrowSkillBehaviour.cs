@@ -1,9 +1,5 @@
-﻿using System.Threading.Tasks;
-using System.Xml.Linq;
-using Cysharp.Threading.Tasks;
-using DG.Tweening;
+﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace AOT
 {

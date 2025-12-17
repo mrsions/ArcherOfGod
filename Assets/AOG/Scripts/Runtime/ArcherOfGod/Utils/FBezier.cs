@@ -1,26 +1,23 @@
-#nullable enable
+ï»¿#nullable enable
 
-using System;
-using System.Linq;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace AOT
 {
     /// <summary>
-    /// 3Â÷ º£Áö¾î °î¼±. ½ÃÀÛÁ¡/³¡Á¡ÀÌ¶û °¢µµ ³ÖÀ¸¸é °î¼± ¸¸µé¾îÁÜ.
-    /// Evaluate(t)·Î 0~1 »çÀÌ À§Ä¡ ±¸ÇÏ°í Distance()·Î ´ë·«ÀûÀÎ ±æÀÌ °è»ê.
-    /// strength°¡ 0ÀÌ¸é Á÷¼±ÀÓ. Åõ»çÃ¼ ±ËÀû¿¡ ¾²ÀÓ.
+    /// 3ì°¨ ë² ì§€ì–´ ê³¡ì„ . ì‹œì‘ì /ëì ì´ë‘ ê°ë„ ë„£ìœ¼ë©´ ê³¡ì„  ë§Œë“¤ì–´ì¤Œ.
+    /// Evaluate(t)ë¡œ 0~1 ì‚¬ì´ ìœ„ì¹˜ êµ¬í•˜ê³  Distance()ë¡œ ëŒ€ëµì ì¸ ê¸¸ì´ ê³„ì‚°.
+    /// strengthê°€ 0ì´ë©´ ì§ì„ ì„. íˆ¬ì‚¬ì²´ ê¶¤ì ì— ì“°ì„.
     /// </summary>
     public struct FBezier
     {
-        // A, B: ½ÃÀÛ/³¡ Á¡
+        // A, B: ì‹œì‘/ë ì 
         private readonly Vector2 A;
         private readonly Vector2 B;
-        // startAngleDeg, endAngleDeg: °¢µµ(µµ ´ÜÀ§, 0µµ = ¿À¸¥ÂÊ, ¹İ½Ã°è ¹æÇâ ±âÁØ)
+        // startAngleDeg, endAngleDeg: ê°ë„(ë„ ë‹¨ìœ„, 0ë„ = ì˜¤ë¥¸ìª½, ë°˜ì‹œê³„ ë°©í–¥ ê¸°ì¤€)
         private readonly float startAngleDeg;
         private readonly float endAngleDeg;
-        // strength: °î¼± ÈÖ¾îÁü Á¤µµ (0.1 ~ 0.5 Á¤µµ·Î Á¶Àı)
+        // strength: ê³¡ì„  íœ˜ì–´ì§ ì •ë„ (0.1 ~ 0.5 ì •ë„ë¡œ ì¡°ì ˆ)
         private readonly float strength;
 
         public FBezier(Vector2 a, Vector2 b, float startAngleDeg, float endAngleDeg, float strength)
@@ -36,28 +33,28 @@ namespace AOT
         {
             if (strength != 0)
             {
-                // µÎ Á¡ »çÀÌ °Å¸®
+                // ë‘ ì  ì‚¬ì´ ê±°ë¦¬
                 float dist = Vector2.Distance(A, B);
 
-                // ÄÁÆ®·Ñ Æ÷ÀÎÆ®±îÁöÀÇ °Å¸® (¿øÇÏ¸é L1, L2 µû·Î µÑ ¼öµµ ÀÖÀ½)
+                // ì»¨íŠ¸ë¡¤ í¬ì¸íŠ¸ê¹Œì§€ì˜ ê±°ë¦¬ (ì›í•˜ë©´ L1, L2 ë”°ë¡œ ë‘˜ ìˆ˜ë„ ìˆìŒ)
                 float L1 = dist * strength;
                 float L2 = dist * strength;
 
-                // °¢µµ(µµ) ¡æ ¶óµğ¾È
+                // ê°ë„(ë„) â†’ ë¼ë””ì•ˆ
                 float startRad = startAngleDeg * Mathf.Deg2Rad;
                 float endRad = endAngleDeg * Mathf.Deg2Rad;
 
-                // °¢µµ ¡æ ¹æÇâ º¤ÅÍ
+                // ê°ë„ â†’ ë°©í–¥ ë²¡í„°
                 Vector2 dirStart = new Vector2(Mathf.Cos(startRad), Mathf.Sin(startRad));
                 Vector2 dirEnd = new Vector2(Mathf.Cos(endRad), Mathf.Sin(endRad));
 
-                // º£Áö¾î Æ÷ÀÎÆ® 4°³
+                // ë² ì§€ì–´ í¬ì¸íŠ¸ 4ê°œ
                 Vector2 P0 = A;
                 Vector2 P1 = A + dirStart * L1;
                 Vector2 P2 = B - dirEnd * L2;
                 Vector2 P3 = B;
 
-                // 3Â÷ º£Áö¾î °ø½Ä
+                // 3ì°¨ ë² ì§€ì–´ ê³µì‹
                 float u = 1f - t;
                 float uu = u * u;
                 float uuu = uu * u;

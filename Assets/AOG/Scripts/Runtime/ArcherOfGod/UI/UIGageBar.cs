@@ -1,18 +1,13 @@
-using System;
-using System.Linq;
-using Cysharp.Threading.Tasks;
+ï»¿using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.InputSystem.OnScreen;
-using UnityEngine.UI;
 
 namespace AOT
 {
     /// <summary>
-    /// °ÔÀÌÁö ¹Ù. ¾Õ¹Ù´Â ¹Ù·Î ¹Ù²î°í µŞ¹Ù´Â ¾Ö´Ï¸ŞÀÌ¼ÇÀ¸·Î µû¶ó°¨.
-    /// µ¥¹ÌÁö ¹ŞÀ¸¸é ¾Õ¹Ù ¸ÕÀú ÁÙ°í µŞ¹Ù°¡ ½º¸£¸¤ µû¶ó¿À´Â ¿¬Ãâ.
-    /// ¼ıÀÚ ÅØ½ºÆ®µµ Ç¥½ÃµÊ. HP/½Çµå µî¿¡ ¾²ÀÓ. ±ŞÇÏ°Ô ¹Ù²î¸é ¾Ö´Ï ²÷±è.
+    /// ê²Œì´ì§€ ë°”. ì•ë°”ëŠ” ë°”ë¡œ ë°”ë€Œê³  ë’·ë°”ëŠ” ì• ë‹ˆë©”ì´ì…˜ìœ¼ë¡œ ë”°ë¼ê°.
+    /// ë°ë¯¸ì§€ ë°›ìœ¼ë©´ ì•ë°” ë¨¼ì € ì¤„ê³  ë’·ë°”ê°€ ìŠ¤ë¥´ë¥µ ë”°ë¼ì˜¤ëŠ” ì—°ì¶œ.
+    /// ìˆ«ì í…ìŠ¤íŠ¸ë„ í‘œì‹œë¨. HP/ì‹¤ë“œ ë“±ì— ì“°ì„. ê¸‰í•˜ê²Œ ë°”ë€Œë©´ ì• ë‹ˆ ëŠê¹€.
     /// </summary>
     public class UIGageBar : MonoBehaviour
     {

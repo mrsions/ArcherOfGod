@@ -1,15 +1,12 @@
-#nullable enable
+ï»¿#nullable enable
 
-using System;
-using System.Linq;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace AOT
 {
     /// <summary>
-    /// Vector È®Àå ¸Ş¼­µå. SetX/SetY/SetZ·Î ÇÑ ÄÄÆ÷³ÍÆ®¸¸ ¹Ù²Û º¹»çº» ¸®ÅÏ.
-    /// Vector2, Vector3 µÑ ´Ù µÊ.
+    /// Vector í™•ì¥ ë©”ì„œë“œ. SetX/SetY/SetZë¡œ í•œ ì»´í¬ë„ŒíŠ¸ë§Œ ë°”ê¾¼ ë³µì‚¬ë³¸ ë¦¬í„´.
+    /// Vector2, Vector3 ë‘˜ ë‹¤ ë¨.
     /// </summary>
     public static class VectorExtension
     {
