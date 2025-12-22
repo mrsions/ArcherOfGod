@@ -123,3 +123,8 @@ InitTestScene*.unity*
 /BuildWin/*_BackUpThisFolder_ButDontShipItWithYourGame/
 /BuildWin/*_BurstDebugInformation_DoNotShip/
 /BuildWin/*.pdb
+
+/*.md
+!README.md
+
+nul

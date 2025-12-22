@@ -38,6 +38,78 @@
 - 통합 컨트롤러 개발. (플레이어, AI 인터페이스)
 - 객체 심플 풀링 시스템 개발.
 
+# Dependency Diagram
+
+```mermaid
+%%{init: {"flowchart": {"nodeSpacing": 120, "rankSpacing": 140, "curve": "basis"}}}%%
+flowchart TB
+
+    %% Bootstrap / Entry Point
+    Startup
+
+    %% Game Layer (ALL IN)
+    subgraph Game_Layer
+
+        %% Controller
+        subgraph Controller_Layer
+            PlayerController
+            AiController
+        end
+
+        %% Core Game
+        GameManager
+        CharacterInstance
+
+        %% Skill Layer
+        subgraph Skill_Layer
+            BaseSkillBehaviour
+            ArrowSkillBehaviour
+
+            %% Combat (Skill Internal)
+            subgraph Combat_Layer
+                GameObjectPool
+                ProjectileBehaviour
+                ObjectBehaviour
+            end
+        end
+
+        %% UI Layer
+        subgraph UI_Layer
+            UIPlayerStatus
+            UISkillButton
+            GameUI
+        end
+    end
+
+    %% Entry
+    Startup -->|씬 로드·초기화| GameManager
+
+    %% Controllers -> Character
+    PlayerController --> CharacterInstance
+    AiController --> CharacterInstance
+
+    %% GameManager <-> Character
+    GameManager -->|생존 감시| CharacterInstance
+    CharacterInstance -.->|상태 구독| GameManager
+
+    %% Character -> Skill
+    CharacterInstance --> BaseSkillBehaviour
+    BaseSkillBehaviour --> ArrowSkillBehaviour
+
+    %% Skill -> Combat
+    ArrowSkillBehaviour --> GameObjectPool
+    GameObjectPool --> ProjectileBehaviour
+    ProjectileBehaviour --> ObjectBehaviour
+
+    %% Combat -> Character
+    ObjectBehaviour --> CharacterInstance
+
+    %% UI subscriptions
+    UIPlayerStatus -.-> CharacterInstance
+    UISkillButton -.-> BaseSkillBehaviour
+    GameUI -.-> GameManager
+```
+
 # Used Asset Or Package
 
 Github에 재배포하지 못하는 어셋들입니다. 직접 설치하셔야 프로젝트 구동이 가능합니다.
