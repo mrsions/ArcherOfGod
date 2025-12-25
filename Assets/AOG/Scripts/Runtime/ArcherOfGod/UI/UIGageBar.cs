@@ -28,6 +28,7 @@ namespace AOT
             if (value != m_BeforeValue)
             {
                 m_Text.text = value.ToString("N0");
+                m_BeforeValue = value;
             }
 
             if (m_LastPercent != percent)

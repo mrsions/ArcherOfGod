@@ -42,9 +42,8 @@ namespace AOT
         private ESkillStatus m_Status;
         private CharacterBehaviour m_Owner;
 
-        public ESkillStatus Status { get => m_Status; set => SetStatus(value, Duration); }
-
         //-- Properties
+        public ESkillStatus Status { get => m_Status; set => SetStatus(value, Duration); }
         public Sprite Icon { get => m_Icon; set => m_Icon = value; }
         public virtual string SkillName => m_SkillName;
         public virtual float Duration => m_Duration * (1 - (m_Owner?.PlayerStatus.castingReduce ?? 0));

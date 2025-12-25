@@ -33,15 +33,15 @@ namespace AOT
 
         //-- Serializable
         [SerializeField] private List<CharacterBehaviour> m_Characters;
-        public Transform effectContainer;
+        [SerializeField]
+        [FormerlySerializedAs("effectContainer")]
+        private Transform m_EffectContainer;
 
-        //-- Events
-        public event Action<GameManager, EGameStatus> OnChangedStatus;
-
-        //-- Private 
+        //-- Private
         private EGameStatus m_Status;
 
         //-- Properties
+        public Transform EffectContainer => m_EffectContainer;
         public List<CharacterBehaviour> Characters { get => m_Characters; private set => m_Characters = value; }
         public CharacterBehaviour Winner { get; private set; }
         public EGameStatus Status
@@ -55,6 +55,9 @@ namespace AOT
                 OnChangedStatus?.Invoke(this, m_Status);
             }
         }
+
+        //-- Events
+        public event Action<GameManager, EGameStatus> OnChangedStatus;
 
 
         //------------------------------------------------------------------------------
@@ -146,18 +149,28 @@ namespace AOT
 
         public CharacterBehaviour GetCharacter(int id)
         {
+            if (id < 0 || id >= Characters.Count)
+            {
+                Debug.LogError($"[GameManager] GetCharacter: Invalid id {id}, Characters.Count={Characters.Count}");
+                return null;
+            }
             return Characters[id];
         }
 
         public CharacterBehaviour GetTargetCharacter(int id)
         {
+            if (Characters.Count < 2)
+            {
+                Debug.LogError($"[GameManager] GetTargetCharacter: Not enough characters, Count={Characters.Count}");
+                return null;
+            }
             return id == 0 ? Characters[1] : Characters[0];
         }
 
         internal void AttachCharacter(CharacterBehaviour cha)
         {
             int idx = m_Characters.IndexOf(cha);
-            if (idx == null)
+            if (idx < 0)
             {
                 cha.Id = m_Characters.Count;
                 m_Characters.Add(cha);

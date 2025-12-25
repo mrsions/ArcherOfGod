@@ -14,7 +14,7 @@ namespace AOT
     /// <summary>
     /// 오브젝트 풀링 싱글톤. Rent로 빌리고 Return으로 반납. GameObject랑 Component 둘 다 됨.
     /// IPoolable 인터페이스 있으면 반납할때 콜백 호출됨. 에디터에서 잘못 Destroy하면 경고 뜸.
-    /// usePooling 끄면 풀링 안하고 매번 생성/파괴함. 프리웜 없고 사이즈 제한 없음.
+    /// m_UsePooling 끄면 풀링 안하고 매번 생성/파괴함. 프리웜 없고 사이즈 제한 없음.
     /// </summary>
     public class GameObjectPool : MonoBehaviour
     {
@@ -96,7 +96,12 @@ namespace AOT
 
 
         //-- Serializable
-        public bool usePooling = true;
+        [SerializeField]
+        [FormerlySerializedAs("usePooling")]
+        private bool m_UsePooling = true;
+
+        //-- Properties
+        public bool UsePooling { get => m_UsePooling; set => m_UsePooling = value; }
 
         //-- Events
 
@@ -143,7 +148,7 @@ namespace AOT
                 if (pool.stack.Count == 0)
                 {
                     GameObject go = Instantiate(prefab, pos, rot, m_TempTransform);
-                    if (usePooling)
+                    if (m_UsePooling)
                     {
                         PoolLink link = go.AddComponent<PoolLink>();
                         link.Setup(prefab, go);
@@ -182,7 +187,7 @@ namespace AOT
         {
             if (parent == null)
             {
-                parent = GameManager.main.effectContainer;
+                parent = GameManager.main.EffectContainer;
             }
 
             if (!pools.TryGetValue(prefab, out var pool))
@@ -195,7 +200,7 @@ namespace AOT
                 if (pool.stack.Count == 0)
                 {
                     T comp = Instantiate(prefab, pos, rot, m_TempTransform);
-                    if (usePooling)
+                    if (m_UsePooling)
                     {
                         PoolLink link = comp.gameObject.AddComponent<PoolLink>();
                         link.Setup(prefab, comp);
@@ -233,7 +238,7 @@ namespace AOT
         {
             if (!go) return;
 
-            if (!usePooling)
+            if (!m_UsePooling)
             {
                 Destroy(go);
                 return;

@@ -46,6 +46,16 @@ namespace AOT
         public static readonly Vector3 RealRotationForward = new Vector3(0, 180, 0);
         public static readonly Vector3 RealRotationBackward = new Vector3(0, 0, 0);
 
+        private static class AnimParam
+        {
+            public static readonly int Walk = Animator.StringToHash("walk");
+            public static readonly int Attack = Animator.StringToHash("attack");
+            public static readonly int Ground = Animator.StringToHash("ground");
+            public static readonly int SkillAnimId = Animator.StringToHash("animId");
+            public static readonly int MoveSpeed = Animator.StringToHash("moveSpeed");
+            public static readonly int AttackSpeed = Animator.StringToHash("attackSpeed");
+        }
+
 
         //-- Serializable
         [Header("Player")]
@@ -70,16 +80,11 @@ namespace AOT
         private Vector3 m_RotationForward;
         private Vector3 m_ScaleBackward;
         private Vector3 m_ScaleForward;
-        private int m_WalkHash;
-        private int m_AttackHash;
-        private int m_GroundHash;
-        private int m_SkillAnimIdHash;
-        private int m_MoveSpeedHash;
-        private int m_AttackSpeedHash;
         private BaseSkillBehaviour m_CurrentSkill;
         private float m_LastMoveTime;
         private EGameStatus m_GameStatus;
         private float m_Power;
+        private GameManager m_GameManager;
 
         //-- Events
         public event Action<CharacterBehaviour, float, float, float> OnChangedPower; // bef, cur, max
@@ -135,25 +140,14 @@ namespace AOT
             {
                 var newSkills = GetComponentsInChildren<BaseSkillBehaviour>();
                 TRandom.Shuffle(newSkills);
-                m_Skills = newSkills.Except(new[] { m_NormalAttack }).Take(5).ToList();
+                m_Skills = newSkills.Except(new[] { m_NormalAttack }).Take(SKILL_COUNT).ToList();
             }
 
-            HashAnimKeys();
-
-            print($"[Character] RegistOnChangedStatus");
-            GameManager.main.OnChangedStatus += OnChangedGameStatus;
+            Debug.Log($"[Character] RegistOnChangedStatus");
+            m_GameManager = GameManager.main;
+            m_GameManager.OnChangedStatus += OnChangedGameStatus;
 
             UpdateAnimatorProperty();
-        }
-
-        private void HashAnimKeys()
-        {
-            m_WalkHash = Animator.StringToHash("walk");
-            m_AttackHash = Animator.StringToHash("attack");
-            m_GroundHash = Animator.StringToHash("ground");
-            m_SkillAnimIdHash = Animator.StringToHash("animId");
-            m_MoveSpeedHash = Animator.StringToHash("moveSpeed");
-            m_AttackSpeedHash = Animator.StringToHash("attackSpeed");
         }
 
         private void OnChangedGameStatus(GameManager manager, EGameStatus status)
@@ -161,7 +155,7 @@ namespace AOT
             m_GameStatus = status;
             if (status == EGameStatus.Start)
             {
-                m_Animator.SetBool(m_AttackHash, true);
+                m_Animator.SetBool(AnimParam.Attack, true);
             }
         }
 
@@ -170,7 +164,6 @@ namespace AOT
         {
             if (Application.isPlaying)
             {
-                HashAnimKeys();
                 UpdateAnimatorProperty();
             }
         }
@@ -179,8 +172,8 @@ namespace AOT
         private void UpdateAnimatorProperty()
         {
 
-            m_Animator.SetFloat(m_MoveSpeedHash, m_PlayerStatus.moveSpeed);
-            m_Animator.SetFloat(m_AttackSpeedHash, m_PlayerStatus.attackSpeed);
+            m_Animator.SetFloat(AnimParam.MoveSpeed, m_PlayerStatus.moveSpeed);
+            m_Animator.SetFloat(AnimParam.AttackSpeed, m_PlayerStatus.attackSpeed);
         }
 
         protected virtual void Update()
@@ -189,12 +182,12 @@ namespace AOT
 
             if (m_CurrentSkill != null)
             {
-                m_Animator.SetBool(m_GroundHash, IsGround = false);
+                m_Animator.SetBool(AnimParam.Ground, IsGround = false);
                 return;
             }
 
             IsGround = m_Rigidbody.linearVelocity.sqrMagnitude < 0.1f && m_Rigidbody.position.y < 0.1f;
-            m_Animator.SetBool(m_GroundHash, IsGround);
+            m_Animator.SetBool(AnimParam.Ground, IsGround);
 
             switch (m_GameStatus)
             {
@@ -215,11 +208,11 @@ namespace AOT
                             }
 
                             SetForward(true, true);
-                            m_Animator.SetBool(m_WalkHash, false);
+                            m_Animator.SetBool(AnimParam.Walk, false);
                         }
                         else
                         {
-                            m_Animator.SetBool(m_WalkHash, true);
+                            m_Animator.SetBool(AnimParam.Walk, true);
                             SetForward(m_InputAxis.x > 0, false);
                             m_LastMoveTime = Time.time;
                         }
@@ -233,32 +226,19 @@ namespace AOT
 
         public void SetForward(bool forward, bool relative)
         {
+            Vector3 scale, rotation;
             if (relative)
             {
-                if (forward)
-                {
-                    transform.localScale = m_ScaleForward;
-                    transform.localEulerAngles = m_RotationForward;
-                }
-                else
-                {
-                    transform.localScale = m_ScaleBackward;
-                    transform.localEulerAngles = m_RotationBackward;
-                }
+                scale = forward ? m_ScaleForward : m_ScaleBackward;
+                rotation = forward ? m_RotationForward : m_RotationBackward;
             }
             else
             {
-                if (forward)
-                {
-                    transform.localScale = RealScaleForward;
-                    transform.localEulerAngles = RealRotationForward;
-                }
-                else
-                {
-                    transform.localScale = RealScaleBackward;
-                    transform.localEulerAngles = RealRotationBackward;
-                }
+                scale = forward ? RealScaleForward : RealScaleBackward;
+                rotation = forward ? RealRotationForward : RealRotationBackward;
             }
+            transform.localScale = scale;
+            transform.localEulerAngles = rotation;
         }
 
         private void FixedUpdate()
@@ -293,7 +273,7 @@ namespace AOT
             m_CurrentSkill = skill;
             if (skill.AnimationId > 0)
             {
-                m_Animator.SetInteger(m_SkillAnimIdHash, skill.AnimationId);
+                m_Animator.SetInteger(AnimParam.SkillAnimId, skill.AnimationId);
                 m_Animator.Play("SkillAnim");
             }
             else
@@ -343,7 +323,7 @@ namespace AOT
         {
             eventData.Damage *= m_PlayerStatus.damage;
 
-            if (m_PlayerStatus.criticalPercent < TRandom.Value)
+            if (TRandom.Value < m_PlayerStatus.criticalPercent)
             {
                 eventData.Damage *= m_PlayerStatus.criticalDamageFactor;
                 eventData.IsCritical = true;
@@ -361,5 +341,10 @@ namespace AOT
             UpdateAnimatorProperty();
         }
 
+        protected virtual void OnDestroy()
+        {
+            if (m_GameManager != null)
+                m_GameManager.OnChangedStatus -= OnChangedGameStatus;
+        }
     }
 }

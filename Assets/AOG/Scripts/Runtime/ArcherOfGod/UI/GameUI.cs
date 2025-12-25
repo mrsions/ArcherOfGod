@@ -28,12 +28,13 @@ namespace AOT
 
         //-- Private
         private GameObject[] m_Before;
+        private GameManager m_GameManager;
 
 
         //------------------------------------------------------------------------------
         private void Awake()
         {
-            print($"[GameUI] Awake");
+            Debug.Log($"[GameUI] Awake");
             m_HUD.SetActive(false);
 
             SetActive(m_None, false);
@@ -47,10 +48,17 @@ namespace AOT
 
             Active(m_None);
 
-            print($"[GameUI] RegistOnChangedStatus");
-            GameManager.main.OnChangedStatus += OnChangeStatus;
+            Debug.Log($"[GameUI] RegistOnChangedStatus");
+            m_GameManager = GameManager.main;
+            m_GameManager.OnChangedStatus += OnChangeStatus;
 
             m_TimerText.text = GameSettings.main.gameTime.ToString();
+        }
+
+        private void OnDestroy()
+        {
+            if (m_GameManager != null)
+                m_GameManager.OnChangedStatus -= OnChangeStatus;
         }
 
         private void Active(GameObject[] gameObject)
@@ -94,13 +102,19 @@ namespace AOT
                     m_TimerText.text = "VS";
                     break;
                 case EGameStatus.Finish:
+                    var characters = GameManager.main.Characters;
+                    if (characters == null || characters.Count == 0)
+                    {
+                        Active(m_Finish);
+                        break;
+                    }
                     // pc vs pc 대결이라면
-                    if (GameManager.main.Characters.All(p => p.IsPlayer))
+                    if (characters.All(p => p.IsPlayer))
                     {
                         Active(m_Finish);
                     }
                     // ai 대결이라면
-                    else if (GameManager.main.Characters[0].IsDead)
+                    else if (characters[0].IsDead)
                     {
                         Active(m_FinishFailed);
                     }

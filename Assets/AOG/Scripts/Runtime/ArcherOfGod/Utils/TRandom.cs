@@ -14,7 +14,7 @@ namespace AOT
         public static float Value => Random.value;
 
         public static float Range(float a, float b) => Random.Range(a, b);
-        public static float RangeInt(int a, int b) => Random.Range(a, b);
+        public static int RangeInt(int a, int b) => Random.Range(a, b);
 
         public static float From0(float b) => Random.Range(0, b);
         public static float FromMinus(float b) => Random.Range(-b, b);

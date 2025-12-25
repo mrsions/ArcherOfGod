@@ -15,14 +15,14 @@ namespace AOT
             v.x = x;
             return v;
         }
-        public static Vector3 SetY(this Vector3 v, float x)
+        public static Vector3 SetY(this Vector3 v, float y)
         {
-            v.y = x;
+            v.y = y;
             return v;
         }
-        public static Vector3 SetZ(this Vector3 v, float x)
+        public static Vector3 SetZ(this Vector3 v, float z)
         {
-            v.z = x;
+            v.z = z;
             return v;
         }
 
@@ -31,9 +31,9 @@ namespace AOT
             v.x = x;
             return v;
         }
-        public static Vector2 SetY(this Vector2 v, float x)
+        public static Vector2 SetY(this Vector2 v, float y)
         {
-            v.y = x;
+            v.y = y;
             return v;
         }
     }

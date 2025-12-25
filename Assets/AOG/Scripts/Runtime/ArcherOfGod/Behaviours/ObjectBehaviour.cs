@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace AOT
 {
@@ -39,13 +36,12 @@ namespace AOT
         [SerializeField] private Transform m_Center;
         [SerializeField] private int m_MaxHp;
         [SerializeField] private int m_MaxShield;
-        public Transform attachTarget;
-        public GameObject fxOnHit;
-
-        //-- Events
-        public event Action<ObjectBehaviour, float, float, float> OnChangedHp; // sender, before, after, max
-        public event Action<ObjectBehaviour, float, float, float> OnChangedShield; // sender, before, after, max
-        public event Action<ObjectBehaviour> OnDead; // sender, before, after, max
+        [SerializeField]
+        [FormerlySerializedAs("attachTarget")]
+        private Transform m_AttachTarget;
+        [SerializeField]
+        [FormerlySerializedAs("fxOnHit")]
+        private GameObject m_FxOnHit;
 
         //-- Private
         private float m_CurrentHp = 1;
@@ -54,6 +50,8 @@ namespace AOT
         private int m_HitHash;
 
         //-- Properties
+        public Transform AttachTarget => m_AttachTarget;
+        public GameObject FxOnHit => m_FxOnHit;
         public float CurrentHp { get => m_CurrentHp; set => SetCurrentHp(value); }
         public int MaxHp { get => m_MaxHp; set => SetMaxHp(value); }
         public float CurrentShield { get => m_CurrentShield; set => SetCurrentShield(value); }
@@ -61,9 +59,13 @@ namespace AOT
         public bool IsDead => m_CurrentHp <= 0;
         public bool IsLive => m_CurrentHp > 0;
         public Transform Center => m_Center;
-
         public bool IsLeft { get; private set; }
         public bool IsRight => !IsLeft;
+
+        //-- Events
+        public event Action<ObjectBehaviour, float, float, float> OnChangedHp; // sender, before, after, max
+        public event Action<ObjectBehaviour, float, float, float> OnChangedShield; // sender, before, after, max
+        public event Action<ObjectBehaviour> OnDead; // sender
 
         //------------------------------------------------------------------------------
 
@@ -102,7 +104,7 @@ namespace AOT
         {
             if (m_MaxHp == value || IsDead) return;
 
-            value = Mathf.Max(value, 1); ;
+            value = Mathf.Max(value, 1);
 
             int delta = Mathf.Max(0, value - m_MaxHp);
             float befHp = m_CurrentHp;
@@ -126,7 +128,7 @@ namespace AOT
         {
             if (m_MaxShield == value || IsDead) return;
 
-            value = Mathf.Max(value, 1); ;
+            value = Mathf.Max(value, 1);
 
             int delta = Mathf.Max(0, value - m_MaxShield);
             float befShield = m_CurrentShield;
@@ -172,9 +174,9 @@ namespace AOT
                 CurrentHp -= edmg;
                 m_Animator.SetTrigger(m_HitHash);
 
-                if (fxOnHit != null && eventData.ContactPosition != default)
+                if (m_FxOnHit != null && eventData.ContactPosition != default)
                 {
-                    GameObjectPool.main.Rent(fxOnHit, eventData.ContactPosition, AngleUtils.GetQuaternion(eventData.ContactRotation), attachTarget);
+                    GameObjectPool.main.Rent(m_FxOnHit, eventData.ContactPosition, AngleUtils.GetQuaternion(eventData.ContactRotation), m_AttachTarget);
                 }
             }
 

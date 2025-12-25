@@ -37,6 +37,15 @@ namespace AOT
 
         //------------------------------------------------------------------------------
 
+        private void ClearArrowInstance()
+        {
+            if (m_ArrowInstance)
+            {
+                m_ArrowInstance.ReturnPool();
+                m_ArrowInstance = null;
+            }
+        }
+
         internal override bool OnStartSkill(CharacterBehaviour cha)
         {
             if (!base.OnStartSkill(cha)) return false;
@@ -54,10 +63,7 @@ namespace AOT
                 cha.Rigidbody.AddForce(dir * m_Force, m_ForceMode);
             }
 
-            if (!m_ArrowInstance)
-            {
-                m_ArrowInstance.ReturnPool();
-            }
+            ClearArrowInstance();
 
             return true;
         }
@@ -66,10 +72,7 @@ namespace AOT
         {
             base.OnSkillPrepare(sender, pose);
 
-            if (!m_ArrowInstance)
-            {
-                m_ArrowInstance.ReturnPool();
-            }
+            ClearArrowInstance();
 
             m_ArrowInstance = GameObjectPool.main.Rent(m_Prefab, pose.position, pose.rotation, pose);
             if (m_ArrowInstance.UseStraight)
@@ -99,7 +102,7 @@ namespace AOT
                 }
             }
 
-            arrow.transform.SetParent(GameManager.main.effectContainer, false);
+            arrow.transform.SetParent(GameManager.main.EffectContainer, false);
             arrow.transform.SetLocalPositionAndRotation(pose.position, rot);
 
             var target = GameManager.main.GetTargetCharacter(((CharacterBehaviour)sender).Id);

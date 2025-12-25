@@ -39,17 +39,16 @@ namespace AOT
 
         private async UniTask RunAsync()
         {
-            print("[Ai] Wait for battle");
+            Debug.Log("[Ai] Wait for battle");
             while (GameManager.main.Status < EGameStatus.Battle)
             {
                 await UniTask.Yield(cancellationToken: destroyCancellationToken);
             }
 
-            print("[Ai] Start");
+            Debug.Log("[Ai] Start");
 
             RunSkillAsync().Forget();
 
-            List<BaseSkillBehaviour> skills = new(m_Cha.Skills);
             EGameStatus status;
             while (m_Cha.IsLive
                 && ((status = GameManager.main.Status) == EGameStatus.Battle || status == EGameStatus.Battle_LimitOver))
@@ -84,12 +83,12 @@ namespace AOT
                         BaseSkillBehaviour skill = skills[i];
                         if (m_Cha.StartSkill(skill))
                         {
-                            print($"[Ai] Skill '{skill.name}'");
+                            Debug.Log($"[Ai] Skill '{skill.name}'");
                             break;
                         }
                     }
 
-                    print($"[Ai] Wait for control");
+                    Debug.Log($"[Ai] Wait for control");
                     while (!m_Cha.CanControl)
                     {
                         await UniTask.Delay(100, cancellationToken: destroyCancellationToken);
@@ -103,7 +102,7 @@ namespace AOT
             m_Cha.InputAxis = default;
 
             float duration = TRandom.Range(m_Actions.attack.x, m_Actions.attack.y);
-            print($"[Ai] Attack {duration:f1}s");
+            Debug.Log($"[Ai] Attack {duration:f1}s");
             await UniTask.WaitForSeconds(duration, cancellationToken: destroyCancellationToken);
         }
 
@@ -111,12 +110,9 @@ namespace AOT
         {
             float duration = TRandom.Range(m_Actions.move.x, m_Actions.move.y);
 
-            // 위치 계산 (에디터 반영을 위해 캐싱X)
-            var x = transform.position.x;
-            var mid = Mathf.Lerp(m_Area.x, m_Area.y, 0.5f);
-            var length = m_Area.y - m_Area.x;
-            var halfLength = length * 0.5f;
-
+            // 위치 기반 이동 방향 결정 (중앙으로 돌아가려는 경향)
+            float x = transform.position.x;
+            float length = m_Area.y - m_Area.x;
             float ratio = x / length; // 좌측부터 우측까지의 범위 (0~1)
 
             // 우측으로 갈수록 높은 확률로 선택됨
@@ -130,7 +126,7 @@ namespace AOT
                 m_Cha.InputAxis = Vector2.right;
             }
 
-            print($"[Ai] Move {m_Cha.InputAxis} in {duration:f1}s");
+            Debug.Log($"[Ai] Move {m_Cha.InputAxis} in {duration:f1}s");
             await UniTask.WaitForSeconds(duration, cancellationToken: destroyCancellationToken);
         }
     }
