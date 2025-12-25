@@ -167,25 +167,17 @@ namespace AOT
             }
         }
 
-        private void SetKinematic()
+        private void SetPhysicsMode(bool isDynamic)
         {
-            m_Rigidbody.bodyType = RigidbodyType2D.Kinematic;
+            m_Rigidbody.bodyType = isDynamic ? RigidbodyType2D.Dynamic : RigidbodyType2D.Kinematic;
             for (int i = 0; i < m_Colliders.Length; i++)
             {
-                Collider2D col = m_Colliders[i];
-                col.enabled = false;
+                m_Colliders[i].enabled = isDynamic;
             }
         }
 
-        private void SetDynamic()
-        {
-            m_Rigidbody.bodyType = RigidbodyType2D.Dynamic;
-            for (int i = 0; i < m_Colliders.Length; i++)
-            {
-                Collider2D col = m_Colliders[i];
-                col.enabled = true;
-            }
-        }
+        private void SetKinematic() => SetPhysicsMode(false);
+        private void SetDynamic() => SetPhysicsMode(true);
 
         public async UniTask LookAtEnemyAsync(Transform target)
         {
@@ -400,36 +392,27 @@ namespace AOT
                 if (!m_IsPiercing)
                 {
                     m_IsHitObject = true;
-
-                    if (m_HitFx)
-                    {
-                        GameObject fx = GameObjectPool.main.Rent(m_HitFx, m_Rigidbody.position, m_Rigidbody.transform.rotation);
-                        IProjectileSetup[] array = fx.GetComponentsInChildren<IProjectileSetup>();
-                        for (int i = 0; i < array.Length; i++)
-                        {
-                            IProjectileSetup setup = array[i];
-                            setup.Setup(this);
-                        }
-                    }
-
+                    SpawnHitEffect();
                     HitAsync(obj);
                 }
             }
             else
             {
                 m_IsCollision = true;
-                if (m_HitFx)
-                {
-                    GameObject fx = GameObjectPool.main.Rent(m_HitFx, m_Rigidbody.position, m_Rigidbody.transform.rotation);
-                    IProjectileSetup[] array = fx.GetComponentsInChildren<IProjectileSetup>();
-                    for (int i = 0; i < array.Length; i++)
-                    {
-                        IProjectileSetup setup = array[i];
-                        setup.Setup(this);
-                    }
-                }
+                SpawnHitEffect();
             }
+        }
 
+        private void SpawnHitEffect()
+        {
+            if (!m_HitFx) return;
+
+            GameObject fx = GameObjectPool.main.Rent(m_HitFx, m_Rigidbody.position, m_Rigidbody.transform.rotation);
+            IProjectileSetup[] array = fx.GetComponentsInChildren<IProjectileSetup>();
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i].Setup(this);
+            }
         }
 
         private void HitAsync(ObjectBehaviour obj)
@@ -440,7 +423,7 @@ namespace AOT
             StopGeneration();
 
             Quaternion rot = m_Arrow.rotation * Quaternion.Euler(0, 0, Random.Range(-m_HitRandomRotation, m_HitRandomRotation));
-            GameObject arrow = GameObjectPool.main.Rent(m_ArrowPrefab, m_Arrow.position, rot, obj.attachTarget);
+            GameObject arrow = GameObjectPool.main.Rent(m_ArrowPrefab, m_Arrow.position, rot, obj.AttachTarget);
 
             float spd = m_EmbeddingDepth / m_LastArrowSpeed;
             Vector3 end = arrow.transform.localPosition + (arrow.transform.localRotation * Vector3.up) * m_EmbeddingDepth;

@@ -22,26 +22,43 @@ namespace AOT
         [SerializeField] private Transform m_PowerEnd;
         [SerializeField] private Transform m_PowerStart;
 
+        private CharacterBehaviour m_Character;
+        private GameManager m_GameManager;
+
         private void Awake()
         {
-            print($"[UIPlayerStatus] RegistOnChangedStatus");
-            GameManager.main.OnChangedStatus += OnChangedStatus;
-            OnChangedStatus(GameManager.main, GameManager.main.Status);
+            Debug.Log($"[UIPlayerStatus] RegistOnChangedStatus");
+            m_GameManager = GameManager.main;
+            m_GameManager.OnChangedStatus += OnChangedStatus;
+            OnChangedStatus(m_GameManager, m_GameManager.Status);
+        }
+
+        private void OnDestroy()
+        {
+            if (m_GameManager != null)
+                m_GameManager.OnChangedStatus -= OnChangedStatus;
+
+            if (m_Character != null)
+            {
+                m_Character.OnChangedHp -= OnChangedHp;
+                m_Character.OnChangedShield -= OnChangedShield;
+                m_Character.OnChangedPower -= OnChangedPower;
+            }
         }
 
         private void OnChangedStatus(GameManager manager, EGameStatus status)
         {
             if (status != EGameStatus.Ready) return;
 
-            CharacterBehaviour cha = manager.GetCharacter(m_PlayerId);
-            m_PlayerName.text = cha.PlayerStatus.name;
+            m_Character = manager.GetCharacter(m_PlayerId);
+            m_PlayerName.text = m_Character.PlayerStatus.name;
 
-            cha.OnChangedHp += OnChangedHp;
-            cha.OnChangedShield += OnChangedShield;
-            cha.OnChangedPower += OnChangedPower;
+            m_Character.OnChangedHp += OnChangedHp;
+            m_Character.OnChangedShield += OnChangedShield;
+            m_Character.OnChangedPower += OnChangedPower;
 
-            OnChangedHp(cha, cha.CurrentHp, cha.CurrentHp, cha.MaxHp);
-            OnChangedShield(cha, cha.CurrentShield, cha.CurrentShield, cha.MaxShield);
+            OnChangedHp(m_Character, m_Character.CurrentHp, m_Character.CurrentHp, m_Character.MaxHp);
+            OnChangedShield(m_Character, m_Character.CurrentShield, m_Character.CurrentShield, m_Character.MaxShield);
         }
 
         private void OnChangedShield(ObjectBehaviour behaviour, float bef, float cur, float max)

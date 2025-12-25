@@ -118,6 +118,9 @@ InitTestScene*.unity*
 
 /Assets/**/*.md
 /Assets/**/*.md.meta
+/*.md
+!README.md
+nul
 
 /BuildWeb/.*
 /BuildWin/*_BackUpThisFolder_ButDontShipItWithYourGame/

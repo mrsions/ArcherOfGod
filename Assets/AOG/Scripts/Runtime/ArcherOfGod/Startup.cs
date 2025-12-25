@@ -28,7 +28,7 @@ namespace AOT
             var op = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
             op.allowSceneActivation = true;
 
-            while (this && op.isDone)
+            while (this && !op.isDone)
             {
                 m_Text.text = $"{op.progress * 100:f0}%";
                 await UniTask.Yield();

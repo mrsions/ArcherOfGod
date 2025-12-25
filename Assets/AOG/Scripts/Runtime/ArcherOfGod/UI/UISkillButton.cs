@@ -42,36 +42,28 @@ namespace AOT
 
         //-- Private
         private Button m_Button;
+        private CharacterBehaviour m_Player;
         private BaseSkillBehaviour m_Skill;
         private InputAction m_InputAction;
+        private GameManager m_GameManager;
 
-        public CharacterBehaviour Player
+        private CharacterBehaviour Player => m_Player ??= GetValidatedPlayer();
+        private BaseSkillBehaviour Skill => m_Skill ??= GetValidatedSkill();
+
+        private CharacterBehaviour GetValidatedPlayer()
         {
-            get
-            {
-                CharacterBehaviour player = GameManager.main.GetCharacter(m_PlayerId);
-                Assert.IsNotNull(player);
-                Assert.IsNotNull(player.Skills);
-                Assert.IsTrue(m_SkillIndex < player.Skills.Count);
-                return player;
-            }
+            CharacterBehaviour player = GameManager.main.GetCharacter(m_PlayerId);
+            Assert.IsNotNull(player);
+            Assert.IsNotNull(player.Skills);
+            Assert.IsTrue(m_SkillIndex < player.Skills.Count);
+            return player;
         }
-        public BaseSkillBehaviour Skill
-        {
-            get
-            {
-                if (m_Skill == null)
-                {
-                    CharacterBehaviour player = GameManager.main.GetCharacter(m_PlayerId);
-                    Assert.IsNotNull(player);
-                    Assert.IsNotNull(player.Skills);
-                    Assert.IsTrue(m_SkillIndex < player.Skills.Count);
 
-                    m_Skill = player.Skills[m_SkillIndex];
-                    Assert.IsNotNull(m_Skill);
-                }
-                return m_Skill;
-            }
+        private BaseSkillBehaviour GetValidatedSkill()
+        {
+            BaseSkillBehaviour skill = Player.Skills[m_SkillIndex];
+            Assert.IsNotNull(skill);
+            return skill;
         }
 
 
@@ -85,9 +77,10 @@ namespace AOT
 
             m_Button.onClick.AddListener(OnClick);
 
-            print($"[OnChangedStatus] RegistOnChangedStatus");
-            GameManager.main.OnChangedStatus += OnChangedStatus;
-            OnChangedStatus(GameManager.main, GameManager.main.Status);
+            Debug.Log($"[OnChangedStatus] RegistOnChangedStatus");
+            m_GameManager = GameManager.main;
+            m_GameManager.OnChangedStatus += OnChangedStatus;
+            OnChangedStatus(m_GameManager, m_GameManager.Status);
 
             m_InputAction = GameSettings.main.GetPlayerSkillAction(m_SkillIndex);
             m_InputAction.performed += OnClick;
@@ -96,6 +89,15 @@ namespace AOT
         private void OnDestroy()
         {
             m_InputAction.performed -= OnClick;
+
+            if (m_GameManager != null)
+                m_GameManager.OnChangedStatus -= OnChangedStatus;
+
+            if (m_Button != null)
+                m_Button.onClick.RemoveListener(OnClick);
+
+            if (m_Skill != null)
+                m_Skill.OnChangedStatus.RemoveListener(OnSkillChangedStatus);
         }
 
 #if UNITY_EDITOR|| NOPT
@@ -112,15 +114,13 @@ namespace AOT
 
         private void OnClick()
         {
-            if (GameManager.main.Status != EGameStatus.Battle 
-                && GameManager.main.Status != EGameStatus.Battle_LimitOver)
+            EGameStatus status = GameManager.main.Status;
+            if (status != EGameStatus.Battle && status != EGameStatus.Battle_LimitOver)
             {
                 return;
             }
 
-            CharacterBehaviour cha = GameManager.main.GetCharacter(m_PlayerId);
-            BaseSkillBehaviour skill = cha.Skills[m_SkillIndex];
-            if (!cha.StartSkill(skill)) return;
+            if (!Player.StartSkill(Skill)) return;
 
             m_Animator.SetTrigger(m_AnimVar_Use);
         }
